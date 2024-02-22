@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43D8039D2B87853C0054B5D1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D8039C2B87853C0054B5D1 /* LoginView.swift */; };
+		43D8039F2B87855E0054B5D1 /* TextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D8039E2B87855E0054B5D1 /* TextFieldView.swift */; };
+		43D803A22B8785A70054B5D1 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D803A12B8785A70054B5D1 /* ButtonView.swift */; };
+		43D803A52B8794380054B5D1 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D803A42B8794380054B5D1 /* FontExtension.swift */; };
 		43DA7EA12B87543C00F5305A /* VitesseRHApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DA7EA02B87543C00F5305A /* VitesseRHApp.swift */; };
 		43DA7EA32B87543C00F5305A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DA7EA22B87543C00F5305A /* ContentView.swift */; };
 		43DA7EA52B87543E00F5305A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43DA7EA42B87543E00F5305A /* Assets.xcassets */; };
@@ -17,6 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		43D8039C2B87853C0054B5D1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		43D8039E2B87855E0054B5D1 /* TextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldView.swift; sourceTree = "<group>"; };
+		43D803A12B8785A70054B5D1 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		43D803A42B8794380054B5D1 /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		43DA7E9D2B87543C00F5305A /* Vitesse RH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Vitesse RH.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		43DA7EA02B87543C00F5305A /* VitesseRHApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitesseRHApp.swift; sourceTree = "<group>"; };
 		43DA7EA22B87543C00F5305A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -39,6 +47,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43D803A02B8785690054B5D1 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				43D8039E2B87855E0054B5D1 /* TextFieldView.swift */,
+				43D803A12B8785A70054B5D1 /* ButtonView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		43D803A32B8794160054B5D1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				43D803A42B8794380054B5D1 /* FontExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		43DA7E942B87543C00F5305A = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +83,7 @@
 		43DA7E9F2B87543C00F5305A /* Vitesse RH */ = {
 			isa = PBXGroup;
 			children = (
+				43D803A32B8794160054B5D1 /* Extensions */,
 				43DA7EB12B87565400F5305A /* Model */,
 				43DA7EB02B87564A00F5305A /* ViewModel */,
 				43DA7EAE2B87563100F5305A /* View */,
@@ -79,6 +105,8 @@
 			isa = PBXGroup;
 			children = (
 				43DA7EA22B87543C00F5305A /* ContentView.swift */,
+				43D8039C2B87853C0054B5D1 /* LoginView.swift */,
+				43D803A02B8785690054B5D1 /* Components */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -213,6 +241,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43D803A52B8794380054B5D1 /* FontExtension.swift in Sources */,
+				43D8039D2B87853C0054B5D1 /* LoginView.swift in Sources */,
+				43D803A22B8785A70054B5D1 /* ButtonView.swift in Sources */,
+				43D8039F2B87855E0054B5D1 /* TextFieldView.swift in Sources */,
 				43DA7EA32B87543C00F5305A /* ContentView.swift in Sources */,
 				43DA7EA12B87543C00F5305A /* VitesseRHApp.swift in Sources */,
 			);
