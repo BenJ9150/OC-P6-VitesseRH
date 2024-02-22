@@ -11,32 +11,33 @@ struct LoginView: View {
 
     @State private var email = ""
     @State private var password = ""
+    @State private var showRegisterView = false
 
     // MARK: Body
 
     var body: some View {
-        VStack {
-            imageTop
-            Spacer()
-            header
-            Spacer()
-            texfields
-            Spacer()
-            buttons
-            imageButton
+        NavigationStack {
+            VStack {
+                imageTop
+                Spacer()
+                header(title: "Login")
+                Spacer()
+                texfields
+                Spacer()
+                buttons
+                imageButton
+            }
+            .ignoresSafeArea(edges: .bottom)
+            .navigationDestination(isPresented: $showRegisterView) {
+                RegisterView()
+            }
         }
-        .ignoresSafeArea(edges: .bottom)
     }
 }
 
 // MARK: Texfields
 
 private extension LoginView {
-
-    var header: some View {
-        Text("Login")
-            .font(.vitesseTitle)
-    }
 
     var texfields: some View {
         Group {
@@ -60,7 +61,7 @@ private extension LoginView {
             }
 
             ButtonView(title: "Register") {
-                // TODO: sign In
+                showRegisterView.toggle()
             }
         }
     }
@@ -84,6 +85,8 @@ private extension LoginView {
             .padding(.top)
     }
 }
+
+// MARK: Preview
 
 #Preview {
     LoginView()
