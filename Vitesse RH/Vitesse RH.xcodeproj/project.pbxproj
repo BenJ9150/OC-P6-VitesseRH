@@ -1,0 +1,429 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		43DA7EA12B87543C00F5305A /* VitesseRHApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DA7EA02B87543C00F5305A /* VitesseRHApp.swift */; };
+		43DA7EA32B87543C00F5305A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DA7EA22B87543C00F5305A /* ContentView.swift */; };
+		43DA7EA52B87543E00F5305A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43DA7EA42B87543E00F5305A /* Assets.xcassets */; };
+		43DA7EA82B87543E00F5305A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43DA7EA72B87543E00F5305A /* Preview Assets.xcassets */; };
+		43DA7EB62B87567F00F5305A /* Copperplate-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43DA7EB32B87567F00F5305A /* Copperplate-Light.otf */; };
+		43DA7EB72B87567F00F5305A /* Copperplate.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43DA7EB42B87567F00F5305A /* Copperplate.otf */; };
+		43DA7EB82B87567F00F5305A /* Copperplate-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43DA7EB52B87567F00F5305A /* Copperplate-Bold.otf */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		43DA7E9D2B87543C00F5305A /* Vitesse RH.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Vitesse RH.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43DA7EA02B87543C00F5305A /* VitesseRHApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VitesseRHApp.swift; sourceTree = "<group>"; };
+		43DA7EA22B87543C00F5305A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		43DA7EA42B87543E00F5305A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		43DA7EA72B87543E00F5305A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		43DA7EB32B87567F00F5305A /* Copperplate-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Copperplate-Light.otf"; sourceTree = "<group>"; };
+		43DA7EB42B87567F00F5305A /* Copperplate.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Copperplate.otf; sourceTree = "<group>"; };
+		43DA7EB52B87567F00F5305A /* Copperplate-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Copperplate-Bold.otf"; sourceTree = "<group>"; };
+		43DA7EB92B87572400F5305A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Vitesse RH/SupportingFiles/Info.plist"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		43DA7E9A2B87543C00F5305A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		43DA7E942B87543C00F5305A = {
+			isa = PBXGroup;
+			children = (
+				43DA7E9F2B87543C00F5305A /* Vitesse RH */,
+				43DA7E9E2B87543C00F5305A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		43DA7E9E2B87543C00F5305A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43DA7E9D2B87543C00F5305A /* Vitesse RH.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		43DA7E9F2B87543C00F5305A /* Vitesse RH */ = {
+			isa = PBXGroup;
+			children = (
+				43DA7EB12B87565400F5305A /* Model */,
+				43DA7EB02B87564A00F5305A /* ViewModel */,
+				43DA7EAE2B87563100F5305A /* View */,
+				43DA7EAF2B87563E00F5305A /* SupportingFiles */,
+				43DA7EA62B87543E00F5305A /* Preview Content */,
+			);
+			path = "Vitesse RH";
+			sourceTree = "<group>";
+		};
+		43DA7EA62B87543E00F5305A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				43DA7EA72B87543E00F5305A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		43DA7EAE2B87563100F5305A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				43DA7EA22B87543C00F5305A /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		43DA7EAF2B87563E00F5305A /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				43DA7EB22B87566800F5305A /* Fonts */,
+				43DA7EA02B87543C00F5305A /* VitesseRHApp.swift */,
+				43DA7EB92B87572400F5305A /* Info.plist */,
+				43DA7EA42B87543E00F5305A /* Assets.xcassets */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		43DA7EB02B87564A00F5305A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		43DA7EB12B87565400F5305A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		43DA7EB22B87566800F5305A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				43DA7EB52B87567F00F5305A /* Copperplate-Bold.otf */,
+				43DA7EB32B87567F00F5305A /* Copperplate-Light.otf */,
+				43DA7EB42B87567F00F5305A /* Copperplate.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		43DA7E9C2B87543C00F5305A /* Vitesse RH */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43DA7EAB2B87543E00F5305A /* Build configuration list for PBXNativeTarget "Vitesse RH" */;
+			buildPhases = (
+				43DA7E992B87543C00F5305A /* Sources */,
+				43DA7E9A2B87543C00F5305A /* Frameworks */,
+				43DA7E9B2B87543C00F5305A /* Resources */,
+				43D8039B2B8780160054B5D1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Vitesse RH";
+			productName = "Vitesse RH";
+			productReference = 43DA7E9D2B87543C00F5305A /* Vitesse RH.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		43DA7E952B87543C00F5305A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1510;
+				LastUpgradeCheck = 1510;
+				TargetAttributes = {
+					43DA7E9C2B87543C00F5305A = {
+						CreatedOnToolsVersion = 15.1;
+					};
+				};
+			};
+			buildConfigurationList = 43DA7E982B87543C00F5305A /* Build configuration list for PBXProject "Vitesse RH" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 43DA7E942B87543C00F5305A;
+			productRefGroup = 43DA7E9E2B87543C00F5305A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				43DA7E9C2B87543C00F5305A /* Vitesse RH */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		43DA7E9B2B87543C00F5305A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43DA7EA82B87543E00F5305A /* Preview Assets.xcassets in Resources */,
+				43DA7EB72B87567F00F5305A /* Copperplate.otf in Resources */,
+				43DA7EB82B87567F00F5305A /* Copperplate-Bold.otf in Resources */,
+				43DA7EB62B87567F00F5305A /* Copperplate-Light.otf in Resources */,
+				43DA7EA52B87543E00F5305A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		43D8039B2B8780160054B5D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		43DA7E992B87543C00F5305A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43DA7EA32B87543C00F5305A /* ContentView.swift in Sources */,
+				43DA7EA12B87543C00F5305A /* VitesseRHApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		43DA7EA92B87543E00F5305A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		43DA7EAA2B87543E00F5305A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		43DA7EAC2B87543E00F5305A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Vitesse RH/Preview Content\"";
+				DEVELOPMENT_TEAM = 5F49D5L775;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Vitesse RH/SupportingFiles/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.benjaminlefrancois.Vitesse-RH";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		43DA7EAD2B87543E00F5305A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Vitesse RH/Preview Content\"";
+				DEVELOPMENT_TEAM = 5F49D5L775;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Vitesse RH/SupportingFiles/Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.benjaminlefrancois.Vitesse-RH";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43DA7E982B87543C00F5305A /* Build configuration list for PBXProject "Vitesse RH" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43DA7EA92B87543E00F5305A /* Debug */,
+				43DA7EAA2B87543E00F5305A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43DA7EAB2B87543E00F5305A /* Build configuration list for PBXNativeTarget "Vitesse RH" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43DA7EAC2B87543E00F5305A /* Debug */,
+				43DA7EAD2B87543E00F5305A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 43DA7E952B87543C00F5305A /* Project object */;
+}
