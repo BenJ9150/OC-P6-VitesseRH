@@ -21,7 +21,7 @@ struct ButtonView: View {
                 .frame(minWidth: 200)
                 .background(RoundedRectangle(cornerRadius: 12).stroke(.accent, lineWidth: 2))
         })
-        .padding(.top)
+        .padding(.bottom)
     }
 }
 

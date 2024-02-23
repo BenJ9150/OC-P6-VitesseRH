@@ -1,5 +1,5 @@
 //
-//  FontExtension.swift
+//  Font.swift
 //  Vitesse RH
 //
 //  Created by Benjamin LEFRANCOIS on 22/02/2024.
@@ -14,4 +14,5 @@ extension Font {
     static let vitesseCaption = Font.custom("Copperplate", size: 16)
     static let vitesseText = Font.system(size: 14)
     static let vitesseButton = Font.custom("Copperplate-Bold", size: 20)
+    static let vitesseError = Font.system(size: 16).bold()
 }

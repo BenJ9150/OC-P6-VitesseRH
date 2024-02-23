@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct VitesseRHApp: App {
+
+    @StateObject var appViewModel = AppViewModel()
+
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            if appViewModel.isLogged {
+                CandidatesView(isAdmin: appViewModel.isAdmin)
+            } else {
+                LoginView(loginVM: appViewModel.loginViewModel)
+            }
         }
     }
 }

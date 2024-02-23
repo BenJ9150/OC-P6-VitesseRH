@@ -10,12 +10,8 @@ import SwiftUI
 struct RegisterView: View {
 
     @Environment(\.dismiss) var dismiss
-
-    @State private var firstName = ""
-    @State private var lastName = ""
-    @State private var email = ""
-    @State private var password = ""
-    @State private var confirmPwd = ""
+    @Environment(\.colorScheme) var colorScheme
+    @StateObject private var registerVM = RegisterViewModel()
 
     // MARK: Body
 
@@ -25,7 +21,21 @@ struct RegisterView: View {
                 header(title: "Register")
                 texfields
             }
-            createButton
+            .background(colorScheme == .dark ? Color.black : Color.white)
+            if registerVM.isRegistering {
+                ProgressView()
+            } else {
+                VStack {
+                    ErrorMessageView(error: registerVM.errorMessage)
+                    createButton
+                }
+            }
+        }
+        .background(Color.colorLightGray)
+        .onChange(of: registerVM.isRegistered) { _, isRegistered in
+            if isRegistered {
+                dismiss()
+            }
         }
     }
 }
@@ -36,19 +46,24 @@ private extension RegisterView {
 
     var texfields: some View {
         Group {
-            TextFieldView(header: "First Name", input: $firstName, placeHolder: "Your first name",
+            TextFieldView(header: "First Name", input: $registerVM.firstName,
+                          placeHolder: "Your first name",
                           keyboard: .default, textContent: .name)
 
-            TextFieldView(header: "Last Name", input: $lastName, placeHolder: "Your last name",
+            TextFieldView(header: "Last Name", input: $registerVM.lastName,
+                          placeHolder: "Your last name",
                           keyboard: .default, textContent: .familyName)
 
-            TextFieldView(header: "Email / Username", input: $email, placeHolder: "Email or Username",
+            TextFieldView(header: "Email / Username", input: $registerVM.email,
+                          placeHolder: "Email or Username",
                           keyboard: .emailAddress, textContent: .emailAddress)
 
-            TextFieldView(header: "Password", input: $password, placeHolder: "Your password",
+            TextFieldView(header: "Password", input: $registerVM.password,
+                          placeHolder: "Your password",
                           keyboard: .default, textContent: .password, isSecure: true)
 
-            TextFieldView(header: "Confirm Password", input: $confirmPwd, placeHolder: "Confirm your password",
+            TextFieldView(header: "Confirm Password", input: $registerVM.confirmPwd,
+                          placeHolder: "Confirm your password",
                           keyboard: .default, textContent: .password, isSecure: true)
         }
     }
@@ -60,9 +75,10 @@ private extension RegisterView {
 
     var createButton: some View {
         ButtonView(title: "Create") {
-            // TODO: Register with loader and dismiss view
-            dismiss()
+            hideKeyboard()
+            registerVM.register()
         }
+        .padding(.top)
     }
 }
 

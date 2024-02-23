@@ -17,6 +17,9 @@ struct TextFieldView: View {
     let keyboard: UIKeyboardType
     let textContent: UITextContentType
 
+    // Focus
+    @FocusState var focused: Bool
+
     // Secure?
     var isSecure = false
 
@@ -34,9 +37,8 @@ struct TextFieldView: View {
                 .padding()
                 .background(.colorDarkGray)
                 .cornerRadius(12)
-//                .padding(2)
-//                .overlay(RoundedRectangle(cornerRadius: 12).stroke(.colorDarkGray, lineWidth: 1))
                 .padding(.horizontal)
+                .focused($focused)
         }
         .padding(.bottom)
     }

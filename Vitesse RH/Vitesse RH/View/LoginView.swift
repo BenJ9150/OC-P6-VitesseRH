@@ -9,25 +9,34 @@ import SwiftUI
 
 struct LoginView: View {
 
-    @State private var email = ""
-    @State private var password = ""
+    @ObservedObject var loginVM: LoginViewModel
     @State private var showRegisterView = false
 
-    // MARK: Body
+    @FocusState private var focusedField: FocusedField?
+    @FocusState private var pwdFocused: Bool
 
-    var body: some View {
+    private enum FocusedField {
+        case mailToPwd, join
+    }
+
+    // MARK: Body
+    
+    var body: some View { // TODO: Antoine: avertissement dans debugger quand on ouvre le keyboard
         NavigationStack {
-            VStack {
-                imageTop
-                Spacer()
-                header(title: "Login")
-                Spacer()
-                texfields
-                Spacer()
-                buttons
-                imageButton
+            ZStack {
+                imageBottom
+                VStack {
+                    imageTop
+                    Spacer()
+                    header(title: "Login")
+                    Spacer()
+                    texfields
+                    Spacer()
+                    ErrorMessageView(error: loginVM.errorMessage)
+                    buttons
+                    Spacer()
+                }
             }
-            .ignoresSafeArea(edges: .bottom)
             .navigationDestination(isPresented: $showRegisterView) {
                 RegisterView()
             }
@@ -40,12 +49,25 @@ struct LoginView: View {
 private extension LoginView {
 
     var texfields: some View {
-        Group {
-            TextFieldView(header: "Email / Username", input: $email, placeHolder: "Email or Username",
+        VStack { // TODO: Voir si on enlève Username
+            TextFieldView(header: "Email / Username", input: $loginVM.email,
+                          placeHolder: "Email or Username",
                           keyboard: .emailAddress, textContent: .emailAddress)
+            .focused($focusedField, equals: .mailToPwd)
+            .submitLabel(.next)
 
-            TextFieldView(header: "Password", input: $password, placeHolder: "Password",
-                          keyboard: .default, textContent: .password, isSecure: true)
+            TextFieldView(header: "Password", input: $loginVM.password,
+                          placeHolder: "Password",
+                          keyboard: .default, textContent: .password, focused: _pwdFocused, isSecure: true)
+            .submitLabel(.join)
+        }
+        .onSubmit {
+            switch focusedField {
+            case .mailToPwd:
+                pwdFocused.toggle()
+            default:
+                loginVM.signIn()
+            }
         }
     }
 }
@@ -57,10 +79,12 @@ private extension LoginView {
     var buttons: some View {
         Group {
             ButtonView(title: "Sign in") {
-                // TODO: sign In
+                hideKeyboard()
+                loginVM.signIn()
             }
 
             ButtonView(title: "Register") {
+                hideKeyboard()
                 showRegisterView.toggle()
             }
         }
@@ -78,16 +102,20 @@ private extension LoginView {
             .padding(.horizontal, 64)
     }
 
-    var imageButton: some View {
-        Image("icon_wave")
-            .resizable()
-            .scaledToFit()
-            .padding(.top)
+    var imageBottom: some View {
+        VStack {
+            Spacer()
+            Image("icon_wave")
+                .resizable()
+                .scaledToFit()
+                .padding(.top)
+        }
+        .ignoresSafeArea(edges: .bottom)
     }
 }
 
 // MARK: Preview
 
-#Preview {
-    LoginView()
-}
+// #Preview {
+//    LoginView()
+// }
