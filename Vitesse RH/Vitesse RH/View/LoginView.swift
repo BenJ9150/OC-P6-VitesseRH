@@ -12,16 +12,14 @@ struct LoginView: View {
     @ObservedObject var loginVM: LoginViewModel
     @State private var showRegisterView = false
 
-    @FocusState private var focusedField: FocusedField?
-    @FocusState private var pwdFocused: Bool
-
-    private enum FocusedField {
-        case mailToPwd, join
-    }
+    @FocusState private var fieldToFocus: FieldToFocus?
+    @FocusState private var pwdFocus: Bool
 
     // MARK: Body
-    
-    var body: some View { // TODO: Antoine: avertissement dans debugger quand on ouvre le keyboard
+
+    // TODO: Antoine: avertissement dans debugger quand on ouvre le keyboard
+
+    var body: some View {
         NavigationStack {
             ZStack {
                 imageBottom
@@ -40,6 +38,11 @@ struct LoginView: View {
             .navigationDestination(isPresented: $showRegisterView) {
                 RegisterView()
             }
+            .onTapGesture {
+                // TODO: Antoine: comment on peut masquer le clavier proprement ?
+                // La, le clic ne fonctionne pas partout
+                hideKeyboard()
+            }
         }
     }
 }
@@ -48,24 +51,25 @@ struct LoginView: View {
 
 private extension LoginView {
 
-    var texfields: some View {
-        VStack { // TODO: Voir si on enlève Username
+    var texfields: some View { // TODO: Voir si on enlève Username
+        VStack {
             TextFieldView(header: "Email / Username", input: $loginVM.email,
                           placeHolder: "Email or Username",
                           keyboard: .emailAddress, textContent: .emailAddress)
-            .focused($focusedField, equals: .mailToPwd)
+            .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
 
             TextFieldView(header: "Password", input: $loginVM.password,
                           placeHolder: "Password",
-                          keyboard: .default, textContent: .password, focused: _pwdFocused, isSecure: true)
+                          keyboard: .default, textContent: .password,
+                          focused: _pwdFocus, isSecure: true)
             .submitLabel(.join)
         }
         .onSubmit {
-            switch focusedField {
-            case .mailToPwd:
-                pwdFocused.toggle()
-            default:
+            switch fieldToFocus {
+            case .password:
+                pwdFocus.toggle()
+            default: // join
                 loginVM.signIn()
             }
         }
