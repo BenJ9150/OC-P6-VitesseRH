@@ -13,6 +13,8 @@ class LoginViewModel: ObservableObject {
 
     @Published var email: String = "admin@vitesse.com"
     @Published var password: String = "test123"
+
+    @Published var inProgress = false
     @Published var errorMessage = ""
 
     // MARK: Private properties
@@ -42,7 +44,11 @@ extension LoginViewModel {
 
         // TODO: Empty
 
-        // signIn
+        // SignIn
+        Task { @MainActor in
+            self.inProgress = true
+        }
+
         AuthService().signIn(withEmail: email, andPwd: password) { result in
             Task { @MainActor in
                 switch result {
@@ -51,6 +57,7 @@ extension LoginViewModel {
                 case .failure(let failure):
                     self.errorMessage = failure.title + " " + failure.message
                 }
+                self.inProgress = false
             }
         }
     }

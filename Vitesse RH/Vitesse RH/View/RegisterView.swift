@@ -25,18 +25,17 @@ struct RegisterView: View {
 
     var body: some View {
         VStack {
+            // Scroll view with textfields
             ScrollView {
                 header(title: "Register")
                 texfields
             }
             .background(colorScheme == .dark ? Color.black : Color.white)
-            if registerVM.isRegistering {
-                ProgressView()
-            } else {
-                VStack {
-                    ErrorMessageView(error: registerVM.errorMessage)
-                    createButton
-                }
+
+            // Create button
+            VStack {
+                ErrorMessageView(error: registerVM.errorMessage)
+                createButton
             }
         }
         .background(Color.colorLightGray)
@@ -107,7 +106,7 @@ private extension RegisterView {
 private extension RegisterView {
 
     var createButton: some View {
-        ButtonView(title: "Create") {
+        ButtonView(title: "Create", actionInProgress: $registerVM.inProgress) {
             hideKeyboard()
             registerVM.register()
         }

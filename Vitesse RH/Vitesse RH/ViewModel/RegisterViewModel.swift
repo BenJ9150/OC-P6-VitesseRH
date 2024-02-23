@@ -17,7 +17,7 @@ final class RegisterViewModel: ObservableObject {
     @Published var password: String = "test123"
     @Published var confirmPwd: String = "test123"
 
-    @Published var isRegistering = false
+    @Published var inProgress = false
     @Published var isRegistered = false
     @Published var errorMessage = ""
 }
@@ -39,7 +39,7 @@ extension RegisterViewModel {
 
         // Registering
         Task { @MainActor in
-            self.isRegistering = true
+            self.inProgress = true
         }
 
         AuthService().register(mail: email, password: password, firstName: firstName, lastName: lastName) { result in
@@ -50,7 +50,7 @@ extension RegisterViewModel {
                 case .failure(let failure):
                     self.errorMessage = failure.title + " " + failure.message
                 }
-                self.isRegistering = false
+                self.inProgress = false
             }
         }
     }

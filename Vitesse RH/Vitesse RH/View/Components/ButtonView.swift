@@ -9,24 +9,31 @@ import SwiftUI
 
 struct ButtonView: View {
     let title: String
+    @Binding var actionInProgress: Bool
     let action: () -> Void
 
     var body: some View {
-        Button(action: action, label: {
-            Text(title)
-                .font(.vitesseButton)
-                .foregroundStyle(.accent)
-                .padding()
-                .padding(.horizontal)
-                .frame(minWidth: 200)
-                .background(RoundedRectangle(cornerRadius: 12).stroke(.accent, lineWidth: 2))
-        })
-        .padding(.bottom)
+        if actionInProgress {
+            ProgressView()
+                .frame(height: 52)
+                .padding(.bottom)
+        } else {
+            Button(action: action, label: {
+                Text(title)
+                    .font(.vitesseButton)
+                    .foregroundStyle(.accent)
+                    .padding(.horizontal)
+                    .frame(height: 52)
+                    .frame(minWidth: 200)
+                    .background(RoundedRectangle(cornerRadius: 12).stroke(.accent, lineWidth: 2))
+            })
+            .padding(.bottom)
+        }
     }
 }
 
 #Preview {
-    ButtonView(title: "MyButton") {
+    ButtonView(title: "MyButton", actionInProgress: .constant(false)) {
         // Action
     }
 }
