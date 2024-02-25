@@ -25,6 +25,7 @@ struct CandidatesView: View {
                     .navigationTitle("")
                     .toolbar { toolbarItems() }
                     .searchable(text: $candidatesVM.filter.search)
+                    .environment(\.editMode, $candidatesVM.editMode) // TODO: Add animation
             }
         }
     }
@@ -35,7 +36,7 @@ struct CandidatesView: View {
 private extension CandidatesView {
 
     var candidatesList: some View {
-        List(candidatesVM.candidates, id: \.id) { candidate in
+        List(candidatesVM.candidates, selection: $candidatesVM.selection) { candidate in
             CandidateRowView(candidate: candidate)
                 .listRowBackground(
                     RoundedRectangle(cornerRadius: 10)
@@ -70,25 +71,43 @@ private extension CandidatesView {
 
     @ToolbarContentBuilder
     func toolbarItems() -> some ToolbarContent {
+
+        // Edit Button
         ToolbarItem(placement: .topBarLeading) {
             Button(action: {
-                // To do
+                candidatesVM.editModeToggle()
             }, label: {
-                Text("Edit")
+                Text(candidatesVM.inEditMode ? "Cancel" : "Edit")
                     .font(.vitesseButton)
             })
         }
+
+        // Toolbar Title
         ToolbarItem(placement: .principal) {
             Text("Candidates")
                 .font(.vitesseToolbar)
         }
-        ToolbarItem(placement: .topBarTrailing) {
-            Button(action: {
-                candidatesVM.filter.favorites.toggle()
-            }, label: {
-                Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
-                    .foregroundStyle(.accent)
-            })
+
+        // Delete Button
+        if candidatesVM.inEditMode {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    candidatesVM.deleteSelection()
+                }, label: {
+                    Text("Delete")
+                        .font(.vitesseButton)
+                })
+            }
+        } else {
+            // Only Favorites Button
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: {
+                    candidatesVM.filter.favorites.toggle()
+                }, label: {
+                    Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
+                        .foregroundStyle(.accent)
+                })
+            }
         }
     }
 }

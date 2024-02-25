@@ -14,7 +14,7 @@ struct VitesseRHApp: App {
 
     var body: some Scene {
         WindowGroup {
-            if appViewModel.isLogged {
+            if !appViewModel.isLogged {
                 CandidatesView(isAdmin: appViewModel.isAdmin)
             } else {
                 LoginView(loginVM: appViewModel.loginViewModel)

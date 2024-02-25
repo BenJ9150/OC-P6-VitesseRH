@@ -6,17 +6,36 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class CandidatesViewModel: ObservableObject {
 
     // MARK: Outputs
 
     @Published private(set) var candidates: [Candidate] = []
+    @Published var editMode: EditMode = .inactive
 
-    @Published var filter = (search: "", favorites: false) {
+    var inEditMode: Bool {
+        return editMode == .active
+    }
+
+    // MARK: Inputs
+
+    var selection = Set<String>()
+
+    var filter = (search: "", favorites: false) {
         didSet {
             applyFilter()
         }
+    }
+
+    func editModeToggle() {
+        editMode = editMode == .active ? .inactive : .active
+    }
+
+    func deleteSelection() {
+        // TODO: Delete
+        editMode = .inactive
     }
 
     // MARK: Init
@@ -29,11 +48,11 @@ final class CandidatesViewModel: ObservableObject {
 
     // swiftlint:disable all
     private let allCandidates = [ // TODO: Get with model
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Bob", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Marley"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Kurt", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Cobain"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "John", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Do"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Billy", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Idol"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Bruce", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Wayne")
+        Candidate(id: "1", phone: nil, note: nil, firstName: "Bob", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Marley"),
+        Candidate(id: "2", phone: nil, note: nil, firstName: "Kurt", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Cobain"),
+        Candidate(id: "3", phone: nil, note: nil, firstName: "John", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Do"),
+        Candidate(id: "4", phone: nil, note: nil, firstName: "Billy", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Idol"),
+        Candidate(id: "5", phone: nil, note: nil, firstName: "Bruce", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Wayne")
     ]
     // swiftlint:enable all
 }

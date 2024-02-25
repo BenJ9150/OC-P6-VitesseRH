@@ -26,10 +26,10 @@ struct CandidateResponse: Codable {
 
 // MARK: candidate Id
 
-struct Candidate: Codable {
+struct Candidate: Codable, Identifiable {
+    let id: String
     let phone: String?
     let note: String?
-    let id: String
     let firstName: String
     let linkedinURL: String?
     let isFavorite: Bool
