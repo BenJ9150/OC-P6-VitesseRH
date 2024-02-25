@@ -116,6 +116,6 @@ private extension RegisterView {
 
 // MARK: Preview
 
-// #Preview {
-//    RegisterView()
-// }
+#Preview {
+    RegisterView()
+}

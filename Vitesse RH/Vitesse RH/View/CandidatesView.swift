@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CandidatesView: View {
 
+    @Environment(\.colorScheme) var colorScheme
+
     // swiftlint:disable all
     let candidatesVM = [
         Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Candidat", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "1"),
@@ -23,24 +25,39 @@ struct CandidatesView: View {
 
     @State private var search: String = ""
 
+    // MARK: Body
+
     var body: some View {
         NavigationStack {
-            List(candidatesVM, id: \.id) { candidate in
-                CandidateRowView(candidate: candidate)
+            ZStack {
+                candidatesBackground
+                candidatesList
+                    .toolbarTitleDisplayMode(.inline)
+                    .navigationTitle("")
+                    .toolbar { toolbarItems() }
+                    .searchable(text: $search)
             }
-            .listRowSeparator(.hidden)
-            .listRowSpacing(12)
-            .toolbarTitleDisplayMode(.inline)
-            .navigationTitle("")
-            .toolbar { toolbarItems() }
-            .searchable(text: $search)
         }
     }
 }
 
-// MARK: Row
+// MARK: Candidates list
 
-extension CandidatesView {
+private extension CandidatesView {
+
+    var candidatesList: some View {
+        List(candidatesVM, id: \.id) { candidate in
+            CandidateRowView(candidate: candidate)
+                .listRowBackground(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.colorGray, lineWidth: 2)
+                        .background(colorScheme == .dark ? Color.colorDarkGray : Color.white)
+                )
+        }
+        .listRowSeparator(.hidden)
+        .listRowSpacing(12)
+        .scrollContentBackground(.hidden)
+    }
 
     struct CandidateRowView: View {
         let candidate: Candidate
@@ -86,6 +103,28 @@ private extension CandidatesView {
         }
     }
 }
+
+// MARK: Background
+
+private extension CandidatesView {
+
+    var candidatesBackground: some View {
+        VStack {
+            Image("image_TopBackground")
+                .resizable()
+                .scaledToFit()
+            Spacer()
+            Image("image_BottomBackground")
+                .resizable()
+                .scaledToFit()
+        }
+        .ignoresSafeArea()
+        .background(Color.colorLightGray)
+    }
+}
+
+// MARK: Preview
+
 #Preview {
     CandidatesView(isAdmin: true)
 }

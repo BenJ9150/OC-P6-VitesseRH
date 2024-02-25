@@ -109,10 +109,9 @@ private extension LoginView {
     var imageBottom: some View {
         VStack {
             Spacer()
-            Image("icon_wave")
+            Image("image_wave")
                 .resizable()
                 .scaledToFit()
-                .padding(.top)
         }
         .ignoresSafeArea(edges: .bottom)
     }
@@ -120,6 +119,8 @@ private extension LoginView {
 
 // MARK: Preview
 
-// #Preview {
-//    LoginView()
-// }
+#Preview {
+    LoginView(loginVM: LoginViewModel({ isAdmin in
+        // Login
+    }))
+}
