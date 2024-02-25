@@ -26,7 +26,7 @@ struct CandidateResponse: Codable {
 
 // MARK: candidate Id
 
-struct Candidate: Codable, Identifiable {
+struct Candidate: Codable, Identifiable, Hashable {
     let id: String
     let phone: String?
     let note: String?

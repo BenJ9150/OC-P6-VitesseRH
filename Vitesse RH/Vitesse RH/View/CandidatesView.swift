@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CandidatesView: View {
 
-    @Environment(\.colorScheme) var colorScheme
     @StateObject var candidatesVM = CandidatesViewModel()
 
     let isAdmin: Bool
@@ -37,11 +36,11 @@ private extension CandidatesView {
 
     var candidatesList: some View {
         List(candidatesVM.candidates, selection: $candidatesVM.selection) { candidate in
+            // Row
             CandidateRowView(candidate: candidate)
-                .listRowBackground(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.colorGray, lineWidth: 2)
-                        .background(colorScheme == .dark ? Color.colorDarkGray : Color.white)
+                .overlay(
+                    NavigationLink("", destination: CandidateDetailView(candidate: candidate))
+                        .opacity(0)
                 )
         }
         .listRowSeparator(.hidden)
@@ -50,6 +49,8 @@ private extension CandidatesView {
     }
 
     struct CandidateRowView: View {
+
+        @Environment(\.colorScheme) var colorScheme
         let candidate: Candidate
 
         var body: some View {
@@ -61,6 +62,11 @@ private extension CandidatesView {
                     .foregroundStyle(.orange)
             }
             .padding()
+            .listRowBackground(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.colorGray, lineWidth: 2)
+                    .background(colorScheme == .dark ? Color.colorDarkGray : Color.white)
+            )
         }
     }
 }
