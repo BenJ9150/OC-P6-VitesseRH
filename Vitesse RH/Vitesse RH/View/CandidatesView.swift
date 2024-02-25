@@ -10,20 +10,9 @@ import SwiftUI
 struct CandidatesView: View {
 
     @Environment(\.colorScheme) var colorScheme
-
-    // swiftlint:disable all
-    let candidatesVM = [
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Candidat", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "1"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Candidat", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "2"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Candidat", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "3"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Candidat", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "4"),
-        Candidate(phone: nil, note: nil, id: "\(UUID())", firstName: "Candidat", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "5")
-    ]
-    // swiftlint:enable all
+    @StateObject var candidatesVM = CandidatesViewModel()
 
     let isAdmin: Bool
-
-    @State private var search: String = ""
 
     // MARK: Body
 
@@ -35,7 +24,7 @@ struct CandidatesView: View {
                     .toolbarTitleDisplayMode(.inline)
                     .navigationTitle("")
                     .toolbar { toolbarItems() }
-                    .searchable(text: $search)
+                    .searchable(text: $candidatesVM.filter.search)
             }
         }
     }
@@ -46,7 +35,7 @@ struct CandidatesView: View {
 private extension CandidatesView {
 
     var candidatesList: some View {
-        List(candidatesVM, id: \.id) { candidate in
+        List(candidatesVM.candidates, id: \.id) { candidate in
             CandidateRowView(candidate: candidate)
                 .listRowBackground(
                     RoundedRectangle(cornerRadius: 10)
@@ -95,9 +84,9 @@ private extension CandidatesView {
         }
         ToolbarItem(placement: .topBarTrailing) {
             Button(action: {
-                // To do
+                candidatesVM.filter.favorites.toggle()
             }, label: {
-                Image(systemName: "star.fill")
+                Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
                     .foregroundStyle(.accent)
             })
         }

@@ -51,7 +51,7 @@ struct RegisterView: View {
 
 private extension RegisterView {
 
-    var texfields: some View { // TODO: Voir si on enlève Username
+    var texfields: some View {
         VStack {
             TextFieldView(header: "First Name", input: $registerVM.firstName,
                           placeHolder: "Your first name",
@@ -65,8 +65,8 @@ private extension RegisterView {
             .focused($fieldToFocus, equals: .email)
             .submitLabel(.next)
 
-            TextFieldView(header: "Email / Username", input: $registerVM.email,
-                          placeHolder: "Email or Username",
+            TextFieldView(header: "Email", input: $registerVM.email,
+                          placeHolder: "Your email",
                           keyboard: .emailAddress, textContent: .emailAddress, focused: _emailFocus)
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)

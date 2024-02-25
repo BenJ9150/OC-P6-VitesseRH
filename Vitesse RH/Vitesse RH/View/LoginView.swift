@@ -51,16 +51,16 @@ struct LoginView: View {
 
 private extension LoginView {
 
-    var texfields: some View { // TODO: Voir si on enlève Username
+    var texfields: some View {
         VStack {
-            TextFieldView(header: "Email / Username", input: $loginVM.email,
-                          placeHolder: "Email or Username",
+            TextFieldView(header: "Email", input: $loginVM.email,
+                          placeHolder: "Your email",
                           keyboard: .emailAddress, textContent: .emailAddress)
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
 
             TextFieldView(header: "Password", input: $loginVM.password,
-                          placeHolder: "Password",
+                          placeHolder: "Your password",
                           keyboard: .default, textContent: .password,
                           focused: _pwdFocus, isSecure: true)
             .submitLabel(.join)
