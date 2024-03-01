@@ -14,6 +14,8 @@ enum VitesseError: Error {
     case invalidData
     case invalidJson
     case invalidMail
+    case linkedInUrlEmpty
+    case invalidLinkedInUrl
     case unknown
 
     // MARK: Message Builder
@@ -35,6 +37,10 @@ enum VitesseError: Error {
             return "\(start)\nError: 105"
         case .invalidMail:
             return "Email is invalid! Change your email and try again."
+        case .linkedInUrlEmpty:
+            return "LinkedIn url is empty! Add the url and try again."
+        case .invalidLinkedInUrl:
+            return "LinkedIn url is invalid! Change the url and try again."
         case .unknown:
             return "\(start)\nError: 100"
         }

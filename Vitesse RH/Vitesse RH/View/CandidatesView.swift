@@ -37,8 +37,12 @@ private extension CandidatesView {
             // Row
             CandidateRowView(candidate: candidate, editMode: candidatesVM.editMode)
                 .overlay(
-                    NavigationLink("", destination: CandidateDetailView(candidate: candidate))
-                        .opacity(0)
+                    NavigationLink(
+                        "",
+                        destination: CandidateDetailView(candidatesVM: candidatesVM,
+                                                         candidate: candidate)
+                    )
+                    .opacity(0)
                 )
         }
         .listRowSeparator(.hidden)
@@ -84,13 +88,12 @@ private extension CandidatesView {
 
         // Edit Button
         ToolbarItem(placement: .topBarLeading) {
-            Button(action: {
+            Button {
                 candidatesVM.editModeToggle()
-            }, label: {
+            } label: {
                 Text(candidatesVM.inEditMode ? "Cancel" : "Edit")
                     .font(.vitesseButton)
-                    .animation(.bouncy, value: candidatesVM.editMode)
-            })
+            }
         }
 
         // Toolbar Title
@@ -102,22 +105,22 @@ private extension CandidatesView {
         // Delete Button
         if candidatesVM.inEditMode {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
+                Button {
                     candidatesVM.deleteSelection()
-                }, label: {
+                } label: {
                     Text("Delete")
                         .font(.vitesseButton)
-                })
+                }
             }
         } else {
             // Only Favorites Button
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
+                Button {
                     candidatesVM.filter.favorites.toggle()
-                }, label: {
+                } label: {
                     Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
                         .foregroundStyle(.accent)
-                })
+                }
             }
         }
     }

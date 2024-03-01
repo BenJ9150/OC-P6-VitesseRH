@@ -11,22 +11,22 @@ class LoginViewModel: ObservableObject {
 
     // MARK: Outputs
 
-//    @Published var email: String = "admin@vitesse.com"
-//    @Published var password: String = "test123"
+    @Published var email: String = "admin@vitesse.com" // TODO: To remove
+    @Published var password: String = "test123"
 
-    @Published var email: String = ""
-    @Published var password: String = ""
+//    @Published var email: String = ""
+//    @Published var password: String = ""
 
     @Published var inProgress = false
     @Published var errorMessage = ""
 
     // MARK: Private properties
 
-    private let onLoginSucceed: ((_ isAdmin: Bool) -> Void)
+    private let onLoginSucceed: (() -> Void)
 
     // MARK: Init
 
-    init(_ callback: @escaping (_ isAdmin: Bool) -> Void) {
+    init(_ callback: @escaping () -> Void) {
         self.onLoginSucceed = callback
     }
 
@@ -48,7 +48,7 @@ extension LoginViewModel {
         // TODO: Check Empty
 
         // SignIn
-        Task { @MainActor in // TODO: Antoine : diff avec await MainActor.run ?
+        Task { @MainActor in
             self.inProgress = true
         }
 
@@ -56,11 +56,13 @@ extension LoginViewModel {
             Task { @MainActor in
                 switch result {
                 case .success(let isAdmin):
-                    self.onLoginSucceed(isAdmin)
+                    // Save isAdmin Value in UserDefault
+                    UserDefaults.standard.set(isAdmin, forKey: "VitesseUserIsAdmin")
+                    self.onLoginSucceed()
                 case .failure(let failure):
                     self.errorMessage = failure.title + " " + failure.message
+                    self.inProgress = false
                 }
-                self.inProgress = false
             }
         }
     }

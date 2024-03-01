@@ -28,6 +28,9 @@ struct RegisterView: View {
             // Scroll view with textfields
             ScrollView {
                 header(title: "Register")
+                Divider()
+                    .padding(.horizontal, 48)
+                    .padding(.bottom)
                 texfields
             }
             .background(colorScheme == .dark ? Color.black : Color.white)
@@ -43,6 +46,9 @@ struct RegisterView: View {
             if isRegistered {
                 dismiss()
             }
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }

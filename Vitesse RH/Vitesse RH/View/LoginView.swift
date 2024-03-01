@@ -25,11 +25,10 @@ struct LoginView: View {
                 imageBottom
                 VStack {
                     imageTop
-                    Spacer()
+                    Divider()
+                        .padding(.horizontal, 48)
                     header(title: "Login")
-                    Spacer()
                     texfields
-                    Spacer()
                     ErrorMessageView(error: loginVM.errorMessage)
                     buttons
                     Spacer()
@@ -38,11 +37,9 @@ struct LoginView: View {
             .navigationDestination(isPresented: $showRegisterView) {
                 RegisterView()
             }
-            .onTapGesture {
-                // TODO: Antoine: comment on peut masquer le clavier proprement ?
-                // La, le clic ne fonctionne pas partout
-                hideKeyboard()
-            }
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }
@@ -65,6 +62,7 @@ private extension LoginView {
                           focused: _pwdFocus, isSecure: true)
             .submitLabel(.join)
         }
+        .padding(.bottom, 24)
         .onSubmit {
             switch fieldToFocus {
             case .password:
@@ -104,6 +102,8 @@ private extension LoginView {
             .resizable()
             .scaledToFit()
             .padding(.horizontal, 64)
+            .padding(.bottom, 48)
+            .padding(.top)
     }
 
     var imageBottom: some View {
@@ -120,7 +120,7 @@ private extension LoginView {
 // MARK: Preview
 
 #Preview {
-    LoginView(loginVM: LoginViewModel({ _ in
-        // Login
+    LoginView(loginVM: LoginViewModel({
+        // nothing
     }))
 }

@@ -16,7 +16,7 @@ final class RegisterViewModel: ObservableObject {
 //    @Published var lastName: String = "Toto"
 //    @Published var password: String = "test123"
 //    @Published var confirmPwd: String = "test123"
-    
+
     @Published var email: String = ""
     @Published var firstName: String = ""
     @Published var lastName: String = ""

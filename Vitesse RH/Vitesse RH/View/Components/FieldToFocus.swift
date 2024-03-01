@@ -13,4 +13,6 @@ enum FieldToFocus {
     case email
     case password
     case confirmPwd
+    case phone
+    case note
 }

@@ -14,9 +14,14 @@ final class CandidatesViewModel: ObservableObject {
 
     @Published private(set) var candidates: [Candidate] = []
     @Published var editMode: EditMode = .inactive
+    @Published var errorMessage = ""
 
     var inEditMode: Bool {
         return editMode == .active
+    }
+
+    var isAdmin: Bool {
+        return UserDefaults.standard.bool(forKey: "VitesseUserIsAdmin")
     }
 
     // MARK: Inputs
@@ -38,6 +43,26 @@ final class CandidatesViewModel: ObservableObject {
         editMode = .inactive
     }
 
+    func favoriteToggle(ofCandidateId candidateId: String) {
+        // TODO: update the selected candidate (if admin)
+    }
+
+    func openLinkedIn(withURL stringURL: String) {
+        guard stringURL != "" else {
+            Task { @MainActor in
+                self.errorMessage = VitesseError.linkedInUrlEmpty.message
+            }
+            return
+        }
+        guard let url = URL(string: stringURL) else {
+            Task { @MainActor in
+                self.errorMessage = VitesseError.invalidLinkedInUrl.message
+            }
+            return
+        }
+        UIApplication.shared.open(url)
+    }
+
     // MARK: Init
 
     init() {
@@ -48,8 +73,8 @@ final class CandidatesViewModel: ObservableObject {
 
     // swiftlint:disable all
     private let allCandidates = [ // TODO: Get with model
-        Candidate(id: "1", phone: nil, note: nil, firstName: "Bob", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Marley"),
-        Candidate(id: "2", phone: nil, note: nil, firstName: "Kurt", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Cobain"),
+        Candidate(id: "1", phone: "0600000000", note: nil, firstName: "Bob", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Marley"),
+        Candidate(id: "2", phone: nil, note: nil, firstName: "Kurt", linkedinURL: "https://openclassrooms.com", isFavorite: false, email: "test@gmail.com", lastName: "Cobain"),
         Candidate(id: "3", phone: nil, note: nil, firstName: "John", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Do"),
         Candidate(id: "4", phone: nil, note: nil, firstName: "Billy", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Idol"),
         Candidate(id: "5", phone: nil, note: nil, firstName: "Bruce", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Wayne")

@@ -9,21 +9,51 @@ import SwiftUI
 
 struct CandidateDetailView: View {
 
-    @EnvironmentObject var userViewModel: UserViewModel
+    @ObservedObject var candidatesVM: CandidatesViewModel
     let candidate: Candidate
 
     @State private var isEditing = false
+    @State private var phone: String
+    @State private var email: String
+    @State private var linkedinURL: String
+    @State private var note: String
+
+    @FocusState private var fieldToFocus: FieldToFocus?
+
+    // MARK: Init
+
+    init(candidatesVM: CandidatesViewModel, candidate: Candidate) {
+        self.candidatesVM = candidatesVM
+        self.candidate = candidate
+        self.phone = candidate.phone == nil ? "" : candidate.phone!
+        self.email = candidate.email
+        self.linkedinURL = candidate.linkedinURL == nil ? "" : candidate.linkedinURL!
+        self.note = candidate.note == nil ? "" : candidate.note!
+    }
 
     // MARK: Body
 
     var body: some View {
-        ScrollView {
-            nameAndFavorite
+        ZStack {
+            candidateBackground
+            ScrollView {
+                nameAndFavorite
+                candidatePhone
+                candidateEmail
+                candidateLinkedin
+                candidateNote
+            }
+        }
+        .navigationTitle("")
+        .toolbar { toolbarItems() }
+        .navigationBarBackButtonHidden(isEditing)
+        .onTapGesture {
+            hideKeyboard()
         }
     }
 }
 
-// MARK: - Common View
+// MARK: Header
 
 private extension CandidateDetailView {
 
@@ -33,36 +63,176 @@ private extension CandidateDetailView {
             Spacer()
             favoriteButton
         }
-        .padding()
+        .padding(.vertical)
     }
 
     var favoriteButton: some View {
         Button {
-            // TODO: switch favoris ou non
+            candidatesVM.favoriteToggle(ofCandidateId: candidate.id)
         } label: {
-            Image(systemName: candidate.isFavorite ? "star.fill" : "star")
-                .foregroundStyle(.accent)
+            Image(candidate.isFavorite ? "icon_star" : "icon_starFill")
+                .renderingMode(.template)
+                .foregroundStyle(candidatesVM.isAdmin ? .accent : .orange)
+                .padding(.trailing)
         }
-        .disabled(!false) // TODO: Antoine Remplacer false par userViewModel.isAdmin (fait crasher le preview)
+        .disabled(!candidatesVM.isAdmin)
+        .padding()
     }
 }
 
-// MARK: - Non editable view
+// MARK: Phone
 
 private extension CandidateDetailView {
 
+    var candidatePhone: some View {
+        Group {
+            if isEditing {
+                TextFieldView(header: "Phone", input: $phone,
+                              placeHolder: "Candidate phone number",
+                              keyboard: .phonePad, textContent: .telephoneNumber)
+                .focused($fieldToFocus, equals: .phone)
+                .onChange(of: phone) { _, _ in
+                    phone.applyFrPhonePattern()
+                    if phone.count > 14 {
+                        phone = String(phone.prefix(14))
+                    }
+                }
+            } else {
+                ParagraphView(title: "Phone", text: phone)
+            }
+        }
+        .onAppear {
+            phone.applyFrPhonePattern()
+        }
+    }
 }
 
-// MARK: - Editable view
+// MARK: Mail
 
 private extension CandidateDetailView {
 
+    var candidateEmail: some View {
+        Group {
+            if isEditing {
+                TextFieldView(header: "Email", input: $email,
+                              placeHolder: "Candidate email",
+                              keyboard: .emailAddress, textContent: .emailAddress)
+            } else {
+                ParagraphView(title: "Email", text: email)
+                    .padding(.bottom, 48)
+            }
+        }
+    }
 }
 
-// MARK: - Preview
+// MARK: Linkedin
+
+private extension CandidateDetailView {
+
+    var candidateLinkedin: some View {
+        Group {
+            if isEditing {
+                TextFieldView(header: "LinkedIn", input: $linkedinURL,
+                              placeHolder: "LinkedIn url",
+                              keyboard: .URL, textContent: .URL)
+            } else {
+                ErrorMessageView(error: candidatesVM.errorMessage)
+                ButtonView(title: linkedinURL == "" ? "No Linkedin" : "Go on Linkedin",
+                           actionInProgress: .constant(false), disabled: linkedinURL == "") {
+                    candidatesVM.openLinkedIn(withURL: linkedinURL)
+                }
+            }
+        }
+    }
+}
+
+// MARK: Note
+
+private extension CandidateDetailView {
+
+    var candidateNote: some View {
+        TextEditorView(header: "Note", input: $note, disabled: !isEditing)
+            .focused($fieldToFocus, equals: .note)
+            .padding(.top, isEditing ? 0 : 16)
+    }
+}
+
+// MARK: Toolbar
+
+private extension CandidateDetailView {
+
+    @ToolbarContentBuilder
+    func toolbarItems() -> some ToolbarContent {
+
+        // Cancel Button
+        if isEditing {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    // TODO: Dismiss modif
+                    hideKeyboard()
+                    isEditing.toggle()
+                } label: {
+                    Text("Cancel")
+                        .font(.vitesseButton)
+                }
+            }
+        }
+
+        // Edit Button
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                if isEditing {
+                    // TODO: Save modif
+                    hideKeyboard()
+                }
+                isEditing.toggle()
+            } label: {
+                Text(isEditing ? "Done" : "Edit")
+                    .font(.vitesseButton)
+            }
+        }
+
+        // Done button to numeric keyboard
+        ToolbarItem(placement: .keyboard) {
+            if fieldToFocus == .phone || fieldToFocus == .note {
+                Button("Done") {
+                    hideKeyboard()
+                }
+            }
+        }
+    }
+}
+
+// MARK: Background
+
+private extension CandidateDetailView {
+
+    var candidateBackground: some View {
+        VStack {
+            Image("image_TopBackground")
+                .resizable()
+                .scaledToFit()
+            Spacer()
+            if !isEditing {
+                Image("image_BottomBackground")
+                    .resizable()
+                    .scaledToFit()
+            }
+        }
+        .ignoresSafeArea()
+        .background(Color.colorLightGray)
+    }
+}
+
+// MARK: Preview
 
 #Preview {
-    CandidateDetailView(candidate: Candidate(id: "1", phone: nil, note: nil, firstName: "Bob",
-                                             linkedinURL: nil, isFavorite: true,
-                                             email: "test@gmail.com", lastName: "Marley"))
+    CandidateDetailView(candidatesVM: CandidatesViewModel(),
+                        candidate: Candidate(id: "1", phone: "0600000000",
+                                             note: nil,
+                                             firstName: "Bob",
+                                             linkedinURL: nil,
+                                             isFavorite: true,
+                                             email: "test@gmail.com",
+                                             lastName: "Marley"))
 }

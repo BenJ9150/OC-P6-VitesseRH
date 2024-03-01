@@ -41,6 +41,9 @@ extension KeychainManager {
         // Find token and delete
         SecItemDelete(buildQuery())
         currentToken = nil
+
+        // Clean isAdmin Value in UserDefault
+        UserDefaults.standard.removeObject(forKey: "VitesseUserIsAdmin")
     }
 }
 

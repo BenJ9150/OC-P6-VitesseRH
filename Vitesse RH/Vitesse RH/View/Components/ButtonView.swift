@@ -10,6 +10,8 @@ import SwiftUI
 struct ButtonView: View {
     let title: String
     @Binding var actionInProgress: Bool
+
+    var disabled = false
     let action: () -> Void
 
     var body: some View {
@@ -18,15 +20,29 @@ struct ButtonView: View {
                 .frame(height: 52)
                 .padding(.bottom)
         } else {
-            Button(action: action, label: {
-                Text(title)
-                    .font(.vitesseButton)
-                    .foregroundStyle(.accent)
-                    .padding(.horizontal)
-                    .frame(height: 52)
-                    .frame(minWidth: 200)
-                    .background(RoundedRectangle(cornerRadius: 12).stroke(.accent, lineWidth: 2))
-            })
+            Button {
+                action()
+            } label: {
+                if disabled {
+                    Text(title)
+                        .font(.vitesseButton)
+                        .foregroundStyle(.gray)
+                        .padding(.horizontal)
+                        .frame(height: 52)
+                        .frame(minWidth: 200)
+                        .background(RoundedRectangle(cornerRadius: 12).stroke(.gray, lineWidth: 2))
+                        .opacity(0.5)
+                } else {
+                    Text(title)
+                        .font(.vitesseButton)
+                        .foregroundStyle(.accent)
+                        .padding(.horizontal)
+                        .frame(height: 52)
+                        .frame(minWidth: 200)
+                        .background(RoundedRectangle(cornerRadius: 12).stroke(.accent, lineWidth: 2))
+                }
+            }
+            .disabled(disabled)
             .padding(.bottom)
         }
     }

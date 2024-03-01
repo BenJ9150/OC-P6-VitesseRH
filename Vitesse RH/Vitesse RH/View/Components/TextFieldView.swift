@@ -24,9 +24,11 @@ struct TextFieldView: View {
     var isSecure = false
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text(header)
                 .font(.vitesseSubtitle)
+                .padding(.horizontal)
+                .padding(.horizontal)
 
             textOrSecureField
                 .autocapitalization(.none)

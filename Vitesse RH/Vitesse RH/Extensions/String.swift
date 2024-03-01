@@ -24,4 +24,20 @@ extension String {
         // \\.[A-Za-z]{2,64} -> "." obligatoire
         // et extension du domaine avec lettres maj et min, de 2 à 64 caractères
     }
+
+    mutating func applyFrPhonePattern() {
+        let pattern = "## ## ## ## ##"
+        var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
+        for index in 0 ..< pattern.count {
+            guard index < pureNumber.count else {
+                self = pureNumber
+                return
+            }
+            let stringIndex = String.Index(utf16Offset: index, in: pattern)
+            let patternCharacter = pattern[stringIndex]
+            guard patternCharacter != "#" else { continue }
+            pureNumber.insert(patternCharacter, at: stringIndex)
+        }
+        self = pureNumber
+    }
 }

@@ -28,12 +28,12 @@ struct CandidateResponse: Codable {
 
 struct Candidate: Codable, Identifiable, Hashable {
     let id: String
-    let phone: String?
-    let note: String?
+    var phone: String?
+    var note: String?
     let firstName: String
-    let linkedinURL: String?
-    let isFavorite: Bool
-    let email: String
+    var linkedinURL: String?
+    var isFavorite: Bool
+    var email: String
     let lastName: String
 }
 

@@ -1,5 +1,5 @@
 //
-//  UserViewModel.swift
+//  VitesseAppViewModel.swift
 //  Vitesse RH
 //
 //  Created by Benjamin LEFRANCOIS on 23/02/2024.
@@ -7,19 +7,18 @@
 
 import Foundation
 
-final class UserViewModel: ObservableObject {
+final class VitesseAppViewModel: ObservableObject {
 
     // MARK: - Outputs
 
     @Published var isLogged: Bool
-    @Published var isAdmin: Bool = false
 
     var loginViewModel: LoginViewModel {
 
-        return LoginViewModel { isAdmin in
+        return LoginViewModel {
             Task { @MainActor in
                 self.isLogged = true
-                self.isAdmin = isAdmin
+                self.loginViewModel.inProgress = false
             }
         }
     }

@@ -10,18 +10,23 @@ import SwiftUI
 @main
 struct VitesseRHApp: App {
 
-    @StateObject var userViewModel = UserViewModel()
+    @StateObject var vitesseAppVM = VitesseAppViewModel()
+
+    init() { // TODO: To remove
+        KeychainManager.deleteTokenInKeychain()
+    }
 
     var body: some Scene {
         WindowGroup {
             Group {
-                if userViewModel.isLogged {
+                if vitesseAppVM.isLogged {
                     CandidatesView()
                 } else {
-                    LoginView(loginVM: userViewModel.loginViewModel)
+                    LoginView(loginVM: vitesseAppVM.loginViewModel)
                 }
             }
-            .environmentObject(userViewModel)
         }
     }
 }
+
+// TODO: App icon

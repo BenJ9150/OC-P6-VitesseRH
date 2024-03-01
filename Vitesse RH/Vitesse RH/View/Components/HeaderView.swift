@@ -9,6 +9,6 @@ import SwiftUI
 
 func header(title: String) -> some View {
     Text(title)
-        .font(.vitesseTitle)
+        .font(.vitesseHeader)
         .padding()
 }
