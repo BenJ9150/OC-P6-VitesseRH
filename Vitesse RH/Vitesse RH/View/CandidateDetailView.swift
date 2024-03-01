@@ -9,12 +9,57 @@ import SwiftUI
 
 struct CandidateDetailView: View {
 
+    @EnvironmentObject var userViewModel: UserViewModel
     let candidate: Candidate
 
+    @State private var isEditing = false
+
+    // MARK: Body
+
     var body: some View {
-        Text(candidate.firstName + " " + candidate.lastName)
+        ScrollView {
+            nameAndFavorite
+        }
     }
 }
+
+// MARK: - Common View
+
+private extension CandidateDetailView {
+
+    var nameAndFavorite: some View {
+        HStack {
+            header(title: candidate.firstName + " " + candidate.lastName)
+            Spacer()
+            favoriteButton
+        }
+        .padding()
+    }
+
+    var favoriteButton: some View {
+        Button {
+            // TODO: switch favoris ou non
+        } label: {
+            Image(systemName: candidate.isFavorite ? "star.fill" : "star")
+                .foregroundStyle(.accent)
+        }
+        .disabled(!false) // TODO: Antoine Remplacer false par userViewModel.isAdmin (fait crasher le preview)
+    }
+}
+
+// MARK: - Non editable view
+
+private extension CandidateDetailView {
+
+}
+
+// MARK: - Editable view
+
+private extension CandidateDetailView {
+
+}
+
+// MARK: - Preview
 
 #Preview {
     CandidateDetailView(candidate: Candidate(id: "1", phone: nil, note: nil, firstName: "Bob",

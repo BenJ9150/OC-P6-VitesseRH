@@ -88,8 +88,9 @@ private extension UrlSessionBuilder {
 
         // add header if need authorization
         if withAuth {
-            urlRequest.allHTTPHeaderFields = [BodyKey.token: KeychainManager.token]
+            urlRequest.addValue("\(BodyKey.bearer) \(KeychainManager.token)", forHTTPHeaderField: BodyKey.authorization)
         }
+
         return urlRequest
     }
 }

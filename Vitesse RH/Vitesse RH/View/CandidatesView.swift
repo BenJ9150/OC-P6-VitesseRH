@@ -11,8 +11,6 @@ struct CandidatesView: View {
 
     @StateObject var candidatesVM = CandidatesViewModel()
 
-    let isAdmin: Bool
-
     // MARK: Body
 
     var body: some View {
@@ -140,5 +138,5 @@ private extension CandidatesView {
 // MARK: Preview
 
 #Preview {
-    CandidatesView(isAdmin: true)
+    CandidatesView()
 }

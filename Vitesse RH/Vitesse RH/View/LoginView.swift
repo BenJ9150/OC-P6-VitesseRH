@@ -120,7 +120,7 @@ private extension LoginView {
 // MARK: Preview
 
 #Preview {
-    LoginView(loginVM: LoginViewModel({ isAdmin in
+    LoginView(loginVM: LoginViewModel({ _ in
         // Login
     }))
 }

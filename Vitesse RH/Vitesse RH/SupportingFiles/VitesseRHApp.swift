@@ -10,15 +10,18 @@ import SwiftUI
 @main
 struct VitesseRHApp: App {
 
-    @StateObject var appViewModel = AppViewModel()
+    @StateObject var userViewModel = UserViewModel()
 
     var body: some Scene {
         WindowGroup {
-            if !appViewModel.isLogged {
-                CandidatesView(isAdmin: appViewModel.isAdmin)
-            } else {
-                LoginView(loginVM: appViewModel.loginViewModel)
+            Group {
+                if !userViewModel.isLogged { // TODO: Remove "!"
+                    CandidatesView()
+                } else {
+                    LoginView(loginVM: userViewModel.loginViewModel)
+                }
             }
+            .environmentObject(userViewModel)
         }
     }
 }

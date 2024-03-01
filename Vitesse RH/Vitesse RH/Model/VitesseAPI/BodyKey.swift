@@ -15,6 +15,7 @@ final class BodyKey {
     static let firstName = "firstName"
     static let lastName = "lastName"
 
-    // body response
-    static let token = "token"
+    // Authentification
+    static let authorization = "Authorization"
+    static let bearer = "Bearer"
 }
