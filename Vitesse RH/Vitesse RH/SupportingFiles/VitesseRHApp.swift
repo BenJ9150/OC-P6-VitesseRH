@@ -15,7 +15,7 @@ struct VitesseRHApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if !userViewModel.isLogged { // TODO: Remove "!"
+                if userViewModel.isLogged {
                     CandidatesView()
                 } else {
                     LoginView(loginVM: userViewModel.loginViewModel)

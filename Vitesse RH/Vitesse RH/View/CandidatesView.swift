@@ -22,7 +22,7 @@ struct CandidatesView: View {
                     .navigationTitle("")
                     .toolbar { toolbarItems() }
                     .searchable(text: $candidatesVM.filter.search)
-                    .environment(\.editMode, $candidatesVM.editMode) // TODO: Add animation
+                    .environment(\.editMode, $candidatesVM.editMode)
             }
         }
     }
@@ -35,7 +35,7 @@ private extension CandidatesView {
     var candidatesList: some View {
         List(candidatesVM.candidates, selection: $candidatesVM.selection) { candidate in
             // Row
-            CandidateRowView(candidate: candidate)
+            CandidateRowView(candidate: candidate, editMode: candidatesVM.editMode)
                 .overlay(
                     NavigationLink("", destination: CandidateDetailView(candidate: candidate))
                         .opacity(0)
@@ -44,12 +44,17 @@ private extension CandidatesView {
         .listRowSeparator(.hidden)
         .listRowSpacing(12)
         .scrollContentBackground(.hidden)
+        .animation(.easeOut, value: candidatesVM.editMode)
+        .onAppear {
+            candidatesVM.selection = Set()
+        }
     }
 
     struct CandidateRowView: View {
 
         @Environment(\.colorScheme) var colorScheme
         let candidate: Candidate
+        let editMode: EditMode
 
         var body: some View {
             HStack {
@@ -58,6 +63,7 @@ private extension CandidatesView {
                 Spacer()
                 Image(systemName: candidate.isFavorite ? "star.fill" : "star")
                     .foregroundStyle(.orange)
+                    .animation(nil, value: editMode)
             }
             .padding()
             .listRowBackground(
@@ -83,6 +89,7 @@ private extension CandidatesView {
             }, label: {
                 Text(candidatesVM.inEditMode ? "Cancel" : "Edit")
                     .font(.vitesseButton)
+                    .animation(.bouncy, value: candidatesVM.editMode)
             })
         }
 

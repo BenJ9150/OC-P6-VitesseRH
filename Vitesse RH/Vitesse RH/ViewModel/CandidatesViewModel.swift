@@ -34,7 +34,7 @@ final class CandidatesViewModel: ObservableObject {
     }
 
     func deleteSelection() {
-        // TODO: Delete
+        // TODO: delete the selected candidates
         editMode = .inactive
     }
 
