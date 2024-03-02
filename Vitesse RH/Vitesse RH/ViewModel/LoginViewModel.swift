@@ -45,13 +45,23 @@ extension LoginViewModel {
             return
         }
 
-        // TODO: Check Empty
+        // TODO: Check Empty textfied
 
         // SignIn
         Task { @MainActor in
             self.inProgress = true
-        }
 
+            switch await AuthService().signIn(withEmail: email, andPwd: password) {
+            case .success(let isAdmin):
+                // Save isAdmin Value in UserDefault
+                UserDefaults.standard.set(isAdmin, forKey: "VitesseUserIsAdmin")
+                self.onLoginSucceed()
+            case .failure(let failure):
+                self.errorMessage = failure.title + " " + failure.message
+                self.inProgress = false
+            }
+        }
+        /*
         AuthService().signIn(withEmail: email, andPwd: password) { result in
             Task { @MainActor in
                 switch result {
@@ -64,6 +74,6 @@ extension LoginViewModel {
                     self.inProgress = false
                 }
             }
-        }
+        }*/
     }
 }

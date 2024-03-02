@@ -46,16 +46,12 @@ extension RegisterViewModel {
         // Registering
         Task { @MainActor in
             self.inProgress = true
-        }
 
-        AuthService().register(mail: email, password: password, firstName: firstName, lastName: lastName) { result in
-            Task { @MainActor in
-                switch result {
-                case .success(let success):
-                    self.isRegistered = success
-                case .failure(let failure):
-                    self.errorMessage = failure.title + " " + failure.message
-                }
+            switch await AuthService().register(mail: email, password: password, firstName: firstName, lastName: lastName) {
+            case .success(let success):
+                self.isRegistered = success
+            case .failure(let failure):
+                self.errorMessage = failure.title + " " + failure.message
                 self.inProgress = false
             }
         }

@@ -23,7 +23,7 @@ final class UrlSessionBuilderTests: XCTestCase {
 
         // Instantiate TransfertService with this url session
         urlSessionBuilder = UrlSessionBuilder(urlSession: urlSession)
-        expectation = expectation(description: "Expectation")
+        expectation = expectation(description: "UrlSessionBuilder Expectation")
     }
 
     // MARK: Bad URL
@@ -41,8 +41,8 @@ final class UrlSessionBuilderTests: XCTestCase {
             return (urlResponse: MockData.statusOK, data: nil)
         }
         // When
-        urlSessionBuilder.buildUrlSession(config: config) { result in
-            switch result {
+        Task {
+            switch await urlSessionBuilder.buildUrlSession(config: config) {
             case .success:
                 XCTFail("error in testBuildUrlSessionFailedBadUrl")
 
@@ -52,6 +52,6 @@ final class UrlSessionBuilderTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
     }
 }

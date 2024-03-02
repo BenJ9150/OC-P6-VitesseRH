@@ -18,7 +18,6 @@ final class VitesseAppViewModel: ObservableObject {
         return LoginViewModel {
             Task { @MainActor in
                 self.isLogged = true
-                self.loginViewModel.inProgress = false
             }
         }
     }

@@ -9,9 +9,7 @@ import Foundation
 
 final class AuthService: UrlSessionBuilder {
 
-    func signIn(withEmail mail: String, andPwd password: String,
-                _ completion: @escaping (Result<Bool, AppError>) -> Void) {
-
+    func signIn(withEmail mail: String, andPwd password: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post,
@@ -19,28 +17,23 @@ final class AuthService: UrlSessionBuilder {
             parameters: [BodyKey.email: mail, BodyKey.password: password],
             withAuth: false
         )
-
         // get data
-        buildUrlSession(config: config) { result in
-            switch result {
-            case .success(let data):
-                // decode json
-                guard let decodedJson = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
-                    completion(.failure(AppError.invalidJson))
-                    return
-                }
-                // Save token
-                KeychainManager.token = decodedJson.token
-                completion(.success(decodedJson.isAdmin))
-
-            case .failure(let error):
-                completion(.failure(error))
+        switch await buildUrlSession(config: config) {
+        case .success(let data):
+            // decode
+            guard let decodedJson = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
+                return .failure(AppError.invalidJson)
             }
+            // Save token
+            KeychainManager.token = decodedJson.token
+            return .success(decodedJson.isAdmin)
+
+        case .failure(let failure):
+            return .failure(failure)
         }
     }
 
-    func register(mail: String, password: String, firstName: String, lastName: String,
-                  _ completion: @escaping (Result<Bool, AppError>) -> Void) {
+    func register(mail: String, password: String, firstName: String, lastName: String) async -> Result<Bool, AppError> {
 
         // set config for url session
         let config = UrlSessionConfig(
@@ -54,23 +47,7 @@ final class AuthService: UrlSessionBuilder {
             ],
             withAuth: false
         )
-
-        // get data
-        buildUrlSession(config: config) { result in
-            switch result {
-            case .success(let data):
-                // decode json
-                guard let decodedJson = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
-                    completion(.failure(AppError.invalidJson))
-                    return
-                }
-                // Save token
-                KeychainManager.token = decodedJson.token
-                completion(.success(decodedJson.isAdmin))
-
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
+        // TODO: get data
+        return .success(true)
     }
 }

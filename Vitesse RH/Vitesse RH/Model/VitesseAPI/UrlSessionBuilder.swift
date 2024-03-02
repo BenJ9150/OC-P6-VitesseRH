@@ -41,33 +41,28 @@ class UrlSessionBuilder {
 extension UrlSessionBuilder {
 
     /// Get data from url session data task
-    func buildUrlSession(config: UrlSessionConfig, _ completion: @escaping (Result<Data, AppError>) -> Void) {
+    func buildUrlSession(config: UrlSessionConfig) async -> Result<Data, AppError> {
         // get url
         guard let url = URL(string: config.sUrl) else {
-            completion(.failure(AppError.invalidUrl))
-            return
+            return .failure(AppError.invalidUrl)
         }
         // get url request
-        let urlRequest = buildRequest(httpMethod: config.httpMethod, url: url,
-                                      param: config.parameters, withAuth: config.withAuth)
-
-        // create url session task
-        urlSession.dataTask(with: urlRequest) { dataResult, urlResponse, error in
-            if error != nil {
-                completion(.failure(AppError.serverErr))
-                return
-            }
+        let urlRequest = buildRequest(
+            httpMethod: config.httpMethod,
+            url: url,
+            param: config.parameters,
+            withAuth: config.withAuth
+        )
+        // url session task
+        do {
+            let (dataResult, urlResponse) = try await urlSession.data(for: urlRequest)
             guard let response = urlResponse as? HTTPURLResponse, response.statusCode == 200 else {
-                completion(.failure(AppError.badStatusCode))
-                return
+                return .failure(AppError.badStatusCode)
             }
-            guard let data = dataResult else {
-                completion(.failure(AppError.invalidData))
-                return
-            }
-            completion(.success(data))
+            return .success(dataResult)
+        } catch {
+            return .failure(AppError.serverErr)
         }
-        .resume()
     }
 }
 

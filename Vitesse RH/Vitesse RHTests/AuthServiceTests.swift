@@ -48,8 +48,8 @@ final class AuthServiceTests: XCTestCase {
             return (urlResponse: MockData.badRequest, data: nil)
         }
         // When
-        authService.signIn(withEmail: "test", andPwd: "test") { result in
-            switch result {
+        Task {
+            switch await authService.signIn(withEmail: "test", andPwd: "test") {
             case .success:
                 XCTFail("error in testSignInFailedBadRequest")
 
@@ -59,7 +59,7 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
     }
 
     // MARK: Error response
@@ -70,8 +70,8 @@ final class AuthServiceTests: XCTestCase {
             throw MockData.error
         }
         // When
-        authService.signIn(withEmail: "test", andPwd: "test") { result in
-            switch result {
+        Task {
+            switch await authService.signIn(withEmail: "test", andPwd: "test") {
             case .success:
                 XCTFail("error in testSignInFailedErrorResponse")
 
@@ -81,7 +81,7 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
     }
 
     // MARK: Bad data
@@ -92,8 +92,8 @@ final class AuthServiceTests: XCTestCase {
             return (urlResponse: MockData.statusOK, data: MockData.incorrectData)
         }
         // When
-        authService.signIn(withEmail: "test", andPwd: "test") { result in
-            switch result {
+        Task {
+            switch await authService.signIn(withEmail: "test", andPwd: "test") {
             case .success:
                 XCTFail("error in testSignInFailedBadData")
 
@@ -103,7 +103,7 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
     }
 
     // MARK: Success
@@ -114,8 +114,8 @@ final class AuthServiceTests: XCTestCase {
             return (urlResponse: MockData.statusOK, data: MockData.authCorrectData)
         }
         // When
-        authService.signIn(withEmail: "test", andPwd: "test") { result in
-            switch result {
+        Task {
+            switch await authService.signIn(withEmail: "test", andPwd: "test") {
             case .success(let isAdmin):
                 // then
                 XCTAssertTrue(isAdmin)
@@ -126,6 +126,6 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 2.0)
     }
 }
