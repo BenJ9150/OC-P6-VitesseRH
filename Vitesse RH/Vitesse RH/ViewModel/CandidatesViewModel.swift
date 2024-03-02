@@ -50,13 +50,13 @@ final class CandidatesViewModel: ObservableObject {
     func openLinkedIn(withURL stringURL: String) {
         guard stringURL != "" else {
             Task { @MainActor in
-                self.errorMessage = VitesseError.linkedInUrlEmpty.message
+                self.errorMessage = AppError.linkedInUrlEmpty.message
             }
             return
         }
         guard let url = URL(string: stringURL) else {
             Task { @MainActor in
-                self.errorMessage = VitesseError.invalidLinkedInUrl.message
+                self.errorMessage = AppError.invalidLinkedInUrl.message
             }
             return
         }

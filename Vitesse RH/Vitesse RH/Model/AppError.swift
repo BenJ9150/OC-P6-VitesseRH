@@ -1,5 +1,5 @@
 //
-//  VitesseError.swift
+//  AppError.swift
 //  Vitesse RH
 //
 //  Created by Benjamin LEFRANCOIS on 23/02/2024.

@@ -25,6 +25,12 @@ extension String {
         // et extension du domaine avec lettres maj et min, de 2 à 64 caractères
     }
 
+    func isValidPhone() -> Bool {
+        let matches = "^(?:(?:\\+|00)33[\\s.-]{0,3}(?:\\(0\\)[\\s.-]{0,3})?|0)[1-9](?:[\\s.-]?\\d{2}){4}$"
+        let phonePredicate = NSPredicate(format: "SELF MATCHES %@", matches)
+        return phonePredicate.evaluate(with: self)
+    }
+
     mutating func applyFrPhonePattern() {
         let pattern = "## ## ## ## ##"
         var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)

@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		430C762E2B9313C9001B94A4 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C762B2B9313C9001B94A4 /* MockData.swift */; };
+		430C762F2B9313C9001B94A4 /* Authentification.json in Resources */ = {isa = PBXBuildFile; fileRef = 430C762C2B9313C9001B94A4 /* Authentification.json */; };
+		430C76302B9313C9001B94A4 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C762D2B9313C9001B94A4 /* MockURLProtocol.swift */; };
+		430C76372B9313E4001B94A4 /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C76322B9313E3001B94A4 /* AuthServiceTests.swift */; };
+		430C76382B9313E4001B94A4 /* AppErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C76332B9313E3001B94A4 /* AppErrorTests.swift */; };
+		430C76392B9313E4001B94A4 /* KeychainManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C76342B9313E4001B94A4 /* KeychainManagerTests.swift */; };
+		430C763A2B9313E4001B94A4 /* StringExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C76352B9313E4001B94A4 /* StringExtensionsTests.swift */; };
+		430C763B2B9313E4001B94A4 /* UrlSessionBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C76362B9313E4001B94A4 /* UrlSessionBuilderTests.swift */; };
 		436EDA342B88BC85005C4AEA /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EDA332B88BC85005C4AEA /* RegisterViewModel.swift */; };
 		436EDA362B88C0BC005C4AEA /* ErrorMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EDA352B88C0BC005C4AEA /* ErrorMessageView.swift */; };
 		436EDA3A2B88DE8A005C4AEA /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EDA392B88DE8A005C4AEA /* View.swift */; };
@@ -20,7 +28,7 @@
 		43D20B452B888E02003E79C7 /* BodyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B412B888E02003E79C7 /* BodyKey.swift */; };
 		43D20B462B888E02003E79C7 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B422B888E02003E79C7 /* Endpoint.swift */; };
 		43D20B482B888E0F003E79C7 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B472B888E0F003E79C7 /* AuthService.swift */; };
-		43D20B4A2B888E18003E79C7 /* VitesseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B492B888E18003E79C7 /* VitesseError.swift */; };
+		43D20B4A2B888E18003E79C7 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B492B888E18003E79C7 /* AppError.swift */; };
 		43D20B4C2B888E24003E79C7 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B4B2B888E24003E79C7 /* KeychainManager.swift */; };
 		43D20B4F2B8896F2003E79C7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B4E2B8896F2003E79C7 /* LoginViewModel.swift */; };
 		43D20B512B889951003E79C7 /* CandidatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D20B502B889951003E79C7 /* CandidatesView.swift */; };
@@ -40,7 +48,26 @@
 		43DA7EB82B87567F00F5305A /* Copperplate-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43DA7EB52B87567F00F5305A /* Copperplate-Bold.otf */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4359CD652B928A9600368F17 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43DA7E952B87543C00F5305A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43DA7E9C2B87543C00F5305A;
+			remoteInfo = "Vitesse RH";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		430C762B2B9313C9001B94A4 /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		430C762C2B9313C9001B94A4 /* Authentification.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Authentification.json; sourceTree = "<group>"; };
+		430C762D2B9313C9001B94A4 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		430C76322B9313E3001B94A4 /* AuthServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
+		430C76332B9313E3001B94A4 /* AppErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppErrorTests.swift; sourceTree = "<group>"; };
+		430C76342B9313E4001B94A4 /* KeychainManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
+		430C76352B9313E4001B94A4 /* StringExtensionsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensionsTests.swift; sourceTree = "<group>"; };
+		430C76362B9313E4001B94A4 /* UrlSessionBuilderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlSessionBuilderTests.swift; sourceTree = "<group>"; };
+		4359CD612B928A9600368F17 /* Vitesse RHTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Vitesse RHTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		436EDA332B88BC85005C4AEA /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
 		436EDA352B88C0BC005C4AEA /* ErrorMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageView.swift; sourceTree = "<group>"; };
 		436EDA392B88DE8A005C4AEA /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -54,7 +81,7 @@
 		43D20B412B888E02003E79C7 /* BodyKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyKey.swift; sourceTree = "<group>"; };
 		43D20B422B888E02003E79C7 /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		43D20B472B888E0F003E79C7 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		43D20B492B888E18003E79C7 /* VitesseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VitesseError.swift; sourceTree = "<group>"; };
+		43D20B492B888E18003E79C7 /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		43D20B4B2B888E24003E79C7 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		43D20B4E2B8896F2003E79C7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		43D20B502B889951003E79C7 /* CandidatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidatesView.swift; sourceTree = "<group>"; };
@@ -77,6 +104,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4359CD5E2B928A9600368F17 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		43DA7E9A2B87543C00F5305A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -87,6 +121,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		430C76312B9313D6001B94A4 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				430C762C2B9313C9001B94A4 /* Authentification.json */,
+				430C762B2B9313C9001B94A4 /* MockData.swift */,
+				430C762D2B9313C9001B94A4 /* MockURLProtocol.swift */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
+		4359CD622B928A9600368F17 /* Vitesse RHTests */ = {
+			isa = PBXGroup;
+			children = (
+				430C76312B9313D6001B94A4 /* MockData */,
+				430C76342B9313E4001B94A4 /* KeychainManagerTests.swift */,
+				430C76362B9313E4001B94A4 /* UrlSessionBuilderTests.swift */,
+				430C76322B9313E3001B94A4 /* AuthServiceTests.swift */,
+				430C76332B9313E3001B94A4 /* AppErrorTests.swift */,
+				430C76352B9313E4001B94A4 /* StringExtensionsTests.swift */,
+			);
+			path = "Vitesse RHTests";
+			sourceTree = "<group>";
+		};
 		43D20B4D2B888E93003E79C7 /* VitesseAPI */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				43DA7E9F2B87543C00F5305A /* Vitesse RH */,
+				4359CD622B928A9600368F17 /* Vitesse RHTests */,
 				43DA7E9E2B87543C00F5305A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -134,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				43DA7E9D2B87543C00F5305A /* Vitesse RH.app */,
+				4359CD612B928A9600368F17 /* Vitesse RHTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -197,7 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				43D20B4D2B888E93003E79C7 /* VitesseAPI */,
-				43D20B492B888E18003E79C7 /* VitesseError.swift */,
+				43D20B492B888E18003E79C7 /* AppError.swift */,
 				43D20B4B2B888E24003E79C7 /* KeychainManager.swift */,
 				43D20B472B888E0F003E79C7 /* AuthService.swift */,
 			);
@@ -217,6 +276,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4359CD602B928A9600368F17 /* Vitesse RHTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4359CD692B928A9600368F17 /* Build configuration list for PBXNativeTarget "Vitesse RHTests" */;
+			buildPhases = (
+				4359CD5D2B928A9600368F17 /* Sources */,
+				4359CD5E2B928A9600368F17 /* Frameworks */,
+				4359CD5F2B928A9600368F17 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4359CD662B928A9600368F17 /* PBXTargetDependency */,
+			);
+			name = "Vitesse RHTests";
+			productName = "Vitesse RHTests";
+			productReference = 4359CD612B928A9600368F17 /* Vitesse RHTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		43DA7E9C2B87543C00F5305A /* Vitesse RH */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 43DA7EAB2B87543E00F5305A /* Build configuration list for PBXNativeTarget "Vitesse RH" */;
@@ -245,6 +322,10 @@
 				LastSwiftUpdateCheck = 1510;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
+					4359CD602B928A9600368F17 = {
+						CreatedOnToolsVersion = 15.1;
+						TestTargetID = 43DA7E9C2B87543C00F5305A;
+					};
 					43DA7E9C2B87543C00F5305A = {
 						CreatedOnToolsVersion = 15.1;
 					};
@@ -264,11 +345,20 @@
 			projectRoot = "";
 			targets = (
 				43DA7E9C2B87543C00F5305A /* Vitesse RH */,
+				4359CD602B928A9600368F17 /* Vitesse RHTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4359CD5F2B928A9600368F17 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				430C762F2B9313C9001B94A4 /* Authentification.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		43DA7E9B2B87543C00F5305A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -305,6 +395,20 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4359CD5D2B928A9600368F17 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				430C763B2B9313E4001B94A4 /* UrlSessionBuilderTests.swift in Sources */,
+				430C76302B9313C9001B94A4 /* MockURLProtocol.swift in Sources */,
+				430C76382B9313E4001B94A4 /* AppErrorTests.swift in Sources */,
+				430C763A2B9313E4001B94A4 /* StringExtensionsTests.swift in Sources */,
+				430C76392B9313E4001B94A4 /* KeychainManagerTests.swift in Sources */,
+				430C762E2B9313C9001B94A4 /* MockData.swift in Sources */,
+				430C76372B9313E4001B94A4 /* AuthServiceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		43DA7E992B87543C00F5305A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,13 +438,57 @@
 				43D20B462B888E02003E79C7 /* Endpoint.swift in Sources */,
 				43D803A92B87A7F20054B5D1 /* HeaderView.swift in Sources */,
 				43A550C52B8B76CF00CC8454 /* CandidatesViewModel.swift in Sources */,
-				43D20B4A2B888E18003E79C7 /* VitesseError.swift in Sources */,
+				43D20B4A2B888E18003E79C7 /* AppError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4359CD662B928A9600368F17 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43DA7E9C2B87543C00F5305A /* Vitesse RH */;
+			targetProxy = 4359CD652B928A9600368F17 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4359CD672B928A9600368F17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5F49D5L775;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.benjaminlefrancois.Vitesse-RHTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vitesse RH.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vitesse RH";
+			};
+			name = Debug;
+		};
+		4359CD682B928A9600368F17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5F49D5L775;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.benjaminlefrancois.Vitesse-RHTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Vitesse RH.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Vitesse RH";
+			};
+			name = Release;
+		};
 		43DA7EA92B87543E00F5305A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -525,6 +673,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4359CD692B928A9600368F17 /* Build configuration list for PBXNativeTarget "Vitesse RHTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4359CD672B928A9600368F17 /* Debug */,
+				4359CD682B928A9600368F17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		43DA7E982B87543C00F5305A /* Build configuration list for PBXProject "Vitesse RH" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -41,10 +41,10 @@ class UrlSessionBuilder {
 extension UrlSessionBuilder {
 
     /// Get data from url session data task
-    func buildUrlSession(config: UrlSessionConfig, _ completion: @escaping (Result<Data, VitesseError>) -> Void) {
+    func buildUrlSession(config: UrlSessionConfig, _ completion: @escaping (Result<Data, AppError>) -> Void) {
         // get url
         guard let url = URL(string: config.sUrl) else {
-            completion(.failure(VitesseError.invalidUrl))
+            completion(.failure(AppError.invalidUrl))
             return
         }
         // get url request
@@ -54,15 +54,15 @@ extension UrlSessionBuilder {
         // create url session task
         urlSession.dataTask(with: urlRequest) { dataResult, urlResponse, error in
             if error != nil {
-                completion(.failure(VitesseError.serverErr))
+                completion(.failure(AppError.serverErr))
                 return
             }
             guard let response = urlResponse as? HTTPURLResponse, response.statusCode == 200 else {
-                completion(.failure(VitesseError.badStatusCode))
+                completion(.failure(AppError.badStatusCode))
                 return
             }
             guard let data = dataResult else {
-                completion(.failure(VitesseError.invalidData))
+                completion(.failure(AppError.invalidData))
                 return
             }
             completion(.success(data))

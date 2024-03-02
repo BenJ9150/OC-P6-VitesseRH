@@ -10,7 +10,7 @@ import Foundation
 final class AuthService: UrlSessionBuilder {
 
     func signIn(withEmail mail: String, andPwd password: String,
-                _ completion: @escaping (Result<Bool, VitesseError>) -> Void) {
+                _ completion: @escaping (Result<Bool, AppError>) -> Void) {
 
         // set config for url session
         let config = UrlSessionConfig(
@@ -26,7 +26,7 @@ final class AuthService: UrlSessionBuilder {
             case .success(let data):
                 // decode json
                 guard let decodedJson = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
-                    completion(.failure(VitesseError.invalidJson))
+                    completion(.failure(AppError.invalidJson))
                     return
                 }
                 // Save token
@@ -40,7 +40,7 @@ final class AuthService: UrlSessionBuilder {
     }
 
     func register(mail: String, password: String, firstName: String, lastName: String,
-                  _ completion: @escaping (Result<Bool, VitesseError>) -> Void) {
+                  _ completion: @escaping (Result<Bool, AppError>) -> Void) {
 
         // set config for url session
         let config = UrlSessionConfig(
@@ -61,7 +61,7 @@ final class AuthService: UrlSessionBuilder {
             case .success(let data):
                 // decode json
                 guard let decodedJson = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
-                    completion(.failure(VitesseError.invalidJson))
+                    completion(.failure(AppError.invalidJson))
                     return
                 }
                 // Save token

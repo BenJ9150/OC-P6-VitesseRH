@@ -40,7 +40,7 @@ extension LoginViewModel {
         // check if is valid mail
         guard email.isValidEmail() else {
             Task { @MainActor in
-                self.errorMessage = VitesseError.invalidMail.title + " " + VitesseError.invalidMail.message
+                self.errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
             }
             return
         }
