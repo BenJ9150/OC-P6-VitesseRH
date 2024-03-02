@@ -40,7 +40,7 @@ final class AuthServiceTests: XCTestCase {
         print(KeychainManager.token)
     }
 
-    // MARK: Bad request
+    // MARK: - SignIn Bad request
 
     func testSignInFailedBadRequest() {
         // Given
@@ -62,7 +62,7 @@ final class AuthServiceTests: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
     }
 
-    // MARK: Error response
+    // MARK: SignIn Error response
 
     func testSignInFailedErrorResponse() {
         // Given
@@ -84,7 +84,7 @@ final class AuthServiceTests: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
     }
 
-    // MARK: Bad data
+    // MARK: SignIn Bad data
 
     func testSignInFailedBadData() {
         // Given
@@ -106,7 +106,7 @@ final class AuthServiceTests: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
     }
 
-    // MARK: Success
+    // MARK: SignIn Success
 
     func testAdminSignInSuccess() {
         // Given
@@ -123,6 +123,50 @@ final class AuthServiceTests: XCTestCase {
 
             case .failure:
                 XCTFail("error in testSignInSuccess")
+            }
+            self.expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 2.0)
+    }
+
+    // MARK: - Register Failure
+
+    func testRegisterFailure() {
+        // Given
+        MockURLProtocol.requestHandler = {
+            return (urlResponse: MockData.badRequest, data: MockData.emptyData)
+        }
+        // When
+        Task {
+            switch await authService.register(mail: "test", password: "test", firstName: "test", lastName: "test") {
+            case .success:
+                XCTFail("error in testRegisterFailure")
+
+            case .failure(let failure):
+                // Then
+                XCTAssertEqual(failure, AppError.badStatusCode)
+            }
+            self.expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 2.0)
+    }
+
+    // MARK: Register Success
+
+    func testRegisterSuccess() {
+        // Given
+        MockURLProtocol.requestHandler = {
+            return (urlResponse: MockData.statusCreated, data: MockData.emptyData)
+        }
+        // When
+        Task {
+            switch await authService.register(mail: "test", password: "test", firstName: "test", lastName: "test") {
+            case .success(let result):
+                // then
+                XCTAssertTrue(result)
+
+            case .failure:
+                XCTFail("error in testRegisterSuccess")
             }
             self.expectation.fulfill()
         }

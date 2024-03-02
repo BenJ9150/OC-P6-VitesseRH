@@ -70,7 +70,7 @@ private extension CandidateDetailView {
         Button {
             candidatesVM.favoriteToggle(ofCandidateId: candidate.id)
         } label: {
-            Image(candidate.isFavorite ? "icon_star" : "icon_starFill")
+            Image(candidate.isFavorite ? "icon_starFill" : "icon_star")
                 .renderingMode(.template)
                 .foregroundStyle(candidatesVM.isAdmin ? .accent : .orange)
                 .padding(.trailing)

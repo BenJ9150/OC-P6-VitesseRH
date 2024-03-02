@@ -34,7 +34,6 @@ final class AuthService: UrlSessionBuilder {
     }
 
     func register(mail: String, password: String, firstName: String, lastName: String) async -> Result<Bool, AppError> {
-
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post,
@@ -47,7 +46,13 @@ final class AuthService: UrlSessionBuilder {
             ],
             withAuth: false
         )
-        // TODO: get data
-        return .success(true)
+        // Check success (201 Created)
+        switch await buildUrlSession(config: config) {
+        case .success:
+            return .success(true)
+
+        case .failure(let failure):
+            return .failure(failure)
+        }
     }
 }

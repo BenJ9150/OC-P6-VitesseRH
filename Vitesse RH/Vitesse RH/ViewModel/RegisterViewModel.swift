@@ -11,17 +11,17 @@ final class RegisterViewModel: ObservableObject {
 
     // MARK: Outputs
 
-//    @Published var email: String = "toto@vitesse.com"
-//    @Published var firstName: String = "Toto"
-//    @Published var lastName: String = "Toto"
-//    @Published var password: String = "test123"
-//    @Published var confirmPwd: String = "test123"
+    @Published var email: String = "ben@vitesse.com"
+    @Published var firstName: String = "Ben"
+    @Published var lastName: String = "Lef"
+    @Published var password: String = "test123"
+    @Published var confirmPwd: String = "test123"
 
-    @Published var email: String = ""
-    @Published var firstName: String = ""
-    @Published var lastName: String = ""
-    @Published var password: String = ""
-    @Published var confirmPwd: String = ""
+//    @Published var email: String = ""
+//    @Published var firstName: String = ""
+//    @Published var lastName: String = ""
+//    @Published var password: String = ""
+//    @Published var confirmPwd: String = ""
 
     @Published var inProgress = false
     @Published var isRegistered = false
@@ -47,7 +47,8 @@ extension RegisterViewModel {
         Task { @MainActor in
             self.inProgress = true
 
-            switch await AuthService().register(mail: email, password: password, firstName: firstName, lastName: lastName) {
+            switch await AuthService().register(mail: email, password: password,
+                                                firstName: firstName, lastName: lastName) {
             case .success(let success):
                 self.isRegistered = success
             case .failure(let failure):

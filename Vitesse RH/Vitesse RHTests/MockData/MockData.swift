@@ -16,6 +16,11 @@ final class MockData {
         statusCode: 200, httpVersion: nil, headerFields: [:]
     )!
 
+    static let statusCreated = HTTPURLResponse(
+        url: URL(string: "https://openclassrooms.com")!,
+        statusCode: 201, httpVersion: nil, headerFields: [:]
+    )!
+
     static let badRequest = HTTPURLResponse(
         url: URL(string: "https://openclassrooms.com")!,
         statusCode: 400, httpVersion: nil, headerFields: [:]
@@ -38,6 +43,10 @@ final class MockData {
     static var authCorrectData: Data {
         return getData(ofFile: "Authentification")
     }
+
+    // MARK: Empty data
+
+    static let emptyData = Data()
 }
 
 private extension MockData {

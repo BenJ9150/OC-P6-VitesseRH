@@ -56,7 +56,8 @@ extension UrlSessionBuilder {
         // url session task
         do {
             let (dataResult, urlResponse) = try await urlSession.data(for: urlRequest)
-            guard let response = urlResponse as? HTTPURLResponse, response.statusCode == 200 else {
+            guard let response = urlResponse as? HTTPURLResponse,
+                  response.statusCode == 200 || response.statusCode == 201 else {
                 return .failure(AppError.badStatusCode)
             }
             return .success(dataResult)
