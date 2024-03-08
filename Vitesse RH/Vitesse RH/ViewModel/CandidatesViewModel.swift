@@ -10,11 +10,15 @@ import SwiftUI
 
 final class CandidatesViewModel: ObservableObject {
 
+    // MARK: Private property
+
+    let candidateService = CandidateService()
+
     // MARK: Outputs
 
     @Published private(set) var candidates: [Candidate] = []
     @Published var editMode: EditMode = .inactive
-    @Published var errorMessage = ""
+    @Published var errorMessage = "" // TODO: A afficher
 
     var inEditMode: Bool {
         return editMode == .active
@@ -26,7 +30,11 @@ final class CandidatesViewModel: ObservableObject {
 
     // MARK: Inputs
 
-    var selection = Set<String>()
+    var selection = Set<String>() {
+        didSet {
+            print(selection.count) // TODO: remove
+        }
+    }
 
     var filter = (search: "", favorites: false) {
         didSet {
@@ -38,9 +46,15 @@ final class CandidatesViewModel: ObservableObject {
         editMode = editMode == .active ? .inactive : .active
     }
 
-    func deleteSelection() {
-        // TODO: delete the selected candidates
+    func deleteSelection() { // TODO: Add loader view
         editMode = .inactive
+        Task {
+            for candidateId in selection {
+                _ = await candidateService.deleteCandidate(WithId: candidateId)
+            }
+            selection = Set()
+            getCandidates()
+        }
     }
 
     func favoriteToggle(ofCandidateId candidateId: String) {
@@ -66,33 +80,34 @@ final class CandidatesViewModel: ObservableObject {
     // MARK: Init
 
     init() {
-        self.candidates = allCandidates
+        getCandidates()
     }
-
-    // MARK: Private properties
-
-    // swiftlint:disable all
-    private let allCandidates = [ // TODO: Get with model
-        Candidate(id: "1", phone: "0600000000", note: nil, firstName: "Bob", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Marley"),
-        Candidate(id: "2", phone: nil, note: nil, firstName: "Kurt", linkedinURL: "https://openclassrooms.com", isFavorite: false, email: "test@gmail.com", lastName: "Cobain"),
-        Candidate(id: "3", phone: nil, note: nil, firstName: "John", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Do"),
-        Candidate(id: "4", phone: nil, note: nil, firstName: "Billy", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Idol"),
-        Candidate(id: "5", phone: nil, note: nil, firstName: "Bruce", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Wayne")
-    ]
-    // swiftlint:enable all
 }
 
 // MARK: Private methods
 
 private extension CandidatesViewModel {
 
+    func getCandidates() {
+        Task { @MainActor in
+            // await FakeCandidates().getFakeCandidates()
+
+            switch await candidateService.getCandidates() {
+            case .success(let allCandidates):
+                self.candidates = allCandidates // TODO: voir si on peut mettre seulement ça sur le main actor (idem pour les autres)
+
+            case .failure(let failure):
+                self.errorMessage = failure.title + " " + failure.message
+            }
+        }
+    }
     func applyFilter() {
         // Favorites
         var filteredList: [Candidate]
         if filter.favorites {
-            filteredList = allCandidates.filter({ $0.isFavorite })
+            filteredList = candidates.filter({ $0.isFavorite })
         } else {
-            filteredList = allCandidates
+            filteredList = candidates
         }
         // Search
         if filter.search != "" {

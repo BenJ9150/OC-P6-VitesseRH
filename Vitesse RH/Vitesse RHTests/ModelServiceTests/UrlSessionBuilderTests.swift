@@ -54,4 +54,33 @@ final class UrlSessionBuilderTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 2.0)
     }
+
+    // MARK: - Bad request
+
+    func testBuildUrlSessionFailedBadRequest() {
+        // set config for url session
+        let config = UrlSessionBuilder.UrlSessionConfig(
+            httpMethod: .get,
+            sUrl: "https//:www.test.com",
+            parameters: [:],
+            withAuth: false
+        )
+        // Given
+        MockURLProtocol.requestHandler = {
+            return (urlResponse: MockData.statusErrorBadRequest, data: nil)
+        }
+        // When
+        Task {
+            switch await urlSessionBuilder.buildUrlSession(config: config) {
+            case .success:
+                XCTFail("error in testBuildUrlSessionFailedBadRequest")
+
+            case .failure(let failure):
+                // Then
+                XCTAssertEqual(failure, AppError.badStatusCode)
+            }
+            self.expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 2.0)
+    }
 }

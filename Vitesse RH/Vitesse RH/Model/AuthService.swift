@@ -9,6 +9,8 @@ import Foundation
 
 final class AuthService: UrlSessionBuilder {
 
+    // MARK: SignIn
+
     func signIn(withEmail mail: String, andPwd password: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
@@ -32,6 +34,8 @@ final class AuthService: UrlSessionBuilder {
             return .failure(failure)
         }
     }
+
+    // MARK: Register
 
     func register(mail: String, password: String, firstName: String, lastName: String) async -> Result<Bool, AppError> {
         // set config for url session

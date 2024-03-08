@@ -21,32 +21,40 @@ final class MockData {
         statusCode: 201, httpVersion: nil, headerFields: [:]
     )!
 
-    static let badRequest = HTTPURLResponse(
+    static let statusErrorBadRequest = HTTPURLResponse(
         url: URL(string: "https://openclassrooms.com")!,
         statusCode: 400, httpVersion: nil, headerFields: [:]
     )!
 
-    // MARK: API Error
+    // MARK: URLProtocol request error
 
     // Create class with Error protocol to have instance of Error
-    class APIError: Error {}
-    static let error = APIError()
+    class URLProtocolError: Error {}
+    static let urlProtocolRequestError = URLProtocolError()
+
+    // MARK: Empty data
+
+    static let emptyData = Data()
 
     // MARK: Incorrect Data
 
     static let incorrectData = "erreur".data(using: .utf8)!
 
-    // MARK: Correct Data
+    // MARK: Correct Data (Vitesse RH App)
 
     static let authCorrectToken = "EA68E40B-2AE4-40D4-8E86-D8327F4979AA"
 
     static var authCorrectData: Data {
-        return getData(ofFile: "Authentification")
+        return getData(ofFile: "VitesseAuth")
     }
 
-    // MARK: Empty data
+    static var candidatesCorrectData: Data {
+        return getData(ofFile: "Candidates")
+    }
 
-    static let emptyData = Data()
+    static var candidateCorrectData: Data {
+        return getData(ofFile: "Candidate")
+    }
 }
 
 private extension MockData {

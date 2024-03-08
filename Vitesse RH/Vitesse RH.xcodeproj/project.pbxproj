@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		430C762E2B9313C9001B94A4 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C762B2B9313C9001B94A4 /* MockData.swift */; };
-		430C762F2B9313C9001B94A4 /* Authentification.json in Resources */ = {isa = PBXBuildFile; fileRef = 430C762C2B9313C9001B94A4 /* Authentification.json */; };
+		430C762F2B9313C9001B94A4 /* VitesseAuth.json in Resources */ = {isa = PBXBuildFile; fileRef = 430C762C2B9313C9001B94A4 /* VitesseAuth.json */; };
 		430C76302B9313C9001B94A4 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C762D2B9313C9001B94A4 /* MockURLProtocol.swift */; };
 		430C76372B9313E4001B94A4 /* AuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C76322B9313E3001B94A4 /* AuthServiceTests.swift */; };
 		430C76382B9313E4001B94A4 /* AppErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430C76332B9313E3001B94A4 /* AppErrorTests.swift */; };
@@ -19,6 +19,12 @@
 		436EDA362B88C0BC005C4AEA /* ErrorMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EDA352B88C0BC005C4AEA /* ErrorMessageView.swift */; };
 		436EDA3A2B88DE8A005C4AEA /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EDA392B88DE8A005C4AEA /* View.swift */; };
 		436EDA3C2B88E243005C4AEA /* FieldToFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436EDA3B2B88E243005C4AEA /* FieldToFocus.swift */; };
+		438894082B9B11B700DBA28E /* CandidateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438894072B9B11B700DBA28E /* CandidateService.swift */; };
+		4388940A2B9B19DB00DBA28E /* Candidates.json in Resources */ = {isa = PBXBuildFile; fileRef = 438894092B9B19DB00DBA28E /* Candidates.json */; };
+		4388940C2B9B1A3100DBA28E /* CandidateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388940B2B9B1A3100DBA28E /* CandidateServiceTests.swift */; };
+		4388940E2B9B3B0800DBA28E /* Candidate.json in Resources */ = {isa = PBXBuildFile; fileRef = 4388940D2B9B3B0800DBA28E /* Candidate.json */; };
+		438894102B9B574B00DBA28E /* FakeCandidates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388940F2B9B574B00DBA28E /* FakeCandidates.swift */; };
+		438894152B9B5A3D00DBA28E /* OtherMethodCandidateServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438894142B9B5A3D00DBA28E /* OtherMethodCandidateServiceTests.swift */; };
 		4391DED52B8B9E8D00E3ED44 /* CandidateDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4391DED42B8B9E8D00E3ED44 /* CandidateDetailView.swift */; };
 		43A550C52B8B76CF00CC8454 /* CandidatesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A550C42B8B76CF00CC8454 /* CandidatesViewModel.swift */; };
 		43A937602B91EE5C0064D1E8 /* ParagraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A9375F2B91EE5C0064D1E8 /* ParagraphView.swift */; };
@@ -60,7 +66,7 @@
 
 /* Begin PBXFileReference section */
 		430C762B2B9313C9001B94A4 /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
-		430C762C2B9313C9001B94A4 /* Authentification.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Authentification.json; sourceTree = "<group>"; };
+		430C762C2B9313C9001B94A4 /* VitesseAuth.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VitesseAuth.json; sourceTree = "<group>"; };
 		430C762D2B9313C9001B94A4 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		430C76322B9313E3001B94A4 /* AuthServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthServiceTests.swift; sourceTree = "<group>"; };
 		430C76332B9313E3001B94A4 /* AppErrorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppErrorTests.swift; sourceTree = "<group>"; };
@@ -72,6 +78,12 @@
 		436EDA352B88C0BC005C4AEA /* ErrorMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageView.swift; sourceTree = "<group>"; };
 		436EDA392B88DE8A005C4AEA /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		436EDA3B2B88E243005C4AEA /* FieldToFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldToFocus.swift; sourceTree = "<group>"; };
+		438894072B9B11B700DBA28E /* CandidateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateService.swift; sourceTree = "<group>"; };
+		438894092B9B19DB00DBA28E /* Candidates.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Candidates.json; sourceTree = "<group>"; };
+		4388940B2B9B1A3100DBA28E /* CandidateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateServiceTests.swift; sourceTree = "<group>"; };
+		4388940D2B9B3B0800DBA28E /* Candidate.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Candidate.json; sourceTree = "<group>"; };
+		4388940F2B9B574B00DBA28E /* FakeCandidates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeCandidates.swift; sourceTree = "<group>"; };
+		438894142B9B5A3D00DBA28E /* OtherMethodCandidateServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherMethodCandidateServiceTests.swift; sourceTree = "<group>"; };
 		4391DED42B8B9E8D00E3ED44 /* CandidateDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateDetailView.swift; sourceTree = "<group>"; };
 		43A550C42B8B76CF00CC8454 /* CandidatesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidatesViewModel.swift; sourceTree = "<group>"; };
 		43A9375F2B91EE5C0064D1E8 /* ParagraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphView.swift; sourceTree = "<group>"; };
@@ -124,7 +136,9 @@
 		430C76312B9313D6001B94A4 /* MockData */ = {
 			isa = PBXGroup;
 			children = (
-				430C762C2B9313C9001B94A4 /* Authentification.json */,
+				430C762C2B9313C9001B94A4 /* VitesseAuth.json */,
+				438894092B9B19DB00DBA28E /* Candidates.json */,
+				4388940D2B9B3B0800DBA28E /* Candidate.json */,
 				430C762B2B9313C9001B94A4 /* MockData.swift */,
 				430C762D2B9313C9001B94A4 /* MockURLProtocol.swift */,
 			);
@@ -134,14 +148,40 @@
 		4359CD622B928A9600368F17 /* Vitesse RHTests */ = {
 			isa = PBXGroup;
 			children = (
+				438894112B9B599700DBA28E /* ExtensionsTests */,
+				438894122B9B59B700DBA28E /* ModelTests */,
 				430C76312B9313D6001B94A4 /* MockData */,
-				430C76342B9313E4001B94A4 /* KeychainManagerTests.swift */,
-				430C76362B9313E4001B94A4 /* UrlSessionBuilderTests.swift */,
-				430C76322B9313E3001B94A4 /* AuthServiceTests.swift */,
-				430C76332B9313E3001B94A4 /* AppErrorTests.swift */,
-				430C76352B9313E4001B94A4 /* StringExtensionsTests.swift */,
+				438894132B9B59FF00DBA28E /* ModelServiceTests */,
 			);
 			path = "Vitesse RHTests";
+			sourceTree = "<group>";
+		};
+		438894112B9B599700DBA28E /* ExtensionsTests */ = {
+			isa = PBXGroup;
+			children = (
+				430C76352B9313E4001B94A4 /* StringExtensionsTests.swift */,
+			);
+			path = ExtensionsTests;
+			sourceTree = "<group>";
+		};
+		438894122B9B59B700DBA28E /* ModelTests */ = {
+			isa = PBXGroup;
+			children = (
+				430C76332B9313E3001B94A4 /* AppErrorTests.swift */,
+				430C76342B9313E4001B94A4 /* KeychainManagerTests.swift */,
+			);
+			path = ModelTests;
+			sourceTree = "<group>";
+		};
+		438894132B9B59FF00DBA28E /* ModelServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				430C76362B9313E4001B94A4 /* UrlSessionBuilderTests.swift */,
+				430C76322B9313E3001B94A4 /* AuthServiceTests.swift */,
+				4388940B2B9B1A3100DBA28E /* CandidateServiceTests.swift */,
+				438894142B9B5A3D00DBA28E /* OtherMethodCandidateServiceTests.swift */,
+			);
+			path = ModelServiceTests;
 			sourceTree = "<group>";
 		};
 		43D20B4D2B888E93003E79C7 /* VitesseAPI */ = {
@@ -237,6 +277,7 @@
 				43DA7EA02B87543C00F5305A /* VitesseRHApp.swift */,
 				43DA7EB92B87572400F5305A /* Info.plist */,
 				43DA7EA42B87543E00F5305A /* Assets.xcassets */,
+				4388940F2B9B574B00DBA28E /* FakeCandidates.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -259,6 +300,7 @@
 				43D20B492B888E18003E79C7 /* AppError.swift */,
 				43D20B4B2B888E24003E79C7 /* KeychainManager.swift */,
 				43D20B472B888E0F003E79C7 /* AuthService.swift */,
+				438894072B9B11B700DBA28E /* CandidateService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -355,7 +397,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				430C762F2B9313C9001B94A4 /* Authentification.json in Resources */,
+				430C762F2B9313C9001B94A4 /* VitesseAuth.json in Resources */,
+				4388940A2B9B19DB00DBA28E /* Candidates.json in Resources */,
+				4388940E2B9B3B0800DBA28E /* Candidate.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,7 +449,9 @@
 				430C763A2B9313E4001B94A4 /* StringExtensionsTests.swift in Sources */,
 				430C76392B9313E4001B94A4 /* KeychainManagerTests.swift in Sources */,
 				430C762E2B9313C9001B94A4 /* MockData.swift in Sources */,
+				438894152B9B5A3D00DBA28E /* OtherMethodCandidateServiceTests.swift in Sources */,
 				430C76372B9313E4001B94A4 /* AuthServiceTests.swift in Sources */,
+				4388940C2B9B1A3100DBA28E /* CandidateServiceTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,9 +461,11 @@
 			files = (
 				43A937622B9244C10064D1E8 /* TextEditorView.swift in Sources */,
 				43A937602B91EE5C0064D1E8 /* ParagraphView.swift in Sources */,
+				438894082B9B11B700DBA28E /* CandidateService.swift in Sources */,
 				43D20B432B888E02003E79C7 /* UrlSessionBuilder.swift in Sources */,
 				43D803A52B8794380054B5D1 /* Font.swift in Sources */,
 				43D8039D2B87853C0054B5D1 /* LoginView.swift in Sources */,
+				438894102B9B574B00DBA28E /* FakeCandidates.swift in Sources */,
 				436EDA3C2B88E243005C4AEA /* FieldToFocus.swift in Sources */,
 				43D20B482B888E0F003E79C7 /* AuthService.swift in Sources */,
 				43D803A22B8785A70054B5D1 /* ButtonView.swift in Sources */,

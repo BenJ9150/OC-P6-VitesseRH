@@ -14,17 +14,7 @@ struct AuthResponse: Codable {
     let isAdmin: Bool
 }
 
-// MARK: Register
-
-// Register response: `201 Created`
-
-// MARK: Candidates
-
-struct CandidateResponse: Codable {
-    let candidates: [Candidate]
-}
-
-// MARK: candidate Id
+// MARK: candidate
 
 struct Candidate: Codable, Identifiable, Hashable {
     let id: String
@@ -36,7 +26,3 @@ struct Candidate: Codable, Identifiable, Hashable {
     var email: String
     let lastName: String
 }
-
-// MARK: Delete candidate
-
-// Delete response: `20O Ok`

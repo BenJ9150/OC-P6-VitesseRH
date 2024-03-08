@@ -51,7 +51,7 @@ extension RegisterViewModel {
                                                 firstName: firstName, lastName: lastName) {
             case .success(let success):
                 self.isRegistered = success
-            case .failure(let failure):
+            case .failure(let failure): // TODO: Utilisateur existant
                 self.errorMessage = failure.title + " " + failure.message
                 self.inProgress = false
             }

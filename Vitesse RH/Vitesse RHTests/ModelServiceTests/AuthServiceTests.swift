@@ -40,40 +40,18 @@ final class AuthServiceTests: XCTestCase {
         print(KeychainManager.token)
     }
 
-    // MARK: - SignIn Bad request
+    // MARK: - SignIn UrlSession Error
 
-    func testSignInFailedBadRequest() {
+    func testSignInUrlSessionError() {
         // Given
         MockURLProtocol.requestHandler = {
-            return (urlResponse: MockData.badRequest, data: nil)
+            throw MockData.urlProtocolRequestError
         }
         // When
         Task {
             switch await authService.signIn(withEmail: "test", andPwd: "test") {
             case .success:
-                XCTFail("error in testSignInFailedBadRequest")
-
-            case .failure(let failure):
-                // Then
-                XCTAssertEqual(failure, AppError.badStatusCode)
-            }
-            self.expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 2.0)
-    }
-
-    // MARK: SignIn Error response
-
-    func testSignInFailedErrorResponse() {
-        // Given
-        MockURLProtocol.requestHandler = {
-            throw MockData.error
-        }
-        // When
-        Task {
-            switch await authService.signIn(withEmail: "test", andPwd: "test") {
-            case .success:
-                XCTFail("error in testSignInFailedErrorResponse")
+                XCTFail("error in SignIn UrlSession Error")
 
             case .failure(let failure):
                 // Then
@@ -84,9 +62,9 @@ final class AuthServiceTests: XCTestCase {
         wait(for: [expectation], timeout: 2.0)
     }
 
-    // MARK: SignIn Bad data
+    // MARK: SignIn Invalid Data
 
-    func testSignInFailedBadData() {
+    func testSignInInvalidData() {
         // Given
         MockURLProtocol.requestHandler = {
             return (urlResponse: MockData.statusOK, data: MockData.incorrectData)
@@ -95,7 +73,7 @@ final class AuthServiceTests: XCTestCase {
         Task {
             switch await authService.signIn(withEmail: "test", andPwd: "test") {
             case .success:
-                XCTFail("error in testSignInFailedBadData")
+                XCTFail("error in SignIn Invalid Data")
 
             case .failure(let failure):
                 // Then
@@ -108,7 +86,7 @@ final class AuthServiceTests: XCTestCase {
 
     // MARK: SignIn Success
 
-    func testAdminSignInSuccess() {
+    func testSignInSuccess() {
         // Given
         MockURLProtocol.requestHandler = {
             return (urlResponse: MockData.statusOK, data: MockData.authCorrectData)
@@ -122,29 +100,29 @@ final class AuthServiceTests: XCTestCase {
                 XCTAssertEqual(KeychainManager.token, MockData.authCorrectToken)
 
             case .failure:
-                XCTFail("error in testSignInSuccess")
+                XCTFail("error in SignIn Success")
             }
             self.expectation.fulfill()
         }
         wait(for: [expectation], timeout: 2.0)
     }
 
-    // MARK: - Register Failure
+    // MARK: - Register UrlSession Error
 
-    func testRegisterFailure() {
+    func testRegisterUrlSessionError() {
         // Given
         MockURLProtocol.requestHandler = {
-            return (urlResponse: MockData.badRequest, data: MockData.emptyData)
+            throw MockData.urlProtocolRequestError
         }
         // When
         Task {
             switch await authService.register(mail: "test", password: "test", firstName: "test", lastName: "test") {
             case .success:
-                XCTFail("error in testRegisterFailure")
+                XCTFail("error in Register UrlSession Error")
 
             case .failure(let failure):
                 // Then
-                XCTAssertEqual(failure, AppError.badStatusCode)
+                XCTAssertEqual(failure, AppError.serverErr)
             }
             self.expectation.fulfill()
         }
@@ -166,7 +144,7 @@ final class AuthServiceTests: XCTestCase {
                 XCTAssertTrue(result)
 
             case .failure:
-                XCTFail("error in testRegisterSuccess")
+                XCTFail("error in Register Success")
             }
             self.expectation.fulfill()
         }

@@ -11,8 +11,9 @@ enum EndPoint {
 
     case auth
     case register
-    case candidate
-    case candidateWithId
+    case candidates
+    case candidate(withId: String)
+    case favorite(withId: String)
 
     // MARK: URL Builder
 
@@ -23,12 +24,18 @@ enum EndPoint {
         switch self {
         case .auth:
             return "\(domain)/user/auth" // POST
+
         case .register:
             return "\(domain)/user/register" // POST
-        case .candidate:
+
+        case .candidates:
             return "\(domain)/candidate" // GET or POST with Auth
-        case .candidateWithId:
-            return "\(domain)/candidate/:" // + id // GET, PUT or DELETE with Auth
+
+        case .candidate(let candidateId):
+            return "\(domain)/candidate/:\(candidateId)" // GET, PUT or DELETE with Auth
+
+        case .favorite(let candidateId):
+            return "\(domain)/candidate/:\(candidateId)/favorite" // PUT with Auth
         }
     }
 }
