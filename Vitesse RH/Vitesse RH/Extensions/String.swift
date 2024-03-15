@@ -9,27 +9,34 @@ import Foundation
 
 extension String {
 
+    /// Check if string value is a correct email.
+    ///
+    /// What to respect:
+    /// - Before '@': any combination of upper and lower case letters, numbers, and special characters.
+    /// - Email domain: any combination of upper and lower case letters, numbers, dots and dashes.
+    /// - Domain extension: any combination of upper and lower case letters, from 2 to 64 characters.
+    /// - Returns: True if is an email, or false if not.
+
     func isValidEmail() -> Bool {
         let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
         return emailPredicate.evaluate(with: self)
-
-        // [A-Z0-9a-z._%+-]+ -> nom du mail avant @,
-        // n'importe quelle combinaison de lettres maj et min,
-        // de chiffres et de caractères spéciaux
-
-        // @ -> Obligatoire
-        // [A-Za-z0-9.-] -> domaine du mail,
-        // n'importe quelle combinaison de lettres maj et min, de chiffres,
-        // de points et de tirets
-        // \\.[A-Za-z]{2,64} -> "." obligatoire
-        // et extension du domaine avec lettres maj et min, de 2 à 64 caractères
     }
 
-    func isValidPhone() -> Bool {
-        let matches = "^(?:(?:\\+|00)33[\\s.-]{0,3}(?:\\(0\\)[\\s.-]{0,3})?|0)[1-9](?:[\\s.-]?\\d{2}){4}$"
-        let phonePredicate = NSPredicate(format: "SELF MATCHES %@", matches)
+    /// Check if string value is a correct french phone number without an  international code.
+    ///
+    /// What to respect:
+    /// - The phone number must start with a '0'.
+    /// - The phone number must have 10 numbers.
+    /// - Spacing is possible between 2 numbers.
+    /// - Returns: True if is a phone number, or false if not.
+
+    func isValidFrPhone() -> Bool {
+        let phonePredicate = NSPredicate(format: "SELF MATCHES %@", "^(0\\d(?:[\\s.-]?\\d{2}){4}|0\\d{9})$")
         return phonePredicate.evaluate(with: self)
     }
+
+    /// Mutating function to apply french phone pattern to string value.
+    /// Pattern will be '## ## ## ## ##'.
 
     mutating func applyFrPhonePattern() {
         let pattern = "## ## ## ## ##"
@@ -46,6 +53,9 @@ extension String {
         }
         self = pureNumber
     }
+
+    /// Method to get french phone pattern from string value.
+    /// - Returns: A string with '## ## ## ## ##' pattern.
 
     func getFrPhonePattern() -> String {
         let pattern = "## ## ## ## ##"

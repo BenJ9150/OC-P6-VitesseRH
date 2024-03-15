@@ -47,33 +47,33 @@ final class StringExtensionsTests: XCTestCase {
         let phone2 = "06 00 00 00 0"
         let phone3 = "+3360000000"
         let phone4 = "+33 06 00 00 00 00"
+        let phone5 = "1600000000"
+        let phone6 = "16 00 00 00 00"
         // When
-        let result1 = phone1.isValidPhone()
-        let result2 = phone2.isValidPhone()
-        let result3 = phone3.isValidPhone()
-        let result4 = phone4.isValidPhone()
+        let result1 = phone1.isValidFrPhone()
+        let result2 = phone2.isValidFrPhone()
+        let result3 = phone3.isValidFrPhone()
+        let result4 = phone4.isValidFrPhone()
+        let result5 = phone5.isValidFrPhone()
+        let result6 = phone6.isValidFrPhone()
         // Then
         XCTAssertFalse(result1)
         XCTAssertFalse(result2)
         XCTAssertFalse(result3)
         XCTAssertFalse(result4)
+        XCTAssertFalse(result5)
+        XCTAssertFalse(result6)
     }
 
     func testPhoneValid() {
         // Given
         let phone1 = "0600000000"
         let phone2 = "06 00 00 00 00"
-        let phone3 = "+33600000000"
-        let phone4 = "+33 6 00 00 00 00"
         // When
-        let result1 = phone1.isValidPhone()
-        let result2 = phone2.isValidPhone()
-        let result3 = phone3.isValidPhone()
-        let result4 = phone4.isValidPhone()
+        let result1 = phone1.isValidFrPhone()
+        let result2 = phone2.isValidFrPhone()
         // Then
         XCTAssertTrue(result1)
         XCTAssertTrue(result2)
-        XCTAssertTrue(result3)
-        XCTAssertTrue(result4)
     }
 }

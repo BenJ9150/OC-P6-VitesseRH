@@ -15,14 +15,13 @@ class LoginViewModel: ObservableObject {
 
     // MARK: Outputs
 
-    @Published var email: String = "admin@vitesse.com" // TODO: To remove
-    @Published var password: String = "test123"
-
-//    @Published var email: String = ""
-//    @Published var password: String = ""
+//    @Published var email: String = "admin@vitesse.com" // TODO: To remove
+//    @Published var password: String = "test123"
+    @Published var email: String = ""
+    @Published var password: String = ""
 
     @Published var inProgress = false
-    @Published private(set) var errorMessage = ""
+    @Published var errorMessage = ""
 
     // MARK: Init
 
@@ -37,6 +36,13 @@ class LoginViewModel: ObservableObject {
 extension LoginViewModel {
 
     func signIn() {
+        // check empty value
+        guard !email.isEmpty, !password.isEmpty else {
+            Task { @MainActor in
+                self.errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            }
+            return
+        }
         // check if is valid mail
         guard email.isValidEmail() else {
             Task { @MainActor in
@@ -44,9 +50,6 @@ extension LoginViewModel {
             }
             return
         }
-
-        // todo: Check Empty textfied
-
         // SignIn
         Task {
             await MainActor.run { self.inProgress = true }

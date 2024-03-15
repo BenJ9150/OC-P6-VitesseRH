@@ -18,6 +18,7 @@ enum AppError: Error {
     case invalidUrl
     case badStatusCode
     case invalidJson
+    case emptyTextField
     case invalidMail
     case linkedInUrlEmpty
     case invalidLinkedInUrl
@@ -40,6 +41,8 @@ enum AppError: Error {
         case .invalidJson:
             print("AppError: invalidJson")
             return "Our server is currently unavailable."
+        case .emptyTextField:
+            return "Please complete all fields."
         case .invalidMail:
             return "Email is invalid! Change your email and try again."
         case .linkedInUrlEmpty:

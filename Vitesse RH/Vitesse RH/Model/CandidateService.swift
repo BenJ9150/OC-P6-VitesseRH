@@ -10,12 +10,12 @@ import Foundation
 /// Use CandidateService to get, add, edit or delete candidate from API database.
 
 final class CandidateService: UrlSessionBuilder {
-    
+
     // MARK: Get
-    
+
     /// Method to get all candidates of API database.
     /// - Returns: All candidates if success, or the App Error if failure.
-    
+
     func getCandidates() async -> Result<[Candidate], AppError> {
         // get data
         switch await createUrlSessionDataTask(config: getUrlConfig()) {
@@ -25,17 +25,17 @@ final class CandidateService: UrlSessionBuilder {
                 return .failure(AppError.invalidJson)
             }
             return .success(decodedJson)
-            
+
         case .failure(let failure):
             return .failure(failure)
         }
     }
-    
+
     /// Method to get a specific candidate from API database.
     /// - Parameters:
     ///   - candidateId: The ID of candidate.
     /// - Returns: The candidate  if success, or the App Error if failure.
-    
+
     func getCandidate(WithId candidateId: String) async -> Result<Candidate, AppError> {
         let urlSessionConfig = getUrlConfig(withId: candidateId)
         return await urlSessionResult(config: urlSessionConfig)

@@ -18,7 +18,7 @@ final class AuthService: UrlSessionBuilder {
     ///   - mail: The email of current user.
     ///   - password: The password of current user.
     /// - Returns: The administrator status of user if success, or the App Error if failure.
-    
+
     func signIn(withEmail mail: String, andPwd password: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
@@ -37,7 +37,7 @@ final class AuthService: UrlSessionBuilder {
             // Save token
             KeychainManager.token = decodedJson.token
             return .success(decodedJson.isAdmin)
-            
+
         case .failure(let failure):
             return .failure(failure)
         }

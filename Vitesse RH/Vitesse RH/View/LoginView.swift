@@ -54,12 +54,18 @@ private extension LoginView {
                           keyboard: .emailAddress, textContent: .emailAddress)
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
+            .onChange(of: loginVM.email) { _, _ in
+                loginVM.errorMessage = ""
+            }
 
             TextFieldView(header: "Password", input: $loginVM.password,
                           placeHolder: "Your password",
                           keyboard: .default, textContent: .password,
                           focused: _pwdFocus, isSecure: true)
             .submitLabel(.join)
+            .onChange(of: loginVM.password) { _, _ in
+                loginVM.errorMessage = ""
+            }
         }
         .padding(.bottom, 24)
         .onSubmit {
