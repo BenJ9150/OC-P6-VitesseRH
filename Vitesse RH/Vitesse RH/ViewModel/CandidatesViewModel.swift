@@ -18,7 +18,7 @@ final class CandidatesViewModel: ObservableObject {
 
     @Published private(set) var candidates: [Candidate] = []
     @Published var editMode: EditMode = .inactive
-    @Published var errorMessage = "" // TODO: A afficher
+    @Published var errorMessage = "" // todo: A afficher
 
     var inEditMode: Bool {
         return editMode == .active
@@ -30,11 +30,7 @@ final class CandidatesViewModel: ObservableObject {
 
     // MARK: Inputs
 
-    var selection = Set<String>() {
-        didSet {
-            print(selection.count) // TODO: remove
-        }
-    }
+    var selection = Set<String>()
 
     var filter = (search: "", favorites: false) {
         didSet {
@@ -46,7 +42,7 @@ final class CandidatesViewModel: ObservableObject {
         editMode = editMode == .active ? .inactive : .active
     }
 
-    func deleteSelection() { // TODO: Add loader view
+    func deleteSelection() { // todo: Add loader view
         editMode = .inactive
         Task {
             for candidateId in selection {
@@ -58,7 +54,15 @@ final class CandidatesViewModel: ObservableObject {
     }
 
     func favoriteToggle(ofCandidateId candidateId: String) {
-        // TODO: update the selected candidate (if admin)
+        Task { @MainActor in
+            switch await candidateService.favoriteToggle(ForId: candidateId) {
+            case .success(let success):
+                self.getCandidates() // todo: A revoir, juste mettre à jour le candidat
+            case .failure(let failure):
+                print(failure.message) // todo: A afficher
+            }
+        }
+        // todo: update the selected candidate (if admin)
     }
 
     func openLinkedIn(withURL stringURL: String) {
@@ -90,11 +94,11 @@ private extension CandidatesViewModel {
 
     func getCandidates() {
         Task { @MainActor in
-            // await FakeCandidates().getFakeCandidates()
+//            await FakeCandidates().getFakeCandidates()
 
             switch await candidateService.getCandidates() {
             case .success(let allCandidates):
-                self.candidates = allCandidates // TODO: voir si on peut mettre seulement ça sur le main actor (idem pour les autres)
+                self.candidates = allCandidates // todo: voir si on peut mettre seulement ça sur le main actor (idem pour les autres)
 
             case .failure(let failure):
                 self.errorMessage = failure.title + " " + failure.message

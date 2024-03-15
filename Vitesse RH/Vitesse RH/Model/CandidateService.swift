@@ -50,7 +50,7 @@ final class CandidateService: UrlSessionBuilder {
     func favoriteToggle(ForId candidateId: String) async -> Result<Candidate, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
-            httpMethod: .put,
+            httpMethod: .post,
             sUrl: EndPoint.favorite(withId: candidateId).url,
             parameters: nil,
             withAuth: true

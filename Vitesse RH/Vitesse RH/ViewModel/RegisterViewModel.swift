@@ -11,7 +11,7 @@ final class RegisterViewModel: ObservableObject {
 
     // MARK: Outputs
 
-    @Published var email: String = "ben@vitesse.com"
+    @Published var email: String = "ben@vitesse.com" // TODO: To remove
     @Published var firstName: String = "Ben"
     @Published var lastName: String = "Lef"
     @Published var password: String = "test123"
@@ -41,7 +41,7 @@ extension RegisterViewModel {
             return
         }
 
-        // TODO: Empty, confirm password
+        // todo: Empty, confirm password
 
         // Registering
         Task { @MainActor in
@@ -51,7 +51,7 @@ extension RegisterViewModel {
                                                 firstName: firstName, lastName: lastName) {
             case .success(let success):
                 self.isRegistered = success
-            case .failure(let failure): // TODO: Utilisateur existant
+            case .failure(let failure): // todo: Utilisateur existant
                 self.errorMessage = failure.title + " " + failure.message
                 self.inProgress = false
             }

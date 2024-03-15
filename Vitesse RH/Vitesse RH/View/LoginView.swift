@@ -38,9 +38,9 @@ struct LoginView: View {
                 RegisterView()
             }
         }
-        .onTapGesture {
-            hideKeyboard()
-        }
+//        .onTapGesture { // TODO: Antoine: quand je mets ca, le bouton back ne fonctionne plus
+//            hideKeyboard()
+//        }
     }
 }
 

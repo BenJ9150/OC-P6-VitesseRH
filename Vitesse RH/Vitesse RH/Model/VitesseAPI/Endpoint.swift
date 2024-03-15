@@ -32,10 +32,10 @@ enum EndPoint {
             return "\(domain)/candidate" // GET or POST with Auth
 
         case .candidate(let candidateId):
-            return "\(domain)/candidate/:\(candidateId)" // GET, PUT or DELETE with Auth
+            return "\(domain)/candidate/\(candidateId)" // GET, PUT or DELETE with Auth
 
         case .favorite(let candidateId):
-            return "\(domain)/candidate/:\(candidateId)/favorite" // PUT with Auth
+            return "\(domain)/candidate/\(candidateId)/favorite" // PUT with Auth
         }
     }
 }

@@ -168,7 +168,7 @@ private extension CandidateDetailView {
         if isEditing {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    // TODO: Dismiss modif
+                    // todo: Dismiss modif
                     hideKeyboard()
                     isEditing.toggle()
                 } label: {
@@ -182,7 +182,7 @@ private extension CandidateDetailView {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
                 if isEditing {
-                    // TODO: Save modif
+                    // todo: Save modif
                     hideKeyboard()
                 }
                 isEditing.toggle()
