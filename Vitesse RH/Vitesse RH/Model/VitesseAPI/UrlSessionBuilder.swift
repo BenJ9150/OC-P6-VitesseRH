@@ -69,8 +69,16 @@ extension UrlSessionBuilder {
         // url session task
         do {
             let (dataResult, urlResponse) = try await urlSession.data(for: urlRequest)
-            // Check status
-            guard let response = urlResponse as? HTTPURLResponse, response.statusCode/100 == 2 else {
+            // Check url response
+            guard let response = urlResponse as? HTTPURLResponse else {
+                return .failure(AppError.badStatusCode) // todo: changer erreur + unit test
+            }
+            // Check status code
+            guard response.statusCode/100 == 2 else {
+                print("badStatusCode: \(response.statusCode)")
+                if response.statusCode == 500 {
+                    return .failure(AppError.emailAlreadyExist)
+                }
                 return .failure(AppError.badStatusCode)
             }
             return .success(dataResult)

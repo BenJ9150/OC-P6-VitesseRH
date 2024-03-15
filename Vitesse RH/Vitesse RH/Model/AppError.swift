@@ -21,6 +21,7 @@ enum AppError: Error {
     case emptyTextField
     case invalidMail
     case badPwdConfirm
+    case emailAlreadyExist
     case linkedInUrlEmpty
     case invalidLinkedInUrl
     case unknown
@@ -48,6 +49,8 @@ enum AppError: Error {
             return "Email is invalid! Change your email and try again."
         case .badPwdConfirm:
             return "The entered password is not the same as the password confirmation."
+        case .emailAlreadyExist:
+            return "Email already exists, log in with this email or use another email to register."
         case .linkedInUrlEmpty:
             return "LinkedIn url is empty! Add the url and try again."
         case .invalidLinkedInUrl:
