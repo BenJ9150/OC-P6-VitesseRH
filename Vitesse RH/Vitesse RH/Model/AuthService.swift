@@ -7,20 +7,28 @@
 
 import Foundation
 
+/// Use AuthService to connect or register user to API.
+
 final class AuthService: UrlSessionBuilder {
 
     // MARK: SignIn
 
+    /// Method to connect user to API. If success, token is saved in keychain.
+    /// - Parameters:
+    ///   - mail: The email of current user.
+    ///   - password: The password of current user.
+    /// - Returns: The administrator status of user if success, or the App Error if failure.
+    
     func signIn(withEmail mail: String, andPwd password: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post,
             sUrl: EndPoint.auth.url,
-            parameters: [BodyKey.email: mail, BodyKey.password: password],
+            params: [BodyKey.email: mail, BodyKey.password: password],
             withAuth: false
         )
         // get data
-        switch await buildUrlSession(config: config) {
+        switch await createUrlSessionDataTask(config: config) {
         case .success(let data):
             // decode
             guard let decodedJson = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
@@ -29,20 +37,31 @@ final class AuthService: UrlSessionBuilder {
             // Save token
             KeychainManager.token = decodedJson.token
             return .success(decodedJson.isAdmin)
-
+            
         case .failure(let failure):
             return .failure(failure)
         }
     }
+}
 
-    // MARK: Register
+// MARK: Register
+
+extension AuthService {
+
+    /// Method to register user to API. If success, token is saved in keychain.
+    /// - Parameters:
+    ///   - mail: The email of new user.
+    ///   - password: The password of new user.
+    ///   - firstName: The fisrt name of new user.
+    ///   - lastName: The last name of new user.
+    /// - Returns: True if success, or the App Error if failure.
 
     func register(mail: String, password: String, firstName: String, lastName: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post,
             sUrl: EndPoint.register.url,
-            parameters: [
+            params: [
                 BodyKey.email: mail,
                 BodyKey.password: password,
                 BodyKey.firstName: firstName,
@@ -51,7 +70,7 @@ final class AuthService: UrlSessionBuilder {
             withAuth: false
         )
         // Check success (201 Created)
-        switch await buildUrlSession(config: config) {
+        switch await createUrlSessionDataTask(config: config) {
         case .success:
             return .success(true)
 

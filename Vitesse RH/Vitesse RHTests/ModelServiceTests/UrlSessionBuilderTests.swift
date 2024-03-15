@@ -33,7 +33,7 @@ final class UrlSessionBuilderTests: XCTestCase {
         let config = UrlSessionBuilder.UrlSessionConfig(
             httpMethod: .get,
             sUrl: "",
-            parameters: [:],
+            params: [:],
             withAuth: false
         )
         // Given
@@ -42,13 +42,15 @@ final class UrlSessionBuilderTests: XCTestCase {
         }
         // When
         Task {
-            switch await urlSessionBuilder.buildUrlSession(config: config) {
+            switch await urlSessionBuilder.createUrlSessionDataTask(config: config) {
             case .success:
                 XCTFail("error in testBuildUrlSessionFailedBadUrl")
 
             case .failure(let failure):
                 // Then
                 XCTAssertEqual(failure, AppError.invalidUrl)
+                XCTAssertEqual(failure.title, AppError.invalidUrl.title)
+                XCTAssertEqual(failure.message, AppError.invalidUrl.message)
             }
             self.expectation.fulfill()
         }
@@ -62,7 +64,7 @@ final class UrlSessionBuilderTests: XCTestCase {
         let config = UrlSessionBuilder.UrlSessionConfig(
             httpMethod: .get,
             sUrl: "https//:www.test.com",
-            parameters: [:],
+            params: [:],
             withAuth: false
         )
         // Given
@@ -71,13 +73,14 @@ final class UrlSessionBuilderTests: XCTestCase {
         }
         // When
         Task {
-            switch await urlSessionBuilder.buildUrlSession(config: config) {
+            switch await urlSessionBuilder.createUrlSessionDataTask(config: config) {
             case .success:
                 XCTFail("error in testBuildUrlSessionFailedBadRequest")
 
             case .failure(let failure):
                 // Then
                 XCTAssertEqual(failure, AppError.badStatusCode)
+                XCTAssertEqual(failure.message, AppError.badStatusCode.message)
             }
             self.expectation.fulfill()
         }

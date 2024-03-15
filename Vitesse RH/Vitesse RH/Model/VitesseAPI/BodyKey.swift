@@ -7,15 +7,12 @@
 
 import Foundation
 
+/// List of API body keys.
+
 final class BodyKey {
 
-    // http body
     static let email = "email"
     static let password = "password"
     static let firstName = "firstName"
     static let lastName = "lastName"
-
-    // Authentification
-    static let authorization = "Authorization"
-    static let bearer = "Bearer"
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
 
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject var loginVM: LoginViewModel
     @State private var showRegisterView = false
 
@@ -31,13 +32,12 @@ struct LoginView: View {
                     buttons
                     Spacer()
                 }
-//                .background(.red) // TODO: Antoine: sans le background le TapGesture ne fonctionne plus
-                .onTapGesture {
-                    hideKeyboard()
-                }
             }
             .navigationDestination(isPresented: $showRegisterView) {
                 RegisterView()
+            }
+            .onTapGesture {
+                hideKeyboard()
             }
         }
     }
@@ -113,6 +113,8 @@ private extension LoginView {
                 .scaledToFit()
         }
         .ignoresSafeArea(edges: .bottom)
+        // add background for tap gesture to hide keyboard
+        .background(colorScheme == .dark ? Color.black : Color.white)
     }
 }
 

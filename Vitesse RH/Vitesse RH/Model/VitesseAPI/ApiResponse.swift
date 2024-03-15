@@ -7,14 +7,14 @@
 
 import Foundation
 
-// MARK: Authentification
+/// API authentication response.
 
 struct AuthResponse: Codable {
     let token: String
     let isAdmin: Bool
 }
 
-// MARK: candidate
+/// API candidate response.
 
 struct Candidate: Codable, Identifiable, Hashable {
     let id: String

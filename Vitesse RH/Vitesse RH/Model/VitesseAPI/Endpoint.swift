@@ -7,6 +7,11 @@
 
 import Foundation
 
+/// List of API endpoints.
+///
+/// Call example for authentication:
+/// - 'let url = EndPoint.auth.url'
+
 enum EndPoint {
 
     case auth
@@ -17,7 +22,6 @@ enum EndPoint {
 
     // MARK: URL Builder
 
-    /// Call example: let url = EndPoint.auth.url
     var url: String {
         let domain = "http://127.0.0.1:8080"
 

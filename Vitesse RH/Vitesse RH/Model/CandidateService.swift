@@ -7,69 +7,106 @@
 
 import Foundation
 
+/// Use CandidateService to get, add, edit or delete candidate from API database.
+
 final class CandidateService: UrlSessionBuilder {
-
+    
     // MARK: Get
-
+    
+    /// Method to get all candidates of API database.
+    /// - Returns: All candidates if success, or the App Error if failure.
+    
     func getCandidates() async -> Result<[Candidate], AppError> {
         // get data
-        switch await buildUrlSession(config: getUrlConfig()) {
+        switch await createUrlSessionDataTask(config: getUrlConfig()) {
         case .success(let data):
             // decode
             guard let decodedJson = try? JSONDecoder().decode([Candidate].self, from: data) else {
                 return .failure(AppError.invalidJson)
             }
             return .success(decodedJson)
-
+            
         case .failure(let failure):
             return .failure(failure)
         }
     }
-
+    
+    /// Method to get a specific candidate from API database.
+    /// - Parameters:
+    ///   - candidateId: The ID of candidate.
+    /// - Returns: The candidate  if success, or the App Error if failure.
+    
     func getCandidate(WithId candidateId: String) async -> Result<Candidate, AppError> {
         let urlSessionConfig = getUrlConfig(withId: candidateId)
         return await urlSessionResult(config: urlSessionConfig)
     }
+}
 
-    // MARK: Create
+// MARK: Create
+
+extension CandidateService {
+
+    /// Method to add new candidate in API database.
+    /// - Parameters:
+    ///   - candidate: The new candidate (id parameter is ignored, so can be empty).
+    /// - Returns: The new candidate with new ID if success, or the App Error if failure.
 
     func add(candidate: Candidate) async -> Result<Candidate, AppError> {
         let urlSessionConfig = addOrUpdateUrlConfig(candidate: candidate)
         return await urlSessionResult(config: urlSessionConfig)
     }
+}
 
-    // MARK: Update
+// MARK: Edit
+
+extension CandidateService {
+
+    /// Method to update a candidate in API database.
+    /// - Parameters:
+    ///   - candidate: The candidate with new values.
+    /// - Returns: The candidate with new saved values if success, or the App Error if failure.
 
     func update(candidate: Candidate) async -> Result<Candidate, AppError> {
         let urlSessionConfig = addOrUpdateUrlConfig(candidate: candidate, update: true)
         return await urlSessionResult(config: urlSessionConfig)
     }
 
-    // MARK: Favorite
+    /// Method to toggle favorite state of candidate in API database.
+    /// - Parameters:
+    ///   - candidateId: The candidate ID.
+    /// - Returns: The candidate with new saved values if success, or the App Error if failure.
 
     func favoriteToggle(ForId candidateId: String) async -> Result<Candidate, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post, // Error in API (README: put method, but CandidateController use post)
             sUrl: EndPoint.favorite(withId: candidateId).url,
-            parameters: nil,
+            params: nil,
             withAuth: true
         )
         return await urlSessionResult(config: config)
     }
+}
 
-    // MARK: Delete
+// MARK: Delete
+
+extension CandidateService {
+
+    /// Method to delete candidate from API database.
+    /// - Parameters:
+    ///   - candidateId: The candidate ID to delete.
+    /// - Returns: True if success, or the App Error if failure.
 
     func deleteCandidate(WithId candidateId: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .delete,
             sUrl: EndPoint.candidate(withId: candidateId).url,
-            parameters: nil,
+            params: nil,
             withAuth: true
         )
         // Check success (200 Ok)
-        switch await buildUrlSession(config: config) {
+        switch await createUrlSessionDataTask(config: config) {
         case .success:
             return .success(true)
 
@@ -79,13 +116,13 @@ final class CandidateService: UrlSessionBuilder {
     }
 }
 
-// MARK: Private method
+// MARK: - Private method
 
 private extension CandidateService {
 
     func urlSessionResult(config: UrlSessionConfig) async -> Result<Candidate, AppError> {
         // get data
-        switch await buildUrlSession(config: config) {
+        switch await createUrlSessionDataTask(config: config) {
         case .success(let data):
             // decode
             guard let decodedJson = try? JSONDecoder().decode(Candidate.self, from: data) else {
@@ -102,7 +139,7 @@ private extension CandidateService {
         return UrlSessionConfig(
             httpMethod: .get,
             sUrl: key == "" ? EndPoint.candidates.url : EndPoint.candidate(withId: key).url,
-            parameters: nil,
+            params: nil,
             withAuth: true
         )
     }
@@ -111,7 +148,7 @@ private extension CandidateService {
         return UrlSessionConfig(
             httpMethod: update ? .put : .post,
             sUrl: update ? EndPoint.candidate(withId: candidate.id).url : EndPoint.candidates.url,
-            parameters: [
+            params: [
                 "email": candidate.email,
                 "note": candidate.note as Any,
                 "linkedinURL": candidate.linkedinURL as Any,

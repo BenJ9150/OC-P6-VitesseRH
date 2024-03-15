@@ -7,11 +7,16 @@
 
 import Foundation
 
+/// List of API errors.
+///
+/// Call example for serverErr:
+/// - 'let errorMess = AppError.serverErr.title' + " " + AppError.serverErr.message'
+
 enum AppError: Error {
+
     case serverErr
     case invalidUrl
     case badStatusCode
-    case invalidData
     case invalidJson
     case invalidMail
     case linkedInUrlEmpty
@@ -20,21 +25,21 @@ enum AppError: Error {
 
     // MARK: Message Builder
 
-    /// Call example: let ErrorMess = ApiError.invalidUrl.message
     var message: String {
-        let start = "Please restart the application."
 
         switch self {
         case .serverErr:
-            return "\(start)\nError: 101, launch server"
+            print("AppError: serverErr")
+            return "Our server is currently unavailable."
         case .invalidUrl:
-            return "\(start)\nError: 102"
+            print("AppError: invalidUrl")
+            return "Our server is currently unavailable."
         case .badStatusCode:
-            return "\(start)\nError: 103"
-        case .invalidData:
-            return "\(start)\nError: 104"
+            print("AppError: badStatusCode")
+            return "Our server is currently unavailable."
         case .invalidJson:
-            return "\(start)\nError: 105"
+            print("AppError: invalidJson")
+            return "Our server is currently unavailable."
         case .invalidMail:
             return "Email is invalid! Change your email and try again."
         case .linkedInUrlEmpty:
@@ -42,7 +47,8 @@ enum AppError: Error {
         case .invalidLinkedInUrl:
             return "LinkedIn url is invalid! Change the url and try again."
         case .unknown:
-            return "\(start)\nError: 100"
+            print("AppError: unknown")
+            return "Please restart the application."
         }
     }
 

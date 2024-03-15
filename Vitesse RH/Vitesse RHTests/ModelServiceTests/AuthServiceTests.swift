@@ -56,6 +56,7 @@ final class AuthServiceTests: XCTestCase {
             case .failure(let failure):
                 // Then
                 XCTAssertEqual(failure, AppError.serverErr)
+                XCTAssertEqual(failure.message, AppError.serverErr.message)
             }
             self.expectation.fulfill()
         }
@@ -78,6 +79,7 @@ final class AuthServiceTests: XCTestCase {
             case .failure(let failure):
                 // Then
                 XCTAssertEqual(failure, AppError.invalidJson)
+                XCTAssertEqual(failure.message, AppError.invalidJson.message)
             }
             self.expectation.fulfill()
         }

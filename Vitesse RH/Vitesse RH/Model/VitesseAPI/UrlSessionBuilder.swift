@@ -7,10 +7,11 @@
 
 import Foundation
 
+/// Build URL session and get API response.
+
 class UrlSessionBuilder {
 
-    // MARK: URL Session config
-
+    /// List of http methods for API call.
     enum HttpMethod: String {
         case get = "GET"
         case post = "POST"
@@ -18,10 +19,17 @@ class UrlSessionBuilder {
         case delete = "DELETE"
     }
 
+    /// Create configuration for URL request.
+    /// - Parameters:
+    ///   - httpMethod: HTTP method to use for url request.
+    ///   - sUrl: String url to use for url request.
+    ///   - params: Dictionnary of parameters to add to http body.
+    ///   - withAuth: If true, auth token is added to http header.
+
     struct UrlSessionConfig {
         let httpMethod: HttpMethod
         let sUrl: String
-        let parameters: [String: Any]?
+        let params: [String: Any]?
         let withAuth: Bool
     }
 
@@ -31,6 +39,7 @@ class UrlSessionBuilder {
 
     // MARK: Init
 
+    /// Dependency injection for Unit Testing.
     init(urlSession: URLSession = URLSession(configuration: .default)) {
         self.urlSession = urlSession
     }
@@ -40,8 +49,12 @@ class UrlSessionBuilder {
 
 extension UrlSessionBuilder {
 
-    /// Get data from url session data task
-    func buildUrlSession(config: UrlSessionConfig) async -> Result<Data, AppError> {
+    /// Create and launch async url session data task.
+    /// - Parameters:
+    ///   - config: Configuration for URL request.
+    /// - Returns: The data result of task if success, or the App Error if failure.
+
+    func createUrlSessionDataTask(config: UrlSessionConfig) async -> Result<Data, AppError> {
         // get url
         guard let url = URL(string: config.sUrl) else {
             return .failure(AppError.invalidUrl)
@@ -50,7 +63,7 @@ extension UrlSessionBuilder {
         let urlRequest = buildRequest(
             httpMethod: config.httpMethod,
             url: url,
-            param: config.parameters,
+            params: config.params,
             withAuth: config.withAuth
         )
         // url session task
@@ -71,22 +84,31 @@ extension UrlSessionBuilder {
 
 private extension UrlSessionBuilder {
 
-    private func buildRequest(httpMethod: HttpMethod, url: URL, param: [String: Any]?, withAuth: Bool) -> URLRequest {
+    /// Build URL request.
+    /// - Parameters:
+    ///   - httpMethod: HTTP method to use for url request.
+    ///   - url: The URL to use for url request.
+    ///   - params: Dictionnary of parameters to add to http body.
+    ///   - withAuth: If true, auth token is added to http header.
+    /// - Returns: The url request to use with urlSession data task.
+
+    private func buildRequest(httpMethod: HttpMethod, url: URL, params: [String: Any]?, withAuth: Bool) -> URLRequest {
         // set url request
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = httpMethod.rawValue
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         // add parameters if exist
-        if let parameters = param {
+        if let parameters = params {
             urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
         }
-
         // add header if need authorization
         if withAuth {
-            urlRequest.addValue("\(BodyKey.bearer) \(KeychainManager.token)", forHTTPHeaderField: BodyKey.authorization)
+            urlRequest.addValue(
+                "\(HeaderKey.bearer) \(KeychainManager.token)",
+                forHTTPHeaderField: HeaderKey.authorization
+            )
         }
-
         return urlRequest
     }
 }

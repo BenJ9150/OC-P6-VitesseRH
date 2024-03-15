@@ -8,14 +8,18 @@
 import Foundation
 import Security
 
+/// Use keychain manager to store, edit or delete values in secure keychain.
+
 final class KeychainManager {
 
-    // MARK: Public properties
-
+    /// Check if user token exist in keychain.
+    /// - Returns: True if token exist.
     static var userIsLogged: Bool {
         return fetchTokenFromKeychain() != ""
     }
 
+    /// Get user token from keychain.
+    /// - Returns: User token if exist or empty string if not.
     static var token: String {
         get {
             if currentToken == nil {
@@ -26,17 +30,13 @@ final class KeychainManager {
             saveInKeychain(token: newValue)
         }
     }
-
-    // MARK: Private properties
-
     private static var currentToken: String?
-    private static let keychainTokenAccount = "AuraTokenAccount"
 }
-
-// MARK: Public method
 
 extension KeychainManager {
 
+    /// Delete current user token from keychain.
+    /// Delete isAdmin value from standard UserDefaults
     static func deleteTokenInKeychain() {
         // Find token and delete
         SecItemDelete(buildQuery())
@@ -47,7 +47,7 @@ extension KeychainManager {
     }
 }
 
-// MARK: Fetch or save
+// MARK: - Private Fetch or Save
 
 private extension KeychainManager {
 
@@ -81,7 +81,7 @@ private extension KeychainManager {
     }
 }
 
-// MARK: Query
+// MARK: Private Query builder
 
 private extension KeychainManager {
 
@@ -89,7 +89,7 @@ private extension KeychainManager {
         // basis of query
         var query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: keychainTokenAccount
+            kSecAttrAccount as String: "VitesseTokenAccount"
         ]
         // fetch value in keychain
         if forFetch {
