@@ -62,18 +62,27 @@ private extension RegisterView {
                           keyboard: .default, textContent: .name)
             .focused($fieldToFocus, equals: .lastName)
             .submitLabel(.next)
+            .onChange(of: registerVM.firstName) { _, _ in
+                registerVM.errorMessage = ""
+            }
 
             TextFieldView(header: "Last Name", input: $registerVM.lastName,
                           placeHolder: "Your last name",
                           keyboard: .default, textContent: .familyName, focused: _lastNameFocus)
             .focused($fieldToFocus, equals: .email)
             .submitLabel(.next)
+            .onChange(of: registerVM.lastName) { _, _ in
+                registerVM.errorMessage = ""
+            }
 
             TextFieldView(header: "Email", input: $registerVM.email,
                           placeHolder: "Your email",
                           keyboard: .emailAddress, textContent: .emailAddress, focused: _emailFocus)
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
+            .onChange(of: registerVM.email) { _, _ in
+                registerVM.errorMessage = ""
+            }
 
             TextFieldView(header: "Password", input: $registerVM.password,
                           placeHolder: "Your password",
@@ -81,12 +90,18 @@ private extension RegisterView {
                           focused: _pwdFocus, isSecure: true)
             .focused($fieldToFocus, equals: .confirmPwd)
             .submitLabel(.next)
+            .onChange(of: registerVM.password) { _, _ in
+                registerVM.errorMessage = ""
+            }
 
             TextFieldView(header: "Confirm Password", input: $registerVM.confirmPwd,
                           placeHolder: "Confirm your password",
                           keyboard: .default, textContent: .password,
                           focused: _confirmPwdFocus, isSecure: true)
             .submitLabel(.join)
+            .onChange(of: registerVM.confirmPwd) { _, _ in
+                registerVM.errorMessage = ""
+            }
         }
         .onSubmit {
             switch fieldToFocus {

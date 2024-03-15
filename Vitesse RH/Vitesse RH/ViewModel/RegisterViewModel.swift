@@ -11,21 +11,20 @@ final class RegisterViewModel: ObservableObject {
 
     // MARK: Outputs
 
-    @Published var email: String = "ben@vitesse.com" // TODO: To remove
-    @Published var firstName: String = "Ben"
-    @Published var lastName: String = "Lef"
-    @Published var password: String = "test123"
-    @Published var confirmPwd: String = "test123"
-
-//    @Published var email: String = ""
-//    @Published var firstName: String = ""
-//    @Published var lastName: String = ""
-//    @Published var password: String = ""
-//    @Published var confirmPwd: String = ""
+//    @Published var email: String = "ben@vitesse.com" // TODO: To remove
+//    @Published var firstName: String = "Ben"
+//    @Published var lastName: String = "Lef"
+//    @Published var password: String = "test123"
+//    @Published var confirmPwd: String = "test123"
+    @Published var email: String = ""
+    @Published var firstName: String = ""
+    @Published var lastName: String = ""
+    @Published var password: String = ""
+    @Published var confirmPwd: String = ""
 
     @Published var inProgress = false
     @Published private(set) var isRegistered = false
-    @Published private(set) var errorMessage = ""
+    @Published var errorMessage = ""
 }
 
 // MARK: Inputs
@@ -33,6 +32,14 @@ final class RegisterViewModel: ObservableObject {
 extension RegisterViewModel {
 
     func register() {
+        // check empty value
+        guard !email.isEmpty, !firstName.isEmpty, !lastName.isEmpty,
+              !password.isEmpty, !confirmPwd.isEmpty else {
+            Task { @MainActor in
+                self.errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            }
+            return
+        }
         // check if is valid mail
         guard email.isValidEmail() else {
             Task { @MainActor in
@@ -40,9 +47,13 @@ extension RegisterViewModel {
             }
             return
         }
-
-        // todo: Empty, confirm password
-
+        // check password confirmation
+        guard password == confirmPwd else {
+            Task { @MainActor in
+                self.errorMessage = AppError.badPwdConfirm.title + " " + AppError.badPwdConfirm.message
+            }
+            return
+        }
         // Registering
         Task {
             await MainActor.run { self.inProgress = true }
