@@ -12,29 +12,47 @@ final class CandidatesViewModel: ObservableObject {
 
     // MARK: Private property
 
-    let candidateService = CandidateService()
+    private let candidateService = CandidateService()
+    private var allCandidates: [Candidate] = [] {
+        didSet {
+            applyFilter()
+        }
+    }
 
     // MARK: Outputs
 
     @Published private(set) var candidates: [Candidate] = []
     @Published var editMode: EditMode = .inactive
-    @Published var errorMessage = "" // todo: A afficher
+    @Published private(set) var errorMessage = "" // todo: A afficher
 
     var inEditMode: Bool {
         return editMode == .active
     }
 
-    var isAdmin: Bool {
-        return UserDefaults.standard.bool(forKey: "VitesseUserIsAdmin")
-    }
-
     // MARK: Inputs
 
     var selection = Set<String>()
-
     var filter = (search: "", favorites: false) {
         didSet {
             applyFilter()
+        }
+    }
+}
+
+// MARK: Inputs methods
+
+extension CandidatesViewModel {
+
+    func getCandidates() { // todo: add loader
+        Task {
+//            await FakeCandidates().getFakeCandidates()
+            switch await candidateService.getCandidates() {
+            case .success(let allCandidates):
+                await MainActor.run { self.allCandidates = allCandidates }
+
+            case .failure(let failure):
+                await MainActor.run { self.errorMessage = failure.title + " " + failure.message }
+            }
         }
     }
 
@@ -52,66 +70,19 @@ final class CandidatesViewModel: ObservableObject {
             getCandidates()
         }
     }
-
-    func favoriteToggle(ofCandidateId candidateId: String) {
-        Task { @MainActor in
-            switch await candidateService.favoriteToggle(ForId: candidateId) {
-            case .success(let success):
-                self.getCandidates() // todo: A revoir, juste mettre à jour le candidat
-            case .failure(let failure):
-                print(failure.message) // todo: A afficher
-            }
-        }
-        // todo: update the selected candidate (if admin)
-    }
-
-    func openLinkedIn(withURL stringURL: String) {
-        guard stringURL != "" else {
-            Task { @MainActor in
-                self.errorMessage = AppError.linkedInUrlEmpty.message
-            }
-            return
-        }
-        guard let url = URL(string: stringURL) else {
-            Task { @MainActor in
-                self.errorMessage = AppError.invalidLinkedInUrl.message
-            }
-            return
-        }
-        UIApplication.shared.open(url)
-    }
-
-    // MARK: Init
-
-    init() {
-        getCandidates()
-    }
 }
 
-// MARK: Private methods
+// MARK: Private method
 
 private extension CandidatesViewModel {
 
-    func getCandidates() {
-        Task { @MainActor in
-//            await FakeCandidates().getFakeCandidates()
-
-            switch await candidateService.getCandidates() {
-            case .success(let allCandidates):
-                self.candidates = allCandidates // todo: voir si on peut mettre seulement ça sur le main actor (idem pour les autres)
-
-            case .failure(let failure):
-                self.errorMessage = failure.title + " " + failure.message
-            }
-        }
-    }
     func applyFilter() {
+        var filteredList: [Candidate] = []
         // Favorites
-        var filteredList: [Candidate]
         if filter.favorites {
-            filteredList = candidates.filter({ $0.isFavorite })
+            filteredList = allCandidates.filter({ $0.isFavorite })
         } else {
-            filteredList = candidates
+            filteredList = allCandidates
         }
         // Search
         if filter.search != "" {
@@ -119,7 +90,7 @@ private extension CandidatesViewModel {
                 candidate.firstName.contains(filter.search) || candidate.lastName.contains(filter.search)
             })
         }
-        // Update candidates list
-        candidates = filteredList
+        // update candidates
+        self.candidates = filteredList
     }
 }

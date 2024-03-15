@@ -24,8 +24,8 @@ final class RegisterViewModel: ObservableObject {
 //    @Published var confirmPwd: String = ""
 
     @Published var inProgress = false
-    @Published var isRegistered = false
-    @Published var errorMessage = ""
+    @Published private(set) var isRegistered = false
+    @Published private(set) var errorMessage = ""
 }
 
 // MARK: Inputs
@@ -44,16 +44,23 @@ extension RegisterViewModel {
         // todo: Empty, confirm password
 
         // Registering
-        Task { @MainActor in
-            self.inProgress = true
+        Task {
+            await MainActor.run { self.inProgress = true }
 
-            switch await AuthService().register(mail: email, password: password,
-                                                firstName: firstName, lastName: lastName) {
+            switch await AuthService().register(
+                mail: email,
+                password: password,
+                firstName: firstName,
+                lastName: lastName
+            ) {
             case .success(let success):
-                self.isRegistered = success
+                await MainActor.run { self.isRegistered = success }
+
             case .failure(let failure): // todo: Utilisateur existant
-                self.errorMessage = failure.title + " " + failure.message
-                self.inProgress = false
+                await MainActor.run {
+                    self.errorMessage = failure.title + " " + failure.message
+                    self.inProgress = false
+                }
             }
         }
     }

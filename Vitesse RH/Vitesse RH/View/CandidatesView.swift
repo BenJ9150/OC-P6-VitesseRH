@@ -17,12 +17,18 @@ struct CandidatesView: View {
         NavigationStack {
             ZStack {
                 candidatesBackground
-                candidatesList
-                    .toolbarTitleDisplayMode(.inline)
-                    .navigationTitle("")
-                    .toolbar { toolbarItems() }
-                    .searchable(text: $candidatesVM.filter.search)
-                    .environment(\.editMode, $candidatesVM.editMode)
+                VStack {
+                    ErrorMessageView(error: candidatesVM.errorMessage)
+                    candidatesList
+                        .toolbarTitleDisplayMode(.inline)
+                        .navigationTitle("")
+                        .toolbar { toolbarItems() }
+                        .searchable(text: $candidatesVM.filter.search)
+                        .environment(\.editMode, $candidatesVM.editMode)
+                }
+            }
+            .onAppear { // TODO: mettre à jour que si candidat modifié
+                candidatesVM.getCandidates()
             }
         }
     }
@@ -37,11 +43,7 @@ private extension CandidatesView {
             // Row
             CandidateRowView(candidate: candidate, editMode: candidatesVM.editMode)
                 .overlay(
-                    NavigationLink(
-                        "",
-                        destination: CandidateDetailView(candidatesVM: candidatesVM,
-                                                         candidate: candidate)
-                    )
+                    NavigationLink("", destination: CandidateDetailView(candidate))
                     .opacity(0)
                 )
         }

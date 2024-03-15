@@ -12,7 +12,7 @@ struct VitesseRHApp: App {
 
     @StateObject var vitesseAppVM = VitesseAppViewModel()
 
-    init() { // TODO: To remove
+    init() { // TODO: To remove, or add sign out button
         KeychainManager.deleteTokenInKeychain()
     }
 

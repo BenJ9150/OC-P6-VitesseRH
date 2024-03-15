@@ -9,6 +9,10 @@ import Foundation
 
 class LoginViewModel: ObservableObject {
 
+    // MARK: Private property
+
+    private let onLoginSucceed: (() -> Void)
+
     // MARK: Outputs
 
     @Published var email: String = "admin@vitesse.com" // TODO: To remove
@@ -18,11 +22,7 @@ class LoginViewModel: ObservableObject {
 //    @Published var password: String = ""
 
     @Published var inProgress = false
-    @Published var errorMessage = ""
-
-    // MARK: Private properties
-
-    private let onLoginSucceed: (() -> Void)
+    @Published private(set) var errorMessage = ""
 
     // MARK: Init
 
@@ -48,32 +48,21 @@ extension LoginViewModel {
         // todo: Check Empty textfied
 
         // SignIn
-        Task { @MainActor in
-            self.inProgress = true
+        Task {
+            await MainActor.run { self.inProgress = true }
 
             switch await AuthService().signIn(withEmail: email, andPwd: password) {
             case .success(let isAdmin):
                 // Save isAdmin Value in UserDefault
                 UserDefaults.standard.set(isAdmin, forKey: "VitesseUserIsAdmin")
-                self.onLoginSucceed()
+                await MainActor.run { self.onLoginSucceed() }
+
             case .failure(let failure):
-                self.errorMessage = failure.title + " " + failure.message
-                self.inProgress = false
-            }
-        }
-        /*
-        AuthService().signIn(withEmail: email, andPwd: password) { result in
-            Task { @MainActor in
-                switch result {
-                case .success(let isAdmin):
-                    // Save isAdmin Value in UserDefault
-                    UserDefaults.standard.set(isAdmin, forKey: "VitesseUserIsAdmin")
-                    self.onLoginSucceed()
-                case .failure(let failure):
+                await MainActor.run {
                     self.errorMessage = failure.title + " " + failure.message
                     self.inProgress = false
                 }
             }
-        }*/
+        }
     }
 }

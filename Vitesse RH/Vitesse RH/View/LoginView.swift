@@ -17,8 +17,6 @@ struct LoginView: View {
 
     // MARK: Body
 
-    // TODO: Antoine: avertissement dans debugger quand on ouvre le keyboard
-
     var body: some View {
         NavigationStack {
             ZStack {
@@ -33,14 +31,15 @@ struct LoginView: View {
                     buttons
                     Spacer()
                 }
+//                .background(.red) // TODO: Antoine: sans le background le TapGesture ne fonctionne plus
+                .onTapGesture {
+                    hideKeyboard()
+                }
             }
             .navigationDestination(isPresented: $showRegisterView) {
                 RegisterView()
             }
         }
-//        .onTapGesture { // TODO: Antoine: quand je mets ca, le bouton back ne fonctionne plus
-//            hideKeyboard()
-//        }
     }
 }
 

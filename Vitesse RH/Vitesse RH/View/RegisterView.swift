@@ -21,8 +21,6 @@ struct RegisterView: View {
 
     // MARK: Body
 
-    // TODO: Antoine: avertissement dans debugger quand on ouvre le keyboard
-
     var body: some View {
         VStack {
             // Scroll view with textfields

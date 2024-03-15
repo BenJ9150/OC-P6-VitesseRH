@@ -11,10 +11,9 @@ final class VitesseAppViewModel: ObservableObject {
 
     // MARK: - Outputs
 
-    @Published var isLogged: Bool
+    @Published private(set) var isLogged: Bool
 
     var loginViewModel: LoginViewModel {
-
         return LoginViewModel {
             Task { @MainActor in
                 self.isLogged = true
