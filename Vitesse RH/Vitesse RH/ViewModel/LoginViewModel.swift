@@ -15,10 +15,10 @@ class LoginViewModel: ObservableObject {
 
     // MARK: Outputs
 
-//    @Published var email: String = "admin@vitesse.com" // TODO: To remove
-//    @Published var password: String = "test123"
-    @Published var email: String = ""
-    @Published var password: String = ""
+    @Published var email: String = "admin@vitesse.com" // TODO: To remove
+    @Published var password: String = "test123"
+//    @Published var email: String = ""
+//    @Published var password: String = ""
 
     @Published var inProgress = false
     @Published var errorMessage = ""

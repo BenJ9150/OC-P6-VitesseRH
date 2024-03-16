@@ -12,21 +12,15 @@ struct VitesseRHApp: App {
 
     @StateObject var vitesseAppVM = VitesseAppViewModel()
 
-//    init() { // TODO: To remove, or add sign out button
-//        KeychainManager.deleteTokenInKeychain()
-//    }
-
     var body: some Scene {
         WindowGroup {
             Group {
                 if vitesseAppVM.isLogged {
-                    CandidatesView()
+                    CandidatesView(candidatesVM: vitesseAppVM.candiatesVM)
                 } else {
-                    LoginView(loginVM: vitesseAppVM.loginViewModel)
+                    LoginView(loginVM: vitesseAppVM.loginVM)
                 }
             }
         }
     }
 }
-
-// TODO: App icon

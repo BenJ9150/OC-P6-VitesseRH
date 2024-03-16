@@ -12,6 +12,7 @@ final class CandidatesViewModel: ObservableObject {
 
     // MARK: Private property
 
+    private let onSignOut: (() -> Void)
     private let candidateService = CandidateService()
     private var allCandidates: [Candidate] = [] {
         didSet {
@@ -36,6 +37,12 @@ final class CandidatesViewModel: ObservableObject {
         didSet {
             applyFilter()
         }
+    }
+
+    // MARK: Init
+
+    init(_ callback: @escaping () -> Void) {
+        self.onSignOut = callback
     }
 }
 
@@ -69,6 +76,10 @@ extension CandidatesViewModel {
             selection = Set()
             getCandidates()
         }
+    }
+
+    func signOut() {
+        onSignOut()
     }
 }
 

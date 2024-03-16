@@ -13,10 +13,19 @@ final class VitesseAppViewModel: ObservableObject {
 
     @Published private(set) var isLogged: Bool
 
-    var loginViewModel: LoginViewModel {
+    var loginVM: LoginViewModel {
         return LoginViewModel {
             Task { @MainActor in
                 self.isLogged = true
+            }
+        }
+    }
+
+    var candiatesVM: CandidatesViewModel {
+        return CandidatesViewModel {
+            KeychainManager.deleteTokenInKeychain()
+            Task { @MainActor in
+                self.isLogged = false
             }
         }
     }

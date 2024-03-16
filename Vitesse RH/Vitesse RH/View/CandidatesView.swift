@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CandidatesView: View {
 
-    @StateObject var candidatesVM = CandidatesViewModel()
+    @ObservedObject var candidatesVM: CandidatesViewModel
+    @State var showAlertSignOut = false
 
     // MARK: Body
 
@@ -27,8 +28,12 @@ struct CandidatesView: View {
                         .environment(\.editMode, $candidatesVM.editMode)
                 }
             }
-            .onAppear { // TODO: mettre à jour que si candidat modifié
+            .onAppear { // TODO: mettre à jour que si candidat modifié ?
                 candidatesVM.getCandidates()
+            }
+            .alert("Sign out?", isPresented: $showAlertSignOut) {
+                Button("Yes") { candidatesVM.signOut() }
+                Button("Cancel", role: .cancel, action: {})
             }
         }
     }
@@ -115,12 +120,22 @@ private extension CandidatesView {
                 }
             }
         } else {
-            // Only Favorites Button
+            // Favorites Button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     candidatesVM.filter.favorites.toggle()
                 } label: {
                     Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
+                        .foregroundStyle(.accent)
+                }
+            }
+            // Sign out button
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showAlertSignOut.toggle()
+                } label: {
+                    Image("icon_exit")
+                        .renderingMode(.template) // for accent color
                         .foregroundStyle(.accent)
                 }
             }
@@ -150,5 +165,7 @@ private extension CandidatesView {
 // MARK: Preview
 
 #Preview {
-    CandidatesView()
+    CandidatesView(candidatesVM: CandidatesViewModel({
+        // nothing
+    }))
 }

@@ -61,7 +61,7 @@ private extension CandidateDetailView {
             candidateVM.favoriteToggle()
         } label: {
             Image(candidateVM.isFavorite ? "icon_starFill" : "icon_star")
-                .renderingMode(.template)
+                .renderingMode(.template) // for accent color
                 .foregroundStyle(candidateVM.isAdmin ? .accent : .orange)
                 .padding(.trailing)
         }
