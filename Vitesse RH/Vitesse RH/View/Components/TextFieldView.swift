@@ -15,13 +15,15 @@ struct TextFieldView: View {
     @Binding var input: String
     let placeHolder: String
     let keyboard: UIKeyboardType
-    let textContent: UITextContentType
 
     // Focus
     @FocusState var focused: Bool
 
     // Secure?
     var isSecure = false
+
+    // Error message to clean when texfield change
+    @Binding var errToClean: String
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -33,7 +35,6 @@ struct TextFieldView: View {
             textOrSecureField
                 .autocapitalization(.none)
                 .keyboardType(keyboard)
-                .textContentType(textContent)
                 .disableAutocorrection(true)
                 .foregroundStyle(.white)
                 .padding()
@@ -41,6 +42,11 @@ struct TextFieldView: View {
                 .cornerRadius(12)
                 .padding(.horizontal)
                 .focused($focused)
+                .onChange(of: input) { _, _ in
+                    if errToClean != "" {
+                        errToClean = ""
+                    }
+                }
         }
         .padding(.bottom)
     }
@@ -54,10 +60,4 @@ struct TextFieldView: View {
             }
         }
     }
-}
-
-#Preview {
-    TextFieldView(header: "My title", input: .constant(""),
-                  placeHolder: "My place holder",
-                  keyboard: .emailAddress, textContent: .name, isSecure: true)
 }

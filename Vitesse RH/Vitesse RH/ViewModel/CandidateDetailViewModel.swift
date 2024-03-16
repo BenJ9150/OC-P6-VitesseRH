@@ -30,7 +30,7 @@ final class CandidateDetailViewModel: ObservableObject {
     @Published var candidateDetail = CandidateDetail()
     @Published var isEditing = false
     @Published private(set) var isFavorite = false
-    @Published private(set) var errorMessage = ""
+    @Published var errorMessage = ""
 
     // MARK: Init
 

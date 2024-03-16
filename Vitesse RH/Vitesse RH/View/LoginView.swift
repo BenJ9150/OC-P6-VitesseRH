@@ -49,23 +49,26 @@ private extension LoginView {
 
     var texfields: some View {
         VStack {
-            TextFieldView(header: "Email", input: $loginVM.email,
-                          placeHolder: "Your email",
-                          keyboard: .emailAddress, textContent: .emailAddress)
+            TextFieldView(
+                header: "Email",
+                input: $loginVM.email,
+                placeHolder: "Your email",
+                keyboard: .emailAddress,
+                errToClean: $loginVM.errorMessage
+            )
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
-            .onChange(of: loginVM.email) { _, _ in
-                loginVM.errorMessage = ""
-            }
 
-            TextFieldView(header: "Password", input: $loginVM.password,
-                          placeHolder: "Your password",
-                          keyboard: .default, textContent: .password,
-                          focused: _pwdFocus, isSecure: true)
+            TextFieldView(
+                header: "Password",
+                input: $loginVM.password,
+                placeHolder: "Your password",
+                keyboard: .default,
+                focused: _pwdFocus,
+                isSecure: true,
+                errToClean: $loginVM.errorMessage
+            )
             .submitLabel(.join)
-            .onChange(of: loginVM.password) { _, _ in
-                loginVM.errorMessage = ""
-            }
         }
         .padding(.bottom, 24)
         .onSubmit {

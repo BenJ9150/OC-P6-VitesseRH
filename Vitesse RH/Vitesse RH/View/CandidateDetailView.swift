@@ -77,9 +77,13 @@ private extension CandidateDetailView {
     var candidatePhone: some View {
         Group {
             if candidateVM.isEditing {
-                TextFieldView(header: "Phone", input: $candidateVM.candidateDetail.phone,
-                              placeHolder: "Candidate phone number",
-                              keyboard: .phonePad, textContent: .telephoneNumber)
+                TextFieldView(
+                    header: "Phone",
+                    input: $candidateVM.candidateDetail.phone,
+                    placeHolder: "Candidate phone number",
+                    keyboard: .phonePad,
+                    errToClean: $candidateVM.errorMessage
+                )
                 .focused($fieldToFocus, equals: .phone)
                 .onChange(of: candidateVM.candidateDetail.phone) { _, _ in
                     candidateVM.candidateDetail.phone.applyFrPhonePattern()
@@ -101,9 +105,13 @@ private extension CandidateDetailView {
     var candidateEmail: some View {
         Group {
             if candidateVM.isEditing {
-                TextFieldView(header: "Email", input: $candidateVM.candidateDetail.email,
-                              placeHolder: "Candidate email",
-                              keyboard: .emailAddress, textContent: .emailAddress)
+                TextFieldView(
+                    header: "Email",
+                    input: $candidateVM.candidateDetail.email,
+                    placeHolder: "Candidate email",
+                    keyboard: .emailAddress,
+                    errToClean: $candidateVM.errorMessage
+                )
             } else {
                 ParagraphView(title: "Email", text: candidateVM.candidateDetail.email)
                     .padding(.bottom, 48)
@@ -119,13 +127,19 @@ private extension CandidateDetailView {
     var candidateLinkedin: some View {
         Group {
             if candidateVM.isEditing {
-                TextFieldView(header: "LinkedIn", input: $candidateVM.candidateDetail.linkedinURL,
-                              placeHolder: "LinkedIn url",
-                              keyboard: .URL, textContent: .URL)
+                TextFieldView(
+                    header: "LinkedIn",
+                    input: $candidateVM.candidateDetail.linkedinURL,
+                    placeHolder: "LinkedIn url",
+                    keyboard: .URL,
+                    errToClean: $candidateVM.errorMessage
+                )
             } else {
-                ButtonView(title: candidateVM.candidateDetail.linkedinURL == "" ? "No Linkedin" : "Go on Linkedin",
-                           actionInProgress: .constant(false),
-                           disabled: candidateVM.candidateDetail.linkedinURL == "") {
+                ButtonView(
+                    title: candidateVM.candidateDetail.linkedinURL == "" ? "No Linkedin" : "Go on Linkedin",
+                    actionInProgress: .constant(false),
+                    disabled: candidateVM.candidateDetail.linkedinURL == ""
+                ) {
                     candidateVM.openLinkedIn(withURL: candidateVM.candidateDetail.linkedinURL)
                 }
             }
