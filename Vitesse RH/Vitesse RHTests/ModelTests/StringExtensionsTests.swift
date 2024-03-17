@@ -41,7 +41,7 @@ final class StringExtensionsTests: XCTestCase {
 
     // MARK: Phone
 
-    func testPhoneInValid() {
+    func testPhoneInvalid() {
         // Given
         let phone1 = "06000000000"
         let phone2 = "06 00 00 00 0"
@@ -75,5 +75,38 @@ final class StringExtensionsTests: XCTestCase {
         // Then
         XCTAssertTrue(result1)
         XCTAssertTrue(result2)
+    }
+
+    func testFrPhonePatternValid() {
+        // Given
+        var phone1 = "0600000000"
+        // When
+        let phone2 = phone1.getFrPhonePattern()
+        phone1.applyFrPhonePattern()
+        // Then
+        XCTAssertEqual("06 00 00 00 00", phone1)
+        XCTAssertEqual("06 00 00 00 00", phone2)
+    }
+
+    func testFrPhonePatternToLong() {
+        // Given
+        var phone1 = "06000000001"
+        // When
+        let phone2 = phone1.getFrPhonePattern()
+        phone1.applyFrPhonePattern()
+        // Then
+        XCTAssertEqual("06 00 00 00 00", phone1)
+        XCTAssertEqual("06 00 00 00 00", phone2)
+    }
+
+    func testFrPhonePatternToShort() {
+        // Given
+        var phone1 = "060000000"
+        // When
+        let phone2 = phone1.getFrPhonePattern()
+        phone1.applyFrPhonePattern()
+        // Then
+        XCTAssertEqual("06 00 00 00 0", phone1)
+        XCTAssertEqual("06 00 00 00 0", phone2)
     }
 }

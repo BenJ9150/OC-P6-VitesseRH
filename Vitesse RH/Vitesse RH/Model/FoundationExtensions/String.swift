@@ -43,7 +43,7 @@ extension String {
         var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
         for index in 0 ..< pattern.count {
             guard index < pureNumber.count else {
-                self = pureNumber
+                self = String(pureNumber.prefix(14))
                 return
             }
             let stringIndex = String.Index(utf16Offset: index, in: pattern)
@@ -51,7 +51,7 @@ extension String {
             guard patternCharacter != "#" else { continue }
             pureNumber.insert(patternCharacter, at: stringIndex)
         }
-        self = pureNumber
+        self = String(pureNumber.prefix(14))
     }
 
     /// Method to get french phone pattern from string value.
@@ -62,13 +62,13 @@ extension String {
         var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
         for index in 0 ..< pattern.count {
             guard index < pureNumber.count else {
-                return pureNumber
+                return String(pureNumber.prefix(14))
             }
             let stringIndex = String.Index(utf16Offset: index, in: pattern)
             let patternCharacter = pattern[stringIndex]
             guard patternCharacter != "#" else { continue }
             pureNumber.insert(patternCharacter, at: stringIndex)
         }
-        return pureNumber
+        return String(pureNumber.prefix(14))
     }
 }

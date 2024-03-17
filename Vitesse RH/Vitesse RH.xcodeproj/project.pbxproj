@@ -145,10 +145,18 @@
 			path = MockData;
 			sourceTree = "<group>";
 		};
+		43386AB72BA6F33C00A19420 /* ViewExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				43D803A42B8794380054B5D1 /* Font.swift */,
+				436EDA392B88DE8A005C4AEA /* View.swift */,
+			);
+			path = ViewExtensions;
+			sourceTree = "<group>";
+		};
 		4359CD622B928A9600368F17 /* Vitesse RHTests */ = {
 			isa = PBXGroup;
 			children = (
-				438894112B9B599700DBA28E /* ExtensionsTests */,
 				438894122B9B59B700DBA28E /* ModelTests */,
 				430C76312B9313D6001B94A4 /* MockData */,
 				438894132B9B59FF00DBA28E /* ModelServiceTests */,
@@ -156,17 +164,10 @@
 			path = "Vitesse RHTests";
 			sourceTree = "<group>";
 		};
-		438894112B9B599700DBA28E /* ExtensionsTests */ = {
-			isa = PBXGroup;
-			children = (
-				430C76352B9313E4001B94A4 /* StringExtensionsTests.swift */,
-			);
-			path = ExtensionsTests;
-			sourceTree = "<group>";
-		};
 		438894122B9B59B700DBA28E /* ModelTests */ = {
 			isa = PBXGroup;
 			children = (
+				430C76352B9313E4001B94A4 /* StringExtensionsTests.swift */,
 				430C76342B9313E4001B94A4 /* KeychainManagerTests.swift */,
 			);
 			path = ModelTests;
@@ -208,14 +209,12 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		43D803A32B8794160054B5D1 /* Extensions */ = {
+		43D803A32B8794160054B5D1 /* FoundationExtensions */ = {
 			isa = PBXGroup;
 			children = (
-				43D803A42B8794380054B5D1 /* Font.swift */,
 				43D20B542B889C58003E79C7 /* String.swift */,
-				436EDA392B88DE8A005C4AEA /* View.swift */,
 			);
-			path = Extensions;
+			path = FoundationExtensions;
 			sourceTree = "<group>";
 		};
 		43DA7E942B87543C00F5305A = {
@@ -239,7 +238,6 @@
 		43DA7E9F2B87543C00F5305A /* Vitesse RH */ = {
 			isa = PBXGroup;
 			children = (
-				43D803A32B8794160054B5D1 /* Extensions */,
 				43DA7EB12B87565400F5305A /* Model */,
 				43DA7EB02B87564A00F5305A /* ViewModel */,
 				43DA7EAE2B87563100F5305A /* View */,
@@ -260,6 +258,7 @@
 		43DA7EAE2B87563100F5305A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				43386AB72BA6F33C00A19420 /* ViewExtensions */,
 				43D803A02B8785690054B5D1 /* Components */,
 				43D8039C2B87853C0054B5D1 /* LoginView.swift */,
 				43D803A62B87A76D0054B5D1 /* RegisterView.swift */,
@@ -296,6 +295,7 @@
 		43DA7EB12B87565400F5305A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				43D803A32B8794160054B5D1 /* FoundationExtensions */,
 				43D20B4D2B888E93003E79C7 /* VitesseAPI */,
 				43D20B492B888E18003E79C7 /* AppError.swift */,
 				43D20B4B2B888E24003E79C7 /* KeychainManager.swift */,

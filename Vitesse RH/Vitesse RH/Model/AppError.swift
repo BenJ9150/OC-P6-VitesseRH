@@ -16,12 +16,13 @@ enum AppError: Error {
 
     case serverErr
     case invalidUrl
+    case badHttpUrlResponse
     case badStatusCode
     case invalidJson
     case emptyTextField
     case invalidMail
     case badPwdConfirm
-    case emailAlreadyExist
+    case internalServerError
     case linkedInUrlEmpty
     case invalidLinkedInUrl
     case unknown
@@ -37,6 +38,9 @@ enum AppError: Error {
         case .invalidUrl:
             print("AppError: invalidUrl")
             return "Our server is currently unavailable."
+        case .badHttpUrlResponse:
+            print("AppError: badHttpUrlResponse")
+            return "Our server is currently unavailable."
         case .badStatusCode:
             print("AppError: badStatusCode")
             return "Our server is currently unavailable."
@@ -49,7 +53,7 @@ enum AppError: Error {
             return "Email is invalid! Change your email and try again."
         case .badPwdConfirm:
             return "The entered password is not the same as the password confirmation."
-        case .emailAlreadyExist:
+        case .internalServerError:
             return "Email already exists, log in with this email or use another email to register."
         case .linkedInUrlEmpty:
             return "LinkedIn url is empty! Add the url and try again."

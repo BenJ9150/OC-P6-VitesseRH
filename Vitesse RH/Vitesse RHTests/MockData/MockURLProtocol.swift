@@ -23,8 +23,13 @@ class MockURLProtocol: URLProtocol {
     }
 
     override func startLoading() {
+        // Request handler
         guard let handler = MockURLProtocol.requestHandler else {
-            fatalError("Handler is unavailable.")
+            // Send urlResponse to the client (to test urlResponse as? HTTPURLResponse error)
+            client?.urlProtocol(self, didReceive: URLResponse(), cacheStoragePolicy: .notAllowed)
+            // Notify request has been finished.
+            client?.urlProtocolDidFinishLoading(self)
+            return
         }
 
         do {

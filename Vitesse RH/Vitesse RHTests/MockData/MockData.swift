@@ -21,9 +21,14 @@ final class MockData {
         statusCode: 201, httpVersion: nil, headerFields: [:]
     )!
 
-    static let statusErrorBadRequest = HTTPURLResponse(
+    static let statusBadRequest = HTTPURLResponse(
         url: URL(string: "https://openclassrooms.com")!,
         statusCode: 400, httpVersion: nil, headerFields: [:]
+    )!
+
+    static let statusInternalServerError = HTTPURLResponse(
+        url: URL(string: "https://openclassrooms.com")!,
+        statusCode: 500, httpVersion: nil, headerFields: [:]
     )!
 
     // MARK: URLProtocol request error

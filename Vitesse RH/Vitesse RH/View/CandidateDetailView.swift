@@ -87,9 +87,6 @@ private extension CandidateDetailView {
                 .focused($fieldToFocus, equals: .phone)
                 .onChange(of: candidateVM.candidateDetail.phone) { _, _ in
                     candidateVM.candidateDetail.phone.applyFrPhonePattern()
-                    if candidateVM.candidateDetail.phone.count > 14 {
-                        candidateVM.candidateDetail.phone = String(candidateVM.candidateDetail.phone.prefix(14))
-                    }
                 }
             } else {
                 ParagraphView(title: "Phone", text: candidateVM.candidateDetail.phone)

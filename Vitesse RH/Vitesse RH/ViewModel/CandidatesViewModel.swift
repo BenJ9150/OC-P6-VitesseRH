@@ -24,7 +24,7 @@ final class CandidatesViewModel: ObservableObject {
 
     @Published private(set) var candidates: [Candidate] = []
     @Published var editMode: EditMode = .inactive
-    @Published private(set) var errorMessage = "" // todo: A afficher
+    @Published private(set) var errorMessage = ""
 
     var inEditMode: Bool {
         return editMode == .active
