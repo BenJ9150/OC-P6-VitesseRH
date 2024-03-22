@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ButtonView: View { // todo: Add background for signIn view 
+struct ButtonView: View {
     let title: String
     @Binding var actionInProgress: Bool
 

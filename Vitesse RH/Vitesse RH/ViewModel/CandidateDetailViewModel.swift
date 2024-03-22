@@ -30,6 +30,8 @@ final class CandidateDetailViewModel: ObservableObject {
     @Published var candidateDetail = CandidateDetail()
     @Published var isEditing = false
     @Published private(set) var isFavorite = false
+    @Published private(set) var updateInProgress = false
+    @Published private(set) var favoriteInProgress = false
     @Published var errorMessage = ""
 
     // MARK: Init
@@ -47,11 +49,17 @@ final class CandidateDetailViewModel: ObservableObject {
 
 extension CandidateDetailViewModel {
 
-    func updateCandidate() { // todo: add loader, + verif champs vide ou inexacte
-        if !needCandidateUpdate() {
-            return
-        }
-        Task {
+    func updateCandidate() {
+        // check if all texfields are valid and candidate need update
+        if !textfieldsAreValid() { return }
+        if !needCandidateUpdate() { return }
+
+        Task { // TODO: Antoine: ça fait des await MainActor.run partout, on peut faire mieux ?
+            await MainActor.run {
+                isEditing.toggle()
+                updateInProgress = true
+            }
+            // update candidate
             switch await candidateService.update(candidate: candidate) {
             case .success(let candidate):
                 self.candidate = candidate
@@ -60,17 +68,23 @@ extension CandidateDetailViewModel {
             case .failure(let failure):
                 await MainActor.run { self.errorMessage = failure.title + " " + failure.message }
             }
+            await MainActor.run { updateInProgress = false }
         }
     }
 
     func cancel() {
         Task { @MainActor in
-            self.updateCandidateDetail()
+            // Use server value to remove modification
+            updateCandidateDetail()
+            // Clean error
+            errorMessage = ""
         }
     }
 
-    func favoriteToggle() { // todo: add loader
+    func favoriteToggle() {
         Task {
+            await MainActor.run { favoriteInProgress = true }
+            // Toggle favorite state
             switch await candidateService.favoriteToggle(ForId: candidate.id) {
             case .success(let candidate):
                 self.candidate = candidate
@@ -79,6 +93,9 @@ extension CandidateDetailViewModel {
             case .failure(let failure):
                 await MainActor.run { self.errorMessage = failure.title + " " + failure.message }
             }
+            await MainActor.run { favoriteInProgress = false }
+            // TODO: Antoine: quand je met un breakpoint ligne 96, je ne vois pas le loader
+            // Est-ce que du coup la methode peut être appelée avant que le bouton favoris ne switch d'état ?
         }
     }
 
@@ -103,6 +120,8 @@ extension CandidateDetailViewModel {
 
 private extension CandidateDetailViewModel {
 
+    /// Update candidateDetail property from server candidate values.
+
     func updateCandidateDetail() {
         isFavorite = candidate.isFavorite
         candidateDetail = CandidateDetail(
@@ -112,6 +131,9 @@ private extension CandidateDetailViewModel {
             email: self.candidate.email
         )
     }
+
+    /// Check if any candidate detail have been changed.
+    /// - Returns: True if at least one detail has changed.
 
     func needCandidateUpdate() -> Bool {
         let cleanedPhone = candidateDetail.phone.replacingOccurrences(of: " ", with: "")
@@ -127,6 +149,37 @@ private extension CandidateDetailViewModel {
         candidate.linkedinURL = candidateDetail.linkedinURL
         candidate.note = candidateDetail.note
         candidate.phone = cleanedPhone
+        return true
+    }
+
+    /// Check if all textfields are valid, and display error message if not.
+    /// - Returns: True if all texfileds are valid.
+
+    func textfieldsAreValid() -> Bool {
+        // empty value
+        guard !candidateDetail.phone.isEmpty,
+              !candidateDetail.email.isEmpty,
+              !candidateDetail.linkedinURL.isEmpty else {
+
+            Task { @MainActor in
+                self.errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            }
+            return false
+        }
+        // valid mail
+        guard candidateDetail.email.isValidEmail() else {
+            Task { @MainActor in
+                self.errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
+            }
+            return false
+        }
+        // valid phone
+        guard candidateDetail.phone.isValidFrPhone() else {
+            Task { @MainActor in
+                self.errorMessage = AppError.invalidFrPhone.title + " " + AppError.invalidFrPhone.message
+            }
+            return false
+        }
         return true
     }
 }

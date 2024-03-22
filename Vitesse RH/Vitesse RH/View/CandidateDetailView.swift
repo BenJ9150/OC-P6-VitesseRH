@@ -23,13 +23,17 @@ struct CandidateDetailView: View {
     var body: some View {
         ZStack {
             candidateBackground
-            ScrollView {
-                nameAndFavorite
-                ErrorMessageView(error: candidateVM.errorMessage)
-                candidatePhone
-                candidateEmail
-                candidateLinkedin
-                candidateNote
+            if candidateVM.updateInProgress {
+                ProgressView()
+            } else {
+                ScrollView {
+                    nameAndFavorite
+                    ErrorMessageView(error: candidateVM.errorMessage)
+                    candidatePhone
+                    candidateEmail
+                    candidateLinkedin
+                    candidateNote
+                }
             }
         }
         .navigationTitle("")
@@ -60,10 +64,16 @@ private extension CandidateDetailView {
         Button {
             candidateVM.favoriteToggle()
         } label: {
-            Image(candidateVM.isFavorite ? "icon_starFill" : "icon_star")
-                .renderingMode(.template) // for accent color
-                .foregroundStyle(candidateVM.isAdmin ? .accent : .orange)
-                .padding(.trailing)
+            if candidateVM.favoriteInProgress {
+                ProgressView()
+                    .frame(width: 44, height: 44)
+                    .padding(.trailing)
+            } else {
+                Image(candidateVM.isFavorite ? "icon_starFill" : "icon_star")
+                    .renderingMode(.template) // for accent color
+                    .foregroundStyle(candidateVM.isAdmin ? .accent : .orange)
+                    .padding(.trailing)
+            }
         }
         .disabled(!candidateVM.isAdmin)
         .padding()
@@ -181,9 +191,10 @@ private extension CandidateDetailView {
             Button {
                 if candidateVM.isEditing {
                     hideKeyboard()
-                    candidateVM.updateCandidate()
+                    candidateVM.updateCandidate() // isEditing toggle in this method if success
+                } else {
+                    candidateVM.isEditing.toggle()
                 }
-                candidateVM.isEditing.toggle()
             } label: {
                 Text(candidateVM.isEditing ? "Done" : "Edit")
                     .font(.vitesseButton)

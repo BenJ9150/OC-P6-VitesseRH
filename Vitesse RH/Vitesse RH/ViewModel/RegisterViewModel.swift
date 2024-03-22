@@ -24,7 +24,7 @@ final class RegisterViewModel: ObservableObject {
 
     @Published var inProgress = false
     @Published private(set) var isRegistered = false
-    @Published var errorMessage = ""
+    @Published var errorMessage = "" // TODO: Antoine: Output, Input ou les 2 ?
 }
 
 // MARK: Inputs
@@ -67,7 +67,7 @@ extension RegisterViewModel {
             case .success(let success):
                 await MainActor.run { self.isRegistered = success }
 
-            case .failure(let failure): // todo: Utilisateur existant
+            case .failure(let failure):
                 await MainActor.run {
                     self.errorMessage = failure.title + " " + failure.message
                     self.inProgress = false

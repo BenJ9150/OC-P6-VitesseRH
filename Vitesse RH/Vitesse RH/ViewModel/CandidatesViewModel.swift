@@ -22,9 +22,11 @@ final class CandidatesViewModel: ObservableObject {
 
     // MARK: Outputs
 
+    /// Candidates list filtered or not.
     @Published private(set) var candidates: [Candidate] = []
     @Published var editMode: EditMode = .inactive
     @Published private(set) var errorMessage = ""
+    @Published private(set) var inProgress = false
 
     var inEditMode: Bool {
         return editMode == .active
@@ -50,16 +52,20 @@ final class CandidatesViewModel: ObservableObject {
 
 extension CandidatesViewModel {
 
-    func getCandidates() { // todo: add loader
+    func getCandidates() {
         Task {
+            if !inProgress {
+                await MainActor.run { inProgress = true }
+            }
 //            await FakeCandidates().getFakeCandidates()
             switch await candidateService.getCandidates() {
             case .success(let allCandidates):
                 await MainActor.run { self.allCandidates = allCandidates }
 
             case .failure(let failure):
-                await MainActor.run { self.errorMessage = failure.title + " " + failure.message }
+                await MainActor.run { errorMessage = failure.title + " " + failure.message }
             }
+            await MainActor.run { inProgress = false }
         }
     }
 
@@ -70,6 +76,7 @@ extension CandidatesViewModel {
     func deleteSelection() { // todo: Add loader view
         editMode = .inactive
         Task {
+            await MainActor.run { inProgress = true }
             for candidateId in selection {
                 _ = await candidateService.deleteCandidate(WithId: candidateId)
             }
@@ -86,6 +93,8 @@ extension CandidatesViewModel {
 // MARK: Private method
 
 private extension CandidatesViewModel {
+
+    /// Use allCandidates list to update candidates list with current filter values.
 
     func applyFilter() {
         var filteredList: [Candidate] = []

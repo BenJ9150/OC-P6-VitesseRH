@@ -18,14 +18,18 @@ struct CandidatesView: View {
         NavigationStack {
             ZStack {
                 candidatesBackground
-                VStack {
-                    ErrorMessageView(error: candidatesVM.errorMessage)
-                    candidatesList
-                        .toolbarTitleDisplayMode(.inline)
-                        .navigationTitle("")
-                        .toolbar { toolbarItems() }
-                        .searchable(text: $candidatesVM.filter.search)
-                        .environment(\.editMode, $candidatesVM.editMode)
+                if candidatesVM.inProgress {
+                 ProgressView()
+                } else {
+                    VStack {
+                        ErrorMessageView(error: candidatesVM.errorMessage)
+                        candidatesList
+                            .toolbarTitleDisplayMode(.inline)
+                            .navigationTitle("")
+                            .toolbar { toolbarItems() }
+                            .searchable(text: $candidatesVM.filter.search)
+                            .environment(\.editMode, $candidatesVM.editMode)
+                    }
                 }
             }
             .onAppear { // TODO: mettre à jour que si candidat modifié ?

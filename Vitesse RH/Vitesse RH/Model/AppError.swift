@@ -21,6 +21,7 @@ enum AppError: Error {
     case invalidJson
     case emptyTextField
     case invalidMail
+    case invalidFrPhone
     case badPwdConfirm
     case internalServerError
     case linkedInUrlEmpty
@@ -50,7 +51,9 @@ enum AppError: Error {
         case .emptyTextField:
             return "Please complete all fields."
         case .invalidMail:
-            return "Email is invalid! Change your email and try again."
+            return "Email is invalid! Change email and try again."
+        case .invalidFrPhone:
+            return "Phone is invalid! Change phone and try again."
         case .badPwdConfirm:
             return "The entered password is not the same as the password confirmation."
         case .internalServerError:
