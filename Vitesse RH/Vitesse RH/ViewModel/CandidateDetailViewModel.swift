@@ -63,6 +63,9 @@ extension CandidateDetailViewModel {
             switch await candidateService.update(candidate: candidate) {
             case .success(let candidate):
                 self.candidate = candidate
+                // notify candidates view that need refresh
+                NotificationCenter.default.post(name: .needUpdate, object: nil)
+                // use server value to update candidateDetail
                 await MainActor.run { self.updateCandidateDetail() }
 
             case .failure(let failure):
@@ -88,6 +91,9 @@ extension CandidateDetailViewModel {
             switch await candidateService.favoriteToggle(ForId: candidate.id) {
             case .success(let candidate):
                 self.candidate = candidate
+                // notify candidates view that need refresh
+                NotificationCenter.default.post(name: .needUpdate, object: nil)
+                // use server value to update candidateDetail
                 await MainActor.run { self.updateCandidateDetail() }
 
             case .failure(let failure):
@@ -156,11 +162,8 @@ private extension CandidateDetailViewModel {
     /// - Returns: True if all texfileds are valid.
 
     func textfieldsAreValid() -> Bool {
-        // empty value
-        guard !candidateDetail.phone.isEmpty,
-              !candidateDetail.email.isEmpty,
-              !candidateDetail.linkedinURL.isEmpty else {
-
+        // empty value (Only the email must not be empty)
+        guard !candidateDetail.email.isEmpty else {
             Task { @MainActor in
                 self.errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
             }

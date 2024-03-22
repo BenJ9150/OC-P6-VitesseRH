@@ -18,23 +18,20 @@ struct CandidatesView: View {
         NavigationStack {
             ZStack {
                 candidatesBackground
-                if candidatesVM.inProgress {
-                 ProgressView()
-                } else {
-                    VStack {
-                        ErrorMessageView(error: candidatesVM.errorMessage)
+                VStack {
+                    ErrorMessageView(error: candidatesVM.errorMessage)
+                    if candidatesVM.inProgress {
+                        ProgressView()
+                    } else {
                         candidatesList
-                            .toolbarTitleDisplayMode(.inline)
-                            .navigationTitle("")
-                            .toolbar { toolbarItems() }
-                            .searchable(text: $candidatesVM.filter.search)
-                            .environment(\.editMode, $candidatesVM.editMode)
                     }
                 }
             }
-            .onAppear { // TODO: mettre à jour que si candidat modifié ?
-                candidatesVM.getCandidates()
-            }
+            .toolbarTitleDisplayMode(.inline)
+            .navigationTitle("")
+            .toolbar { toolbarItems() }
+            .searchable(text: $candidatesVM.filter.search, placement: .navigationBarDrawer(displayMode: .always))
+            .environment(\.editMode, $candidatesVM.editMode)
             .alert("Sign out?", isPresented: $showAlertSignOut) {
                 Button("Yes") { candidatesVM.signOut() }
                 Button("Cancel", role: .cancel, action: {})
@@ -62,6 +59,9 @@ private extension CandidatesView {
         .animation(.easeOut, value: candidatesVM.editMode)
         .onAppear {
             candidatesVM.selection = Set()
+        }
+        .refreshable {
+            candidatesVM.getCandidates()
         }
     }
 

@@ -11,16 +11,11 @@ final class RegisterViewModel: ObservableObject {
 
     // MARK: Outputs
 
-    @Published var email: String = "ben@vitesse.com" // TODO: To remove
-    @Published var firstName: String = "Ben"
-    @Published var lastName: String = "Lef"
-    @Published var password: String = "test123"
-    @Published var confirmPwd: String = "test123"
-//    @Published var email: String = ""
-//    @Published var firstName: String = ""
-//    @Published var lastName: String = ""
-//    @Published var password: String = ""
-//    @Published var confirmPwd: String = ""
+    @Published var email: String = ""
+    @Published var firstName: String = ""
+    @Published var lastName: String = ""
+    @Published var password: String = ""
+    @Published var confirmPwd: String = ""
 
     @Published var inProgress = false
     @Published private(set) var isRegistered = false

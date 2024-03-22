@@ -45,6 +45,9 @@ final class CandidatesViewModel: ObservableObject {
 
     init(_ callback: @escaping () -> Void) {
         self.onSignOut = callback
+        getCandidates()
+        // Need update notification
+        NotificationCenter.default.addObserver(self, selector: #selector(needUpdate), name: .needUpdate, object: nil)
     }
 }
 
@@ -73,7 +76,7 @@ extension CandidatesViewModel {
         editMode = editMode == .active ? .inactive : .active
     }
 
-    func deleteSelection() { // todo: Add loader view
+    func deleteSelection() {
         editMode = .inactive
         Task {
             await MainActor.run { inProgress = true }
@@ -112,5 +115,9 @@ private extension CandidatesViewModel {
         }
         // update candidates
         self.candidates = filteredList
+    }
+
+    @objc func needUpdate() {
+        getCandidates()
     }
 }
