@@ -9,13 +9,19 @@ import SwiftUI
 
 struct ButtonView: View {
     let title: String
-    @Binding var actionInProgress: Bool
 
+    var actionInProgress = false
     var disabled = false
+    var hidden = false
+
     let action: () -> Void
 
     var body: some View {
-        if actionInProgress {
+        if hidden {
+            EmptyView()
+                .frame(height: 52)
+                .padding(.bottom)
+        } else if actionInProgress {
             ProgressView()
                 .frame(height: 52)
                 .padding(.bottom)
@@ -49,7 +55,7 @@ struct ButtonView: View {
 }
 
 #Preview {
-    ButtonView(title: "MyButton", actionInProgress: .constant(false)) {
+    ButtonView(title: "MyButton") {
         // Action
     }
 }

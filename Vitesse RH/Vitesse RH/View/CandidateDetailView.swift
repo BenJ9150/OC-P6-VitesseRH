@@ -145,7 +145,6 @@ private extension CandidateDetailView {
             } else {
                 ButtonView(
                     title: candidateVM.candidateDetail.linkedinURL == "" ? "No Linkedin" : "Go on Linkedin",
-                    actionInProgress: .constant(false),
                     disabled: candidateVM.candidateDetail.linkedinURL == ""
                 ) {
                     candidateVM.openLinkedIn(withURL: candidateVM.candidateDetail.linkedinURL)

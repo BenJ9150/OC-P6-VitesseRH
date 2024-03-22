@@ -88,12 +88,12 @@ private extension LoginView {
 
     var buttons: some View {
         Group {
-            ButtonView(title: "Sign in", actionInProgress: $loginVM.inProgress) {
+            ButtonView(title: "Sign in", actionInProgress: loginVM.inProgress) {
                 hideKeyboard()
                 loginVM.signIn()
             }
 
-            ButtonView(title: "Register", actionInProgress: .constant(false)) {
+            ButtonView(title: "Register", hidden: loginVM.inProgress) {
                 hideKeyboard()
                 showRegisterView.toggle()
             }

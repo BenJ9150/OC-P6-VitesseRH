@@ -133,7 +133,7 @@ private extension RegisterView {
 private extension RegisterView {
 
     var createButton: some View {
-        ButtonView(title: "Create", actionInProgress: $registerVM.inProgress) {
+        ButtonView(title: "Create", actionInProgress: registerVM.inProgress) {
             hideKeyboard()
             registerVM.register()
         }
