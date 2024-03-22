@@ -56,19 +56,14 @@ final class CandidatesViewModel: ObservableObject {
 extension CandidatesViewModel {
 
     func getCandidates() {
+        if !inProgress {
+            inProgress = true
+        }
         Task {
-            if !inProgress {
-                await MainActor.run { inProgress = true }
+            let result = await candidateService.getCandidates()
+            await processServiceResult(result) {
+                self.inProgress = false
             }
-//            await FakeCandidates().getFakeCandidates()
-            switch await candidateService.getCandidates() {
-            case .success(let allCandidates):
-                await MainActor.run { self.allCandidates = allCandidates }
-
-            case .failure(let failure):
-                await MainActor.run { errorMessage = failure.title + " " + failure.message }
-            }
-            await MainActor.run { inProgress = false }
         }
     }
 
@@ -78,8 +73,8 @@ extension CandidatesViewModel {
 
     func deleteSelection() {
         editMode = .inactive
+        inProgress = true
         Task {
-            await MainActor.run { inProgress = true }
             for candidateId in selection {
                 _ = await candidateService.deleteCandidate(WithId: candidateId)
             }
@@ -97,7 +92,28 @@ extension CandidatesViewModel {
 
 private extension CandidatesViewModel {
 
+    /// Process service result on MainActor.
+    /// - Parameter result: The service result to process.
+    /// - Parameter completion: Code that will be executed on MainActor at the end of processing.
+    /// - If success: updates allCandidates property  from server candidates list value.
+    /// - If error: shows an error message.
+
+    func processServiceResult(_ result: Result<[Candidate], AppError>, completion: @escaping () -> Void) async {
+        await MainActor.run {
+            switch result {
+
+            case .success(let allCandidates):
+                self.allCandidates = allCandidates
+
+            case .failure(let appError):
+                errorMessage = appError.title + " " + appError.message
+            }
+            completion()
+        }
+    }
+
     /// Use allCandidates list to update candidates list with current filter values.
+    /// ## Attention: Must be call on MainActor, view will be updated.
 
     func applyFilter() {
         var filteredList: [Candidate] = []

@@ -51,71 +51,44 @@ extension CandidateDetailViewModel {
 
     func updateCandidate() {
         // check if all texfields are valid and candidate need update
-        if !textfieldsAreValid() { return }
-        if !needCandidateUpdate() { return }
+        guard textfieldsAreValid() else { return }
+        guard needCandidateUpdate() else { return }
 
-        Task { // TODO: Antoine: ça fait des await MainActor.run partout, on peut faire mieux ?
-            await MainActor.run {
-                isEditing.toggle()
-                updateInProgress = true
+        // Remove edition and launch progress view
+        isEditing.toggle()
+        updateInProgress = true
+        Task {
+            let result = await candidateService.update(candidate: candidate)
+            await processServiceResult(result) {
+                self.updateInProgress = false
             }
-            // update candidate
-            switch await candidateService.update(candidate: candidate) {
-            case .success(let candidate):
-                self.candidate = candidate
-                // notify candidates view that need refresh
-                NotificationCenter.default.post(name: .needUpdate, object: nil)
-                // use server value to update candidateDetail
-                await MainActor.run { self.updateCandidateDetail() }
-
-            case .failure(let failure):
-                await MainActor.run { self.errorMessage = failure.title + " " + failure.message }
-            }
-            await MainActor.run { updateInProgress = false }
         }
     }
 
     func cancel() {
-        Task { @MainActor in
-            // Use server value to remove modification
-            updateCandidateDetail()
-            // Clean error
-            errorMessage = ""
-        }
+        // Use server value to remove modification
+        updateCandidateDetail()
+        // Clean error
+        errorMessage = ""
     }
 
     func favoriteToggle() {
+        favoriteInProgress = true
         Task {
-            await MainActor.run { favoriteInProgress = true }
-            // Toggle favorite state
-            switch await candidateService.favoriteToggle(ForId: candidate.id) {
-            case .success(let candidate):
-                self.candidate = candidate
-                // notify candidates view that need refresh
-                NotificationCenter.default.post(name: .needUpdate, object: nil)
-                // use server value to update candidateDetail
-                await MainActor.run { self.updateCandidateDetail() }
-
-            case .failure(let failure):
-                await MainActor.run { self.errorMessage = failure.title + " " + failure.message }
+            let result = await candidateService.favoriteToggle(ForId: candidate.id)
+            await processServiceResult(result) {
+                self.favoriteInProgress = false
             }
-            await MainActor.run { favoriteInProgress = false }
-            // TODO: Antoine: quand je met un breakpoint ligne 96, je ne vois pas le loader
-            // Est-ce que du coup la methode peut être appelée avant que le bouton favoris ne switch d'état ?
         }
     }
 
     func openLinkedIn(withURL stringURL: String) {
         guard stringURL != "" else {
-            Task { @MainActor in
-                self.errorMessage = AppError.linkedInUrlEmpty.message
-            }
+            errorMessage = AppError.linkedInUrlEmpty.message
             return
         }
         guard let url = URL(string: stringURL) else {
-            Task { @MainActor in
-                self.errorMessage = AppError.invalidLinkedInUrl.message
-            }
+            errorMessage = AppError.invalidLinkedInUrl.message
             return
         }
         UIApplication.shared.open(url)
@@ -126,7 +99,34 @@ extension CandidateDetailViewModel {
 
 private extension CandidateDetailViewModel {
 
+    /// Process service result on MainActor.
+    /// - Parameter result: The service result to process.
+    /// - Parameter completion: Code that will be executed on MainActor at the end of processing.
+    /// - If success: 
+    ///     - Updates candidate and candidateDetail properties from server candidate values.
+    ///     - Notifies candidates need update.
+    /// - If error: shows an error message.
+
+    func processServiceResult(_ result: Result<Candidate, AppError>, completion: @escaping () -> Void) async {
+        await MainActor.run {
+            switch result {
+
+            case .success(let candidate):
+                self.candidate = candidate
+                // notify need update
+                NotificationCenter.default.post(name: .needUpdate, object: nil)
+                // use server value to update candidateDetail
+                updateCandidateDetail()
+
+            case .failure(let appError):
+                errorMessage = appError.title + " " + appError.message
+            }
+            completion()
+        }
+    }
+
     /// Update candidateDetail property from server candidate values.
+    /// ## Attention: Must be call on MainActor, view will be updated.
 
     func updateCandidateDetail() {
         isFavorite = candidate.isFavorite
@@ -159,29 +159,26 @@ private extension CandidateDetailViewModel {
     }
 
     /// Check if all textfields are valid, and display error message if not.
+    /// ## Attention: Must be call on MainActor, view can be updated.
     /// - Returns: True if all texfileds are valid.
 
     func textfieldsAreValid() -> Bool {
         // empty value (Only the email must not be empty)
         guard !candidateDetail.email.isEmpty else {
-            Task { @MainActor in
-                self.errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
-            }
+            errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
             return false
         }
         // valid mail
         guard candidateDetail.email.isValidEmail() else {
-            Task { @MainActor in
-                self.errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
-            }
+            errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
             return false
         }
         // valid phone
-        guard candidateDetail.phone.isValidFrPhone() else {
-            Task { @MainActor in
-                self.errorMessage = AppError.invalidFrPhone.title + " " + AppError.invalidFrPhone.message
+        if !candidateDetail.phone.isEmpty {
+            guard candidateDetail.phone.isValidFrPhone() else {
+                errorMessage = AppError.invalidFrPhone.title + " " + AppError.invalidFrPhone.message
+                return false
             }
-            return false
         }
         return true
     }

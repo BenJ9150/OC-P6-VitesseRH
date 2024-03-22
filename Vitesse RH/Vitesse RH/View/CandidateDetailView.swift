@@ -61,21 +61,22 @@ private extension CandidateDetailView {
     }
 
     var favoriteButton: some View {
-        Button {
-            candidateVM.favoriteToggle()
-        } label: {
+        Group {
             if candidateVM.favoriteInProgress {
                 ProgressView()
-                    .frame(width: 44, height: 44)
-                    .padding(.trailing)
             } else {
-                Image(candidateVM.isFavorite ? "icon_starFill" : "icon_star")
-                    .renderingMode(.template) // for accent color
-                    .foregroundStyle(candidateVM.isAdmin ? .accent : .orange)
-                    .padding(.trailing)
+                Button {
+                    candidateVM.favoriteToggle()
+                } label: {
+                    Image(candidateVM.isFavorite ? "icon_starFill" : "icon_star")
+                        .renderingMode(.template) // for accent color
+                        .foregroundStyle(candidateVM.isAdmin ? .accent : .orange)
+                }
+                .disabled(!candidateVM.isAdmin)
             }
         }
-        .disabled(!candidateVM.isAdmin)
+        .frame(width: 44, height: 44)
+        .padding(.trailing)
         .padding()
     }
 }

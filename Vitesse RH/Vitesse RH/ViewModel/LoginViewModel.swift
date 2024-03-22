@@ -36,36 +36,61 @@ class LoginViewModel: ObservableObject {
 extension LoginViewModel {
 
     func signIn() {
-        // check empty value
-        guard !email.isEmpty, !password.isEmpty else {
-            Task { @MainActor in
-                self.errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
-            }
-            return
-        }
-        // check if is valid mail
-        guard email.isValidEmail() else {
-            Task { @MainActor in
-                self.errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
-            }
-            return
-        }
+        // check if all texfields are valid
+        guard textfieldsAreValid() else { return }
+        inProgress = true
         // SignIn
         Task {
-            await MainActor.run { self.inProgress = true }
+            let result = await AuthService().signIn(withEmail: email, andPwd: password)
+            await processServiceResult(result)
+        }
+    }
+}
 
-            switch await AuthService().signIn(withEmail: email, andPwd: password) {
+// MARK: Private method
+
+private extension LoginViewModel {
+
+    /// Process service result on MainActor.
+    /// - Parameter result: The service result to process.
+    /// - If success:
+    ///     - Save administrator status in UserDefaults.
+    ///     - Call onLoginSucceed()
+    /// - If error:
+    ///     - Shows an error message.
+    ///     - Sets inProgress property to false.
+
+    func processServiceResult(_ result: Result<Bool, AppError>) async {
+        await MainActor.run {
+            switch result {
+
             case .success(let isAdmin):
                 // Save isAdmin Value in UserDefault
                 UserDefaults.standard.set(isAdmin, forKey: "VitesseUserIsAdmin")
-                await MainActor.run { self.onLoginSucceed() }
+                onLoginSucceed()
 
             case .failure(let failure):
-                await MainActor.run {
-                    self.errorMessage = failure.title + " " + failure.message
-                    self.inProgress = false
-                }
+                errorMessage = failure.title + " " + failure.message
+                inProgress = false
             }
         }
+    }
+
+    /// Check if all textfields are valid, and display error message if not.
+    /// ## Attention: Must be call on MainActor, view can be updated.
+    /// - Returns: True if all texfileds are valid.
+
+    func textfieldsAreValid() -> Bool {
+        // check empty value
+        guard !email.isEmpty, !password.isEmpty else {
+            errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            return false
+        }
+        // check if is valid mail
+        guard email.isValidEmail() else {
+            errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
+            return false
+        }
+        return true
     }
 }

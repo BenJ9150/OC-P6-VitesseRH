@@ -19,7 +19,7 @@ final class RegisterViewModel: ObservableObject {
 
     @Published var inProgress = false
     @Published private(set) var isRegistered = false
-    @Published var errorMessage = "" // TODO: Antoine: Output, Input ou les 2 ?
+    @Published var errorMessage = ""
 }
 
 // MARK: Inputs
@@ -27,47 +27,70 @@ final class RegisterViewModel: ObservableObject {
 extension RegisterViewModel {
 
     func register() {
-        // check empty value
-        guard !email.isEmpty, !firstName.isEmpty, !lastName.isEmpty,
-              !password.isEmpty, !confirmPwd.isEmpty else {
-            Task { @MainActor in
-                self.errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
-            }
-            return
-        }
-        // check if is valid mail
-        guard email.isValidEmail() else {
-            Task { @MainActor in
-                self.errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
-            }
-            return
-        }
-        // check password confirmation
-        guard password == confirmPwd else {
-            Task { @MainActor in
-                self.errorMessage = AppError.badPwdConfirm.title + " " + AppError.badPwdConfirm.message
-            }
-            return
-        }
-        // Registering
+        // check if all texfields are valid
+        guard textfieldsAreValid() else { return }
+        inProgress = true
+        // registering
         Task {
-            await MainActor.run { self.inProgress = true }
-
-            switch await AuthService().register(
+            let result = await AuthService().register(
                 mail: email,
                 password: password,
                 firstName: firstName,
                 lastName: lastName
-            ) {
-            case .success(let success):
-                await MainActor.run { self.isRegistered = success }
-
-            case .failure(let failure):
-                await MainActor.run {
-                    self.errorMessage = failure.title + " " + failure.message
-                    self.inProgress = false
-                }
+            )
+            await processServiceResult(result) {
+                self.inProgress = false
             }
         }
+    }
+}
+
+// MARK: Private method
+
+private extension RegisterViewModel {
+
+    /// Process service result on MainActor.
+    /// - Parameter result: The service result to process.
+    /// - Parameter completion: Code that will be executed on MainActor at the end of processing.
+    /// - If success: sets isRegistered property to true
+    /// - If error: shows an error message.
+
+    func processServiceResult(_ result: Result<Bool, AppError>, completion: @escaping () -> Void) async {
+        await MainActor.run {
+            switch result {
+
+            case .success(let success):
+                isRegistered = success
+
+            case .failure(let appError):
+                errorMessage = appError.title + " " + appError.message
+            }
+            completion()
+        }
+    }
+
+    /// Check if all textfields are valid, and display error message if not.
+    /// ## Attention: Must be call on MainActor, view can be updated.
+    /// - Returns: True if all texfileds are valid.
+
+    func textfieldsAreValid() -> Bool {
+        // check empty value
+        guard !email.isEmpty, !firstName.isEmpty, !lastName.isEmpty,
+              !password.isEmpty, !confirmPwd.isEmpty else {
+
+            errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            return false
+        }
+        // check if is valid mail
+        guard email.isValidEmail() else {
+            errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
+            return false
+        }
+        // check password confirmation
+        guard password == confirmPwd else {
+            errorMessage = AppError.badPwdConfirm.title + " " + AppError.badPwdConfirm.message
+            return false
+        }
+        return true
     }
 }
