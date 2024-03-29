@@ -32,7 +32,7 @@ extension RegisterViewModel {
         inProgress = true
         // registering
         Task {
-            let result = await AuthService().register(
+            let result = await AuthService().postToRegister(
                 mail: email,
                 password: password,
                 firstName: firstName,

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreSpotlight
 
 /// Use CandidateService to get, add, edit or delete candidate from API database.
 
@@ -24,6 +25,7 @@ final class CandidateService: UrlSessionBuilder {
             guard let decodedJson = try? JSONDecoder().decode([Candidate].self, from: data) else {
                 return .failure(AppError.invalidJson)
             }
+            await indexToSpotlight(candidates: decodedJson)
             return .success(decodedJson)
 
         case .failure(let failure):
@@ -51,7 +53,7 @@ extension CandidateService {
     ///   - candidate: The new candidate (id parameter is ignored, so can be empty).
     /// - Returns: The new candidate with new ID if success, or the App Error if failure.
 
-    func add(candidate: Candidate) async -> Result<Candidate, AppError> {
+    func postToAdd(candidate: Candidate) async -> Result<Candidate, AppError> {
         let urlSessionConfig = addOrUpdateUrlConfig(candidate: candidate)
         return await urlSessionResult(config: urlSessionConfig)
     }
@@ -66,7 +68,7 @@ extension CandidateService {
     ///   - candidate: The candidate with new values.
     /// - Returns: The candidate with new saved values if success, or the App Error if failure.
 
-    func update(candidate: Candidate) async -> Result<Candidate, AppError> {
+    func putUpdate(candidate: Candidate) async -> Result<Candidate, AppError> {
         let urlSessionConfig = addOrUpdateUrlConfig(candidate: candidate, update: true)
         return await urlSessionResult(config: urlSessionConfig)
     }
@@ -76,7 +78,7 @@ extension CandidateService {
     ///   - candidateId: The candidate ID.
     /// - Returns: The candidate with new saved values if success, or the App Error if failure.
 
-    func favoriteToggle(ForId candidateId: String) async -> Result<Candidate, AppError> {
+    func putFavoriteToggle(ForId candidateId: String) async -> Result<Candidate, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post, // Error in API (README: put method, but CandidateController use post)
@@ -158,5 +160,32 @@ private extension CandidateService {
             ],
             withAuth: true
         )
+    }
+
+    func indexToSpotlight(candidates: [Candidate]) async {
+        do {
+            // Clean old index
+            try await CSSearchableIndex.default().deleteAllSearchableItems()
+            var searchableItems: [CSSearchableItem] = []
+
+            for candidate in candidates {
+                // Set attributes
+                let attributeSet = CSSearchableItemAttributeSet(contentType: .content)
+                attributeSet.displayName = candidate.firstName + " " + candidate.lastName
+                let description = candidate.isFavorite ? "Favorite vitesse candidate" : "Vitesse candidate"
+                attributeSet.contentDescription = description
+
+                // Create searchable item
+                let searchableItem = CSSearchableItem(
+                    uniqueIdentifier: candidate.id,
+                    domainIdentifier: "com.benjaminlefrancois.Vitesse-RH",
+                    attributeSet: attributeSet
+                )
+                searchableItems.append(searchableItem)
+            }
+            // Submit for indexing
+            try await CSSearchableIndex.default().indexSearchableItems(searchableItems)
+
+        } catch {}
     }
 }

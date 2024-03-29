@@ -20,7 +20,7 @@ final class AuthService: UrlSessionBuilder {
     ///   - password: The password of current user.
     /// - Returns: The administrator status of user if success, or the App Error if failure.
 
-    func signIn(withEmail mail: String, andPwd password: String) async -> Result<Bool, AppError> {
+    func postToSignIn(withEmail mail: String, andPwd password: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post,
@@ -60,7 +60,7 @@ extension AuthService {
     ///   - lastName: The last name of new user.
     /// - Returns: True if success, or the App Error if failure.
 
-    func register(mail: String, password: String, firstName: String, lastName: String) async -> Result<Bool, AppError> {
+    func postToRegister(mail: String, password: String, firstName: String, lastName: String) async -> Result<Bool, AppError> {
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post,

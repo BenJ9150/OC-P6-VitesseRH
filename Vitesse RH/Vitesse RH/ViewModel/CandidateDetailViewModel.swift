@@ -58,7 +58,7 @@ extension CandidateDetailViewModel {
         isEditing.toggle()
         updateInProgress = true
         Task {
-            let result = await candidateService.update(candidate: candidate)
+            let result = await candidateService.putUpdate(candidate: candidate)
             await processServiceResult(result) {
                 self.updateInProgress = false
             }
@@ -75,7 +75,7 @@ extension CandidateDetailViewModel {
     func favoriteToggle() {
         favoriteInProgress = true
         Task {
-            let result = await candidateService.favoriteToggle(ForId: candidate.id)
+            let result = await candidateService.putFavoriteToggle(ForId: candidate.id)
             await processServiceResult(result) {
                 self.favoriteInProgress = false
             }

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CoreSpotlight
 
 final class CandidatesViewModel: ObservableObject {
 
@@ -27,6 +28,9 @@ final class CandidatesViewModel: ObservableObject {
     @Published var editMode: EditMode = .inactive
     @Published private(set) var errorMessage = ""
     @Published private(set) var inProgress = false
+
+    /// Spotlight search result
+    @Published var spotlightCandidate: Candidate?
 
     var inEditMode: Bool {
         return editMode == .active
@@ -60,6 +64,7 @@ extension CandidatesViewModel {
             inProgress = true
         }
         Task {
+//            await FakeCandidates().getFakeCandidates()
             let result = await candidateService.getCandidates()
             await processServiceResult(result) {
                 self.inProgress = false
@@ -85,6 +90,15 @@ extension CandidatesViewModel {
 
     func signOut() {
         onSignOut()
+    }
+
+    func handleSpotlight(userActivity: NSUserActivity) {
+        guard let candidateId = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
+            return
+        }
+        guard let candidate = allCandidates.first(where: { $0.id == candidateId }) else { return }
+        print("Item tapped: \(candidateId)")
+        spotlightCandidate = candidate
     }
 }
 

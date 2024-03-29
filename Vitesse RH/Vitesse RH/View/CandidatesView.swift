@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreSpotlight
 
 struct CandidatesView: View {
 
@@ -35,6 +36,11 @@ struct CandidatesView: View {
             .alert("Sign out?", isPresented: $showAlertSignOut) {
                 Button("Yes") { candidatesVM.signOut() }
                 Button("Cancel", role: .cancel, action: {})
+            }
+            // Spotlight result
+            .onContinueUserActivity(CSSearchableItemActionType, perform: candidatesVM.handleSpotlight)
+            .navigationDestination(item: $candidatesVM.spotlightCandidate) { candidate in
+                CandidateDetailView(candidate)
             }
         }
     }

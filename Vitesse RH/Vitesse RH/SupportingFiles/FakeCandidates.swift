@@ -12,7 +12,7 @@ class FakeCandidates {
     func getFakeCandidates() async {
 
         for candidate in allCandidates {
-            _ = await CandidateService().add(candidate: candidate)
+            _ = await CandidateService().postToAdd(candidate: candidate)
         }
     }
 
@@ -22,7 +22,8 @@ class FakeCandidates {
         Candidate(id: "2", phone: nil, note: nil, firstName: "Kurt", linkedinURL: "https://openclassrooms.com", isFavorite: false, email: "test@gmail.com", lastName: "Cobain"),
         Candidate(id: "3", phone: nil, note: nil, firstName: "John", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Do"),
         Candidate(id: "4", phone: nil, note: nil, firstName: "Billy", linkedinURL: nil, isFavorite: false, email: "test@gmail.com", lastName: "Idol"),
-        Candidate(id: "5", phone: nil, note: nil, firstName: "Bruce", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Wayne")
+        Candidate(id: "5", phone: nil, note: nil, firstName: "Bruce", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Wayne"),
+        Candidate(id: "5", phone: nil, note: nil, firstName: "Benjamin", linkedinURL: nil, isFavorite: true, email: "test@gmail.com", lastName: "Lef")
     ]
     // swiftlint:enable all
 }

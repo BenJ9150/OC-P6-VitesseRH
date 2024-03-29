@@ -44,7 +44,7 @@ extension LoginViewModel {
         inProgress = true
         // SignIn
         Task {
-            let result = await AuthService().signIn(withEmail: email, andPwd: password)
+            let result = await AuthService().postToSignIn(withEmail: email, andPwd: password)
             await processServiceResult(result)
         }
     }

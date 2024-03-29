@@ -174,7 +174,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.add(candidate: newCandidate) {
+            switch await candidateService.postToAdd(candidate: newCandidate) {
             case .success(let candidate):
                 // then
                 XCTAssertEqual(candidate.firstName, "Rima")
@@ -196,7 +196,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.update(candidate: newCandidate) {
+            switch await candidateService.putUpdate(candidate: newCandidate) {
             case .success(let candidate):
                 // then
                 XCTAssertEqual(candidate.firstName, "Rima")
@@ -218,7 +218,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.favoriteToggle(ForId: "test") {
+            switch await candidateService.putFavoriteToggle(ForId: "test") {
             case .success(let candidate):
                 // then
                 XCTAssertEqual(candidate.firstName, "Rima")
