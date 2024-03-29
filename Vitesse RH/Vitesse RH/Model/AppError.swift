@@ -49,13 +49,13 @@ enum AppError: Error {
             print("AppError: invalidJson")
             return "Our server is currently unavailable."
         case .emptyTextField:
-            return "Please complete all fields."
+            return "Oops! this field must not be empty."
         case .invalidMail:
             return "Email is invalid! Change email and try again."
         case .invalidFrPhone:
             return "Phone is invalid! Change phone and try again."
         case .badPwdConfirm:
-            return "The entered password is not the same as the password confirmation."
+            return "Oops! Enter an identical password."
         case .internalServerError:
             return "Email already exists, log in with this email or use another email to register."
         case .linkedInUrlEmpty:

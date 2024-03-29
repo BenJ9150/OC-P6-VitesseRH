@@ -28,7 +28,7 @@ struct CandidateDetailView: View {
             } else {
                 ScrollView {
                     nameAndFavorite
-                    ErrorMessageView(error: candidateVM.errorMessage)
+                    ErrorMessageView(error: candidateVM.apiError)
                     candidatePhone
                     candidateEmail
                     candidateLinkedin
@@ -94,8 +94,7 @@ private extension CandidateDetailView {
                     input: $candidateVM.candidateDetail.phone,
                     placeHolder: "Candidate phone number",
                     keyboard: .phonePad,
-                    errToClean: $candidateVM.errorMessage,
-                    errAnimation: .constant(false)
+                    error: $candidateVM.phoneError
                 )
                 .focused($fieldToFocus, equals: .phone)
                 .onChange(of: candidateVM.candidateDetail.phone) { _, _ in
@@ -120,8 +119,7 @@ private extension CandidateDetailView {
                     input: $candidateVM.candidateDetail.email,
                     placeHolder: "Candidate email",
                     keyboard: .emailAddress,
-                    errToClean: $candidateVM.errorMessage,
-                    errAnimation: .constant(false)
+                    error: $candidateVM.mailError
                 )
             } else {
                 ParagraphView(title: "Email", text: candidateVM.candidateDetail.email)
@@ -143,8 +141,7 @@ private extension CandidateDetailView {
                     input: $candidateVM.candidateDetail.linkedinURL,
                     placeHolder: "LinkedIn url",
                     keyboard: .URL,
-                    errToClean: $candidateVM.errorMessage,
-                    errAnimation: .constant(false)
+                    error: $candidateVM.linkedInErr
                 )
             } else {
                 ButtonView(

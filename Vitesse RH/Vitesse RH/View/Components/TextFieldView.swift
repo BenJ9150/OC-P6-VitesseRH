@@ -22,18 +22,17 @@ struct TextFieldView: View {
     // Secure?
     var isSecure = false
 
-    // Error message to clean when texfield change
-    @Binding var errToClean: String
+    // Error message
+    @Binding var error: String
 
     // Launch animation
-    @Binding var errAnimation: Bool
+    @State private var animation = false
 
     var body: some View {
         VStack(alignment: .leading) {
             Text(header)
                 .font(.vitesseSubtitle)
-                .padding(.horizontal)
-                .padding(.horizontal)
+                .padding(.leading)
 
             textOrSecureField
                 .autocapitalization(.none)
@@ -43,23 +42,31 @@ struct TextFieldView: View {
                 .padding()
                 .background(.colorDarkGray)
                 .cornerRadius(12)
-                .padding(.horizontal)
                 .focused($focused)
                 .onChange(of: input) { _, _ in
-                    if errToClean != "" {
-                        errToClean = ""
-                    }
+                    if error != "" { error = "" }
                 }
                 // Error Animation
-                .offset(y: errAnimation ? -4 : 0)
-                .onChange(of: errAnimation) { _, _ in
-                    withAnimation(.spring().speed(20).repeatCount(8)) {
-                        errAnimation = false
+                .offset(y: animation ? -4 : 0)
+                .onChange(of: error) { _, newErr in
+                    if !newErr.isEmpty {
+                        animation = true
+                        withAnimation(.spring().speed(20).repeatCount(8)) {
+                            animation = false
+                        }
                     }
                 }
-                .sensoryFeedback(.error, trigger: errAnimation)
+                .sensoryFeedback(.error, trigger: animation)
+
+            // Error in textfield
+            Text(error)
+                .font(.vitesseTextfieldError)
+                .foregroundStyle(.colorRed)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+                .frame(minHeight: 16)
         }
-        .padding(.bottom)
+        .padding(.horizontal)
     }
 
     private var textOrSecureField: some View {

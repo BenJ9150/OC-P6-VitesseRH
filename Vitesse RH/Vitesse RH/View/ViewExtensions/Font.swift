@@ -15,5 +15,6 @@ extension Font {
     static let vitesseText = Font.system(size: 16)
     static let vitesseButton = Font.custom("Copperplate-Bold", size: 20)
     static let vitesseError = Font.system(size: 16).bold()
+    static let vitesseTextfieldError = Font.system(size: 12).bold()
     static let vitesseToolbar = Font.custom("Copperplate-Light", size: 20)
 }

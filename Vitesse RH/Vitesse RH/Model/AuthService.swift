@@ -60,7 +60,13 @@ extension AuthService {
     ///   - lastName: The last name of new user.
     /// - Returns: True if success, or the App Error if failure.
 
-    func postToRegister(mail: String, password: String, firstName: String, lastName: String) async -> Result<Bool, AppError> {
+    func postToRegister(
+        mail: String,
+        password: String,
+        firstName: String,
+        lastName: String
+    ) async -> Result<Bool, AppError> {
+
         // set config for url session
         let config = UrlSessionConfig(
             httpMethod: .post,

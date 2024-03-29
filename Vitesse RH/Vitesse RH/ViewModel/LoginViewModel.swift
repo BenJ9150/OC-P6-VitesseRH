@@ -22,9 +22,9 @@ class LoginViewModel: ObservableObject {
 //    @Published var password: String = ""
 
     @Published var inProgress = false
-    @Published var errorMessage = ""
-
-    @Published var invalidMail = false
+    @Published var apiError = ""
+    @Published var mailError = ""
+    @Published var pwdError = ""
 
     // MARK: Init
 
@@ -73,7 +73,7 @@ private extension LoginViewModel {
                 onLoginSucceed()
 
             case .failure(let failure):
-                errorMessage = failure.title + " " + failure.message
+                apiError = failure.title + " " + failure.message
                 inProgress = false
             }
         }
@@ -86,15 +86,21 @@ private extension LoginViewModel {
     func textfieldsAreValid() -> Bool {
         // check empty value
         guard !email.isEmpty, !password.isEmpty else {
-            errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            // Error
+            if email.isEmpty {
+                mailError = AppError.emptyTextField.message
+            }
+            if password.isEmpty {
+                pwdError = AppError.emptyTextField.message
+            }
             return false
         }
         // check if is valid mail
         guard email.isValidEmail() else {
-            invalidMail.toggle()
-            errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
+            mailError = AppError.invalidMail.message
             return false
         }
         return true
     }
+
 }

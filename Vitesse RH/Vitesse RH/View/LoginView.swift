@@ -28,7 +28,7 @@ struct LoginView: View {
                         .padding(.horizontal, 48)
                     header(title: "Login")
                     texfields
-                    ErrorMessageView(error: loginVM.errorMessage)
+                    ErrorMessageView(error: loginVM.apiError)
                     buttons
                     Spacer()
                 }
@@ -55,8 +55,7 @@ private extension LoginView {
                 input: $loginVM.email,
                 placeHolder: "Your email",
                 keyboard: .emailAddress,
-                errToClean: $loginVM.errorMessage,
-                errAnimation: $loginVM.invalidMail
+                error: $loginVM.mailError
             )
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
@@ -68,8 +67,7 @@ private extension LoginView {
                 keyboard: .default,
                 focused: _pwdFocus,
                 isSecure: true,
-                errToClean: $loginVM.errorMessage,
-                errAnimation: .constant(false)
+                error: $loginVM.pwdError
             )
             .submitLabel(.join)
         }

@@ -35,7 +35,7 @@ struct RegisterView: View {
 
             // Create button
             VStack {
-                ErrorMessageView(error: registerVM.errorMessage)
+                ErrorMessageView(error: registerVM.apiError)
                 createButton
             }
         }
@@ -62,8 +62,7 @@ private extension RegisterView {
                 input: $registerVM.firstName,
                 placeHolder: "Your first name",
                 keyboard: .default,
-                errToClean: $registerVM.errorMessage,
-                errAnimation: .constant(false)
+                error: $registerVM.firstNameErr
             )
             .focused($fieldToFocus, equals: .lastName)
             .submitLabel(.next)
@@ -74,8 +73,7 @@ private extension RegisterView {
                 placeHolder: "Your last name",
                 keyboard: .default,
                 focused: _lastNameFocus,
-                errToClean: $registerVM.errorMessage,
-                errAnimation: .constant(false)
+                error: $registerVM.lastNameErr
             )
             .focused($fieldToFocus, equals: .email)
             .submitLabel(.next)
@@ -86,8 +84,7 @@ private extension RegisterView {
                 placeHolder: "Your email",
                 keyboard: .emailAddress,
                 focused: _emailFocus,
-                errToClean: $registerVM.errorMessage,
-                errAnimation: .constant(false)
+                error: $registerVM.mailError
             )
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
@@ -98,8 +95,7 @@ private extension RegisterView {
                 keyboard: .default,
                 focused: _pwdFocus,
                 isSecure: true,
-                errToClean: $registerVM.errorMessage,
-                errAnimation: .constant(false)
+                error: $registerVM.pwdError
             )
             .focused($fieldToFocus, equals: .confirmPwd)
             .submitLabel(.next)
@@ -111,8 +107,7 @@ private extension RegisterView {
                 keyboard: .default,
                 focused: _confirmPwdFocus,
                 isSecure: true,
-                errToClean: $registerVM.errorMessage,
-                errAnimation: .constant(false)
+                error: $registerVM.confirmPwdErr
             )
             .submitLabel(.join)
         }

@@ -17,9 +17,15 @@ final class RegisterViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var confirmPwd: String = ""
 
-    @Published var inProgress = false
     @Published private(set) var isRegistered = false
-    @Published var errorMessage = ""
+
+    @Published var inProgress = false
+    @Published var apiError = ""
+    @Published var mailError = ""
+    @Published var firstNameErr = ""
+    @Published var lastNameErr = ""
+    @Published var pwdError = ""
+    @Published var confirmPwdErr = ""
 }
 
 // MARK: Inputs
@@ -63,7 +69,7 @@ private extension RegisterViewModel {
                 isRegistered = success
 
             case .failure(let appError):
-                errorMessage = appError.title + " " + appError.message
+                apiError = appError.title + " " + appError.message
             }
             completion()
         }
@@ -77,18 +83,32 @@ private extension RegisterViewModel {
         // check empty value
         guard !email.isEmpty, !firstName.isEmpty, !lastName.isEmpty,
               !password.isEmpty, !confirmPwd.isEmpty else {
-
-            errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            // Error
+            if email.isEmpty {
+                mailError = AppError.emptyTextField.message
+            }
+            if firstName.isEmpty {
+                firstNameErr = AppError.emptyTextField.message
+            }
+            if lastName.isEmpty {
+                lastNameErr = AppError.emptyTextField.message
+            }
+            if password.isEmpty {
+                pwdError = AppError.emptyTextField.message
+            }
+            if confirmPwd.isEmpty {
+                confirmPwdErr = AppError.emptyTextField.message
+            }
             return false
         }
         // check if is valid mail
         guard email.isValidEmail() else {
-            errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
+            mailError = AppError.invalidMail.message
             return false
         }
         // check password confirmation
         guard password == confirmPwd else {
-            errorMessage = AppError.badPwdConfirm.title + " " + AppError.badPwdConfirm.message
+            confirmPwdErr = AppError.badPwdConfirm.message
             return false
         }
         return true

@@ -118,7 +118,10 @@ final class AuthServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await authService.postToRegister(mail: "test", password: "test", firstName: "test", lastName: "test") {
+            switch await authService.postToRegister(
+                mail: "test", password: "test",
+                firstName: "test", lastName: "test"
+            ) {
             case .success:
                 XCTFail("error in Register UrlSession Error")
 
@@ -140,7 +143,10 @@ final class AuthServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await authService.postToRegister(mail: "test", password: "test", firstName: "test", lastName: "test") {
+            switch await authService.postToRegister(
+                mail: "test", password: "test",
+                firstName: "test", lastName: "test"
+            ) {
             case .success(let result):
                 // then
                 XCTAssertTrue(result)

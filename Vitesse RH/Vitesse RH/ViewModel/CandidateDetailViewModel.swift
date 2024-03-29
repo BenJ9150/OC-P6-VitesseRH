@@ -28,11 +28,19 @@ final class CandidateDetailViewModel: ObservableObject {
     let name: String
 
     @Published var candidateDetail = CandidateDetail()
-    @Published var isEditing = false
+    @Published var isEditing = false {
+        didSet {
+            apiError = ""
+        }
+    }
     @Published private(set) var isFavorite = false
+
     @Published private(set) var updateInProgress = false
     @Published private(set) var favoriteInProgress = false
-    @Published var errorMessage = ""
+    @Published var apiError = ""
+    @Published var mailError = ""
+    @Published var phoneError = ""
+    @Published var linkedInErr = ""
 
     // MARK: Init
 
@@ -69,7 +77,10 @@ extension CandidateDetailViewModel {
         // Use server value to remove modification
         updateCandidateDetail()
         // Clean error
-        errorMessage = ""
+        apiError = ""
+        mailError = ""
+        phoneError = ""
+        linkedInErr = ""
     }
 
     func favoriteToggle() {
@@ -84,11 +95,11 @@ extension CandidateDetailViewModel {
 
     func openLinkedIn(withURL stringURL: String) {
         guard stringURL != "" else {
-            errorMessage = AppError.linkedInUrlEmpty.message
+            apiError = AppError.linkedInUrlEmpty.message
             return
         }
-        guard let url = URL(string: stringURL) else {
-            errorMessage = AppError.invalidLinkedInUrl.message
+        guard let url = URL(string: stringURL), UIApplication.shared.canOpenURL(url) else {
+            apiError = AppError.invalidLinkedInUrl.message
             return
         }
         UIApplication.shared.open(url)
@@ -119,7 +130,7 @@ private extension CandidateDetailViewModel {
                 updateCandidateDetail()
 
             case .failure(let appError):
-                errorMessage = appError.title + " " + appError.message
+                apiError = appError.title + " " + appError.message
             }
             completion()
         }
@@ -165,18 +176,25 @@ private extension CandidateDetailViewModel {
     func textfieldsAreValid() -> Bool {
         // empty value (Only the email must not be empty)
         guard !candidateDetail.email.isEmpty else {
-            errorMessage = AppError.emptyTextField.title + " " + AppError.emptyTextField.message
+            mailError = AppError.emptyTextField.message
             return false
         }
         // valid mail
         guard candidateDetail.email.isValidEmail() else {
-            errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
+            mailError = AppError.invalidMail.message
             return false
         }
         // valid phone
         if !candidateDetail.phone.isEmpty {
             guard candidateDetail.phone.isValidFrPhone() else {
-                errorMessage = AppError.invalidFrPhone.title + " " + AppError.invalidFrPhone.message
+                phoneError = AppError.invalidFrPhone.message
+                return false
+            }
+        }
+        // valid linkedIn url
+        if !candidateDetail.linkedinURL.isEmpty {
+            guard let url = URL(string: candidateDetail.linkedinURL), UIApplication.shared.canOpenURL(url) else {
+                linkedInErr = AppError.invalidLinkedInUrl.message
                 return false
             }
         }
