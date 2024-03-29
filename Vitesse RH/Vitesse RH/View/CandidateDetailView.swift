@@ -66,13 +66,14 @@ private extension CandidateDetailView {
                 ProgressView()
             } else {
                 Button {
-                    candidateVM.favoriteToggle()
+                    withAnimation { candidateVM.favoriteToggle() } // with anim. for transition
                 } label: {
                     Image(candidateVM.isFavorite ? "icon_starFill" : "icon_star")
                         .renderingMode(.template) // for accent color
                         .foregroundStyle(candidateVM.isAdmin ? .accent : .orange)
                 }
                 .disabled(!candidateVM.isAdmin)
+                .transition(.scale)
             }
         }
         .frame(width: 44, height: 44)
@@ -93,7 +94,8 @@ private extension CandidateDetailView {
                     input: $candidateVM.candidateDetail.phone,
                     placeHolder: "Candidate phone number",
                     keyboard: .phonePad,
-                    errToClean: $candidateVM.errorMessage
+                    errToClean: $candidateVM.errorMessage,
+                    errAnimation: .constant(false)
                 )
                 .focused($fieldToFocus, equals: .phone)
                 .onChange(of: candidateVM.candidateDetail.phone) { _, _ in
@@ -118,7 +120,8 @@ private extension CandidateDetailView {
                     input: $candidateVM.candidateDetail.email,
                     placeHolder: "Candidate email",
                     keyboard: .emailAddress,
-                    errToClean: $candidateVM.errorMessage
+                    errToClean: $candidateVM.errorMessage,
+                    errAnimation: .constant(false)
                 )
             } else {
                 ParagraphView(title: "Email", text: candidateVM.candidateDetail.email)
@@ -140,7 +143,8 @@ private extension CandidateDetailView {
                     input: $candidateVM.candidateDetail.linkedinURL,
                     placeHolder: "LinkedIn url",
                     keyboard: .URL,
-                    errToClean: $candidateVM.errorMessage
+                    errToClean: $candidateVM.errorMessage,
+                    errAnimation: .constant(false)
                 )
             } else {
                 ButtonView(

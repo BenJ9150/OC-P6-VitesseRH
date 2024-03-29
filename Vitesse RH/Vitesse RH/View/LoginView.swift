@@ -39,6 +39,7 @@ struct LoginView: View {
             .onTapGesture {
                 hideKeyboard()
             }
+            .ignoresSafeArea(.keyboard)
         }
     }
 }
@@ -54,7 +55,8 @@ private extension LoginView {
                 input: $loginVM.email,
                 placeHolder: "Your email",
                 keyboard: .emailAddress,
-                errToClean: $loginVM.errorMessage
+                errToClean: $loginVM.errorMessage,
+                errAnimation: $loginVM.invalidMail
             )
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
@@ -66,7 +68,8 @@ private extension LoginView {
                 keyboard: .default,
                 focused: _pwdFocus,
                 isSecure: true,
-                errToClean: $loginVM.errorMessage
+                errToClean: $loginVM.errorMessage,
+                errAnimation: .constant(false)
             )
             .submitLabel(.join)
         }
@@ -76,6 +79,7 @@ private extension LoginView {
             case .password:
                 pwdFocus.toggle()
             default: // join
+                hideKeyboard()
                 loginVM.signIn()
             }
         }
@@ -89,7 +93,7 @@ private extension LoginView {
     var buttons: some View {
         Group {
             ButtonView(title: "Sign in", actionInProgress: loginVM.inProgress) {
-                hideKeyboard()
+//                hideKeyboard()
                 loginVM.signIn()
             }
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI // for haptic feedback
 
 /// Use AuthService to connect or register user to API.
 
@@ -32,13 +33,16 @@ final class AuthService: UrlSessionBuilder {
         case .success(let data):
             // decode
             guard let decodedJson = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
+                await UINotificationFeedbackGenerator().notificationOccurred(.error)
                 return .failure(AppError.invalidJson)
             }
             // Save token
             KeychainManager.token = decodedJson.token
+            await UINotificationFeedbackGenerator().notificationOccurred(.success)
             return .success(decodedJson.isAdmin)
 
         case .failure(let failure):
+            await UINotificationFeedbackGenerator().notificationOccurred(.error)
             return .failure(failure)
         }
     }
@@ -72,9 +76,11 @@ extension AuthService {
         // Check success (201 Created)
         switch await createUrlSessionDataTask(config: config) {
         case .success:
+            await UINotificationFeedbackGenerator().notificationOccurred(.success)
             return .success(true)
 
         case .failure(let failure):
+            await UINotificationFeedbackGenerator().notificationOccurred(.error)
             return .failure(failure)
         }
     }

@@ -62,7 +62,8 @@ private extension RegisterView {
                 input: $registerVM.firstName,
                 placeHolder: "Your first name",
                 keyboard: .default,
-                errToClean: $registerVM.errorMessage
+                errToClean: $registerVM.errorMessage,
+                errAnimation: .constant(false)
             )
             .focused($fieldToFocus, equals: .lastName)
             .submitLabel(.next)
@@ -73,7 +74,8 @@ private extension RegisterView {
                 placeHolder: "Your last name",
                 keyboard: .default,
                 focused: _lastNameFocus,
-                errToClean: $registerVM.errorMessage
+                errToClean: $registerVM.errorMessage,
+                errAnimation: .constant(false)
             )
             .focused($fieldToFocus, equals: .email)
             .submitLabel(.next)
@@ -84,7 +86,8 @@ private extension RegisterView {
                 placeHolder: "Your email",
                 keyboard: .emailAddress,
                 focused: _emailFocus,
-                errToClean: $registerVM.errorMessage
+                errToClean: $registerVM.errorMessage,
+                errAnimation: .constant(false)
             )
             .focused($fieldToFocus, equals: .password)
             .submitLabel(.next)
@@ -95,7 +98,8 @@ private extension RegisterView {
                 keyboard: .default,
                 focused: _pwdFocus,
                 isSecure: true,
-                errToClean: $registerVM.errorMessage
+                errToClean: $registerVM.errorMessage,
+                errAnimation: .constant(false)
             )
             .focused($fieldToFocus, equals: .confirmPwd)
             .submitLabel(.next)
@@ -107,7 +111,8 @@ private extension RegisterView {
                 keyboard: .default,
                 focused: _confirmPwdFocus,
                 isSecure: true,
-                errToClean: $registerVM.errorMessage
+                errToClean: $registerVM.errorMessage,
+                errAnimation: .constant(false)
             )
             .submitLabel(.join)
         }

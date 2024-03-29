@@ -25,6 +25,9 @@ struct TextFieldView: View {
     // Error message to clean when texfield change
     @Binding var errToClean: String
 
+    // Launch animation
+    @Binding var errAnimation: Bool
+
     var body: some View {
         VStack(alignment: .leading) {
             Text(header)
@@ -47,6 +50,14 @@ struct TextFieldView: View {
                         errToClean = ""
                     }
                 }
+                // Error Animation
+                .offset(y: errAnimation ? -4 : 0)
+                .onChange(of: errAnimation) { _, _ in
+                    withAnimation(.spring().speed(20).repeatCount(8)) {
+                        errAnimation = false
+                    }
+                }
+                .sensoryFeedback(.error, trigger: errAnimation)
         }
         .padding(.bottom)
     }

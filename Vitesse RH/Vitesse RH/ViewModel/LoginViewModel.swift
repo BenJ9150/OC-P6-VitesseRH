@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class LoginViewModel: ObservableObject {
 
@@ -22,6 +23,8 @@ class LoginViewModel: ObservableObject {
 
     @Published var inProgress = false
     @Published var errorMessage = ""
+
+    @Published var invalidMail = false
 
     // MARK: Init
 
@@ -88,6 +91,7 @@ private extension LoginViewModel {
         }
         // check if is valid mail
         guard email.isValidEmail() else {
+            invalidMail.toggle()
             errorMessage = AppError.invalidMail.title + " " + AppError.invalidMail.message
             return false
         }
