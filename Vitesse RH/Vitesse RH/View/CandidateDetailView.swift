@@ -178,7 +178,7 @@ private extension CandidateDetailView {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     hideKeyboard()
-                    candidateVM.cancel()
+                    candidateVM.cancel() // TODO: Ajouter alert abandon si modif
                     candidateVM.isEditing.toggle()
                 } label: {
                     Text("Cancel")
@@ -202,7 +202,7 @@ private extension CandidateDetailView {
             }
         }
 
-        // Done button to numeric keyboard
+        // Done button to numeric or textEditor keyboard
         ToolbarItem(placement: .keyboard) {
             if fieldToFocus == .phone || fieldToFocus == .note {
                 Button("Done") {

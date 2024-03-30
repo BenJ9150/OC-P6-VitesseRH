@@ -8,16 +8,18 @@
 import SwiftUI
 import CoreSpotlight
 
-struct CandidatesView: View {
+struct CandidatesView: View { // TODO: Effacer erreur après rechargement (exemple si problème serveur puis refresh)
 
     @ObservedObject var candidatesVM: CandidatesViewModel
+
     @State var showAlertSignOut = false
+    @State var showAddCandidateView = false
 
     // MARK: Body
 
     var body: some View {
         NavigationStack {
-            ZStack {
+            ZStack(alignment: .bottom) {
                 candidatesBackground
                 VStack {
                     ErrorMessageView(error: candidatesVM.errorMessage)
@@ -27,6 +29,7 @@ struct CandidatesView: View {
                         candidatesList
                     }
                 }
+                addCandidateBtn
             }
             .toolbarTitleDisplayMode(.inline)
             .navigationTitle("")
@@ -41,6 +44,9 @@ struct CandidatesView: View {
             .onContinueUserActivity(CSSearchableItemActionType, perform: candidatesVM.handleSpotlight)
             .navigationDestination(item: $candidatesVM.spotlightCandidate) { candidate in
                 CandidateDetailView(candidate)
+            }
+            .navigationDestination(isPresented: $showAddCandidateView) {
+                AddCandidateView()
             }
         }
     }
@@ -59,6 +65,7 @@ private extension CandidatesView {
                     .opacity(0)
                 )
         }
+        .safeAreaPadding(.bottom, 100) // for add button
         .listRowSeparator(.hidden)
         .listRowSpacing(12)
         .scrollContentBackground(.hidden)
@@ -153,6 +160,28 @@ private extension CandidatesView {
     }
 }
 
+// MARK: Add candidate
+
+private extension CandidatesView {
+
+    var addCandidateBtn: some View {
+        ZStack {
+            ButtonView(title: "New candidate") {
+                showAddCandidateView.toggle()
+            }
+            .padding(.top, 24)
+        }
+        .frame(maxWidth: .infinity)
+        .background(
+            Rectangle()
+                .fill(.colorLightGray)
+                .blur(radius: 10)
+                .opacity(0.9)
+                .ignoresSafeArea()
+        )
+    }
+}
+
 // MARK: Background
 
 private extension CandidatesView {
@@ -163,9 +192,9 @@ private extension CandidatesView {
                 .resizable()
                 .scaledToFit()
             Spacer()
-            Image("image_BottomBackground")
-                .resizable()
-                .scaledToFit()
+//            Image("image_BottomBackground")
+//                .resizable()
+//                .scaledToFit()
         }
         .ignoresSafeArea()
         .background(Color.colorLightGray)

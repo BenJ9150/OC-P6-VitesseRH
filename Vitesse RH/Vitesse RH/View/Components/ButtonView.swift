@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ButtonView: View {
-    let title: String
+    @Environment(\.colorScheme) var colorScheme
 
+    let title: String
     var actionInProgress = false
     var disabled = false
     var hidden = false
@@ -36,7 +37,11 @@ struct ButtonView: View {
                         .padding(.horizontal)
                         .frame(height: 52)
                         .frame(minWidth: 200)
-                        .background(RoundedRectangle(cornerRadius: 12).stroke(.gray, lineWidth: 2))
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(colorScheme == .dark ? Color.black : Color.white)
+                                .stroke(.gray, lineWidth: 2)
+                        )
                         .opacity(0.5)
                 } else {
                     Text(title)
@@ -45,7 +50,11 @@ struct ButtonView: View {
                         .padding(.horizontal)
                         .frame(height: 52)
                         .frame(minWidth: 200)
-                        .background(RoundedRectangle(cornerRadius: 12).stroke(.accent, lineWidth: 2))
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(colorScheme == .dark ? Color.black : Color.white)
+                                .stroke(.accent, lineWidth: 2)
+                        )
                 }
             }
             .disabled(disabled)

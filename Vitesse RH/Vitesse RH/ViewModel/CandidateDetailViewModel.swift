@@ -10,7 +10,7 @@ import SwiftUI
 
 final class CandidateDetailViewModel: ObservableObject {
 
-    struct CandidateDetail {
+    struct CandidateDetail { // TODO: Supprimer la struct, pas utile
         var phone: String = ""
         var note: String = ""
         var linkedinURL: String = ""

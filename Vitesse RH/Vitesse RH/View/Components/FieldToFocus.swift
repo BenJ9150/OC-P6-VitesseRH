@@ -15,4 +15,5 @@ enum FieldToFocus {
     case confirmPwd
     case phone
     case note
+    case linkedIn
 }
