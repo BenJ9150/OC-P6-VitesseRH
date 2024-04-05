@@ -114,25 +114,22 @@ private extension CandidatesView {
 
     @ToolbarContentBuilder
     func toolbarItems() -> some ToolbarContent {
-
-        // Edit Button
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                candidatesVM.editModeToggle()
-            } label: {
-                Text(candidatesVM.inEditMode ? "Cancel" : "Edit")
-                    .font(.vitesseButton)
-            }
-        }
-
         // Toolbar Title
         ToolbarItem(placement: .principal) {
             Text("Candidates")
                 .font(.vitesseToolbar)
         }
-
-        // Delete Button
         if candidatesVM.inEditMode {
+            // Cancel button
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    candidatesVM.editModeToggle()
+                } label: {
+                    Text("Cancel")
+                        .font(.vitesseButton)
+                }
+            }
+            // Delete button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     candidatesVM.deleteSelection()
@@ -142,6 +139,16 @@ private extension CandidatesView {
                 }
             }
         } else {
+            // Sign out button
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    showSignOutAlert.toggle()
+                } label: {
+                    Image("icon_exit")
+                        .renderingMode(.template) // for accent color
+                        .foregroundStyle(.accent)
+                }
+            }
             // Favorites Button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -150,13 +157,14 @@ private extension CandidatesView {
                     Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
                         .foregroundStyle(.accent)
                 }
+                .sensoryFeedback(.success, trigger: candidatesVM.filter.favorites)
             }
-            // Sign out button
+            // Edit button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    showSignOutAlert.toggle()
+                    candidatesVM.editModeToggle()
                 } label: {
-                    Image("icon_exit")
+                    Image(systemName: "highlighter")
                         .renderingMode(.template) // for accent color
                         .foregroundStyle(.accent)
                 }

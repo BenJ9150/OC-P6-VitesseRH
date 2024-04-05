@@ -79,6 +79,7 @@ private extension CandidateDetailView {
                 }
                 .disabled(!candidateVM.isAdmin)
                 .transition(.scale)
+                .sensoryFeedback(.success, trigger: candidateVM.isFavorite)
             }
         }
         .frame(width: 44, height: 44)
