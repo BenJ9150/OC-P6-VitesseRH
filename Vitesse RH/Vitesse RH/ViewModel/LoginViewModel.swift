@@ -16,18 +16,16 @@ class LoginViewModel: ObservableObject {
 
     // MARK: Outputs
 
-    @Published var inProgress = false
+    @Published private(set) var inProgress = false
 
     // TextFields
 
-    @Published var email: String = "admin@vitesse.com" // TODO: To remove
-    @Published var password: String = "test123"
-//    @Published var email: String = ""
-//    @Published var password: String = ""
+    @Published var email: String = ""
+    @Published var password: String = ""
 
     // Error messages
 
-    @Published var apiError = ""
+    @Published private(set) var apiError = ""
     @Published var mailError = ""
     @Published var pwdError = ""
 
@@ -42,6 +40,9 @@ class LoginViewModel: ObservableObject {
 // MARK: Inputs
 
 extension LoginViewModel {
+
+    /// Method to connect user to API if all textFields are valid.
+    /// If success, token is saved in keychain.
 
     func signIn() {
         // check if all texfields are valid

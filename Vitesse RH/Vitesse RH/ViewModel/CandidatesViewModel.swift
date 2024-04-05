@@ -16,34 +16,31 @@ final class CandidatesViewModel: ObservableObject {
     private let onSignOut: (() -> Void)
     private let candidateService = CandidateService()
     private var allCandidates: [Candidate] = [] {
-        didSet {
-            applyFilter()
-        }
+        didSet { applyFilter() }
     }
 
     // MARK: Outputs
 
-    /// Candidates list filtered or not.
-    @Published private(set) var candidates: [Candidate] = []
     @Published var editMode: EditMode = .inactive
     @Published private(set) var errorMessage = ""
     @Published private(set) var inProgress = false
     let isAdmin = UserDefaults.standard.bool(forKey: "VitesseUserIsAdmin")
 
-    /// Spotlight search result
-    @Published var spotlightCandidate: Candidate?
-
     var inEditMode: Bool {
         return editMode == .active
     }
+
+    /// Candidates list filtered or not.
+    @Published private(set) var candidates: [Candidate] = []
+
+    /// Spotlight search result
+    @Published var spotlightCandidate: Candidate?
 
     // MARK: Inputs
 
     var selection = Set<String>()
     var filter = (search: "", favorites: false) {
-        didSet {
-            applyFilter()
-        }
+        didSet { applyFilter() }
     }
 
     // MARK: Init
@@ -60,12 +57,13 @@ final class CandidatesViewModel: ObservableObject {
 
 extension CandidatesViewModel {
 
+    /// Method to get all candidates of API database.
+
     func getCandidates() {
         if !inProgress {
             inProgress = true
         }
         Task {
-//            await FakeCandidates().getFakeCandidates()
             let result = await candidateService.getCandidates()
             await processServiceResult(result) {
                 self.inProgress = false
@@ -73,9 +71,13 @@ extension CandidatesViewModel {
         }
     }
 
+    /// Method to enter in edit mode and show editable list.
+
     func editModeToggle() {
         editMode = editMode == .active ? .inactive : .active
     }
+
+    /// Method to delete all selected candidates in edit mode.
 
     func deleteSelection() {
         editMode = .inactive
@@ -89,16 +91,19 @@ extension CandidatesViewModel {
         }
     }
 
+    /// Method to disconnect user from API.
+
     func signOut() {
         onSignOut()
     }
+
+    /// Method to handle selected candidate from spotlight search.
 
     func handleSpotlight(userActivity: NSUserActivity) {
         guard let candidateId = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
             return
         }
         guard let candidate = allCandidates.first(where: { $0.id == candidateId }) else { return }
-        print("Item tapped: \(candidateId)")
         spotlightCandidate = candidate
     }
 }

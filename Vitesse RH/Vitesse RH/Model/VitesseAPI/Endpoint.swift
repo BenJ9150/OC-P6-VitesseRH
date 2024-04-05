@@ -23,7 +23,7 @@ enum EndPoint {
     // MARK: URL Builder
 
     var url: String {
-        let domain = "http://127.0.0.1:8080"
+        let domain = "http://127.0.0.1:8080" // Use Mac IP adress to test on real device
 
         switch self {
         case .auth:

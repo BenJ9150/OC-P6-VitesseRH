@@ -52,7 +52,7 @@ final class AuthService: UrlSessionBuilder {
 
 extension AuthService {
 
-    /// Method to register user to API. If success, token is saved in keychain.
+    /// Method to register user to API.
     /// - Parameters:
     ///   - mail: The email of new user.
     ///   - password: The password of new user.

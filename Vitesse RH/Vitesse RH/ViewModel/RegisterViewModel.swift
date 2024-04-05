@@ -12,7 +12,7 @@ final class RegisterViewModel: ObservableObject {
     // MARK: Outputs
 
     @Published private(set) var isRegistered = false
-    @Published var inProgress = false
+    @Published private(set) var inProgress = false
 
     // TextFields
 
@@ -24,7 +24,7 @@ final class RegisterViewModel: ObservableObject {
 
     // Error messages
 
-    @Published var apiError = ""
+    @Published private(set) var apiError = ""
     @Published var mailError = ""
     @Published var firstNameErr = ""
     @Published var lastNameErr = ""
@@ -35,6 +35,8 @@ final class RegisterViewModel: ObservableObject {
 // MARK: Inputs
 
 extension RegisterViewModel {
+
+    /// Method to register user to API if all textFields are valid.
 
     func register() {
         // check if all texfields are valid

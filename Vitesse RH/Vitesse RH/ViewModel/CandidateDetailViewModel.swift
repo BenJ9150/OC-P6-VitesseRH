@@ -43,7 +43,7 @@ final class CandidateDetailViewModel: ObservableObject {
 
     // Error messages
 
-    @Published var apiError = ""
+    @Published private(set) var apiError = ""
     @Published var mailError = ""
     @Published var phoneError = ""
     @Published var linkedInErr = ""
@@ -62,6 +62,8 @@ final class CandidateDetailViewModel: ObservableObject {
 // MARK: Inputs
 
 extension CandidateDetailViewModel {
+
+    /// Method to update a candidate in API database.
 
     func updateCandidate() {
         // check if all texfields are valid and candidate need update
@@ -87,6 +89,8 @@ extension CandidateDetailViewModel {
         }
     }
 
+    /// Method to cancel modifications done in edit mode.
+
     func cancel() {
         // Use server value to remove modification
         updateCandidateDetails()
@@ -99,6 +103,8 @@ extension CandidateDetailViewModel {
         isEditing = false
     }
 
+    /// Method to toggle favorite state of candidate in API database.
+
     func favoriteToggle() {
         favoriteInProgress = true
         Task {
@@ -108,6 +114,8 @@ extension CandidateDetailViewModel {
             }
         }
     }
+
+    /// Method to open Candidate LinkedIn
 
     func openLinkedIn(withURL stringURL: String) {
         guard stringURL != "" else {

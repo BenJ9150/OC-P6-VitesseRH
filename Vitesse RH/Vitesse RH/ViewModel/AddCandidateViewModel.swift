@@ -31,11 +31,11 @@ final class AddCandidateViewModel: ObservableObject {
     @Published var note: String = ""
     @Published var linkedinURL: String = ""
     @Published var email: String = ""
-    @Published var isFavorite: Bool = false // only admin
+    @Published var isFavorite: Bool = false
 
     // Error messages
 
-    @Published var apiError = ""
+    @Published private(set)var apiError = ""
     @Published var firstNameErr = ""
     @Published var lastNameErr = ""
     @Published var mailError = ""
@@ -44,9 +44,11 @@ final class AddCandidateViewModel: ObservableObject {
 
 }
 
-// MARK: Inputs
+// MARK: Input
 
 extension AddCandidateViewModel {
+
+    /// Method to add new candidate in API database.
 
     func addCandidate() {
         // check if all texfields are valid

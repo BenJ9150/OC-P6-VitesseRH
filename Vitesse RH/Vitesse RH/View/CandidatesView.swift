@@ -12,9 +12,10 @@ struct CandidatesView: View {
 
     @ObservedObject var candidatesVM: CandidatesViewModel
 
-    @State var showSignOutAlert = false
-    @State var showDeleteAlert = false
-    @State var showAddCandidateView = false
+    @State private var showSignOutAlert = false
+    @State private var showDeleteAlert = false
+    @State private var showAddCandidateView = false
+    @State private var listAnimation = false
 
     // MARK: Body
 
@@ -82,12 +83,20 @@ private extension CandidatesView {
         .listRowSeparator(.hidden)
         .listRowSpacing(12)
         .scrollContentBackground(.hidden)
-        .animation(.easeOut, value: candidatesVM.editMode)
-        .onAppear {
-            candidatesVM.selection = Set()
-        }
+        .onAppear { candidatesVM.selection = Set() }
         .refreshable {
             candidatesVM.getCandidates()
+        }
+        // Edit animation (to show selectors with animation)
+        .animation(.easeOut, value: candidatesVM.editMode)
+        // Refresh or load animation
+        .scaleEffect(listAnimation ? 1 : 0.8)
+        .opacity(listAnimation ? 1 : 0)
+        .onAppear {
+            listAnimation = false
+            withAnimation(.bouncy) {
+                listAnimation = true
+            }
         }
     }
 
@@ -128,56 +137,66 @@ private extension CandidatesView {
                 .font(.vitesseToolbar)
         }
         if candidatesVM.inEditMode {
-            // Cancel button
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    candidatesVM.editModeToggle()
-                } label: {
-                    Text("Cancel")
-                        .font(.vitesseButton)
-                }
-            }
-            // Delete button
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    if candidatesVM.selection.count > 0 {
-                        showDeleteAlert.toggle()
-                    }
-                } label: {
-                    Text("Delete")
-                        .font(.vitesseButton)
-                }
-            }
+            toolbarItemsInEditMode()
         } else {
-            // Sign out button
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    showSignOutAlert.toggle()
-                } label: {
-                    Image("icon_exit")
-                        .renderingMode(.template) // for accent color
-                        .foregroundStyle(.accent)
-                }
+            toolbarItemsInClassicMode()
+        }
+    }
+
+    @ToolbarContentBuilder
+    func toolbarItemsInEditMode() -> some ToolbarContent {
+        // Cancel button
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                candidatesVM.editModeToggle()
+            } label: {
+                Text("Cancel")
+                    .font(.vitesseButton)
             }
-            // Favorites Button
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    candidatesVM.filter.favorites.toggle()
-                } label: {
-                    Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
-                        .foregroundStyle(.accent)
+        }
+        // Delete button
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                if candidatesVM.selection.count > 0 {
+                    showDeleteAlert.toggle()
                 }
-                .sensoryFeedback(.success, trigger: candidatesVM.filter.favorites)
+            } label: {
+                Text("Delete")
+                    .font(.vitesseButton)
             }
-            // Edit button
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    candidatesVM.editModeToggle()
-                } label: {
-                    Image(systemName: "highlighter")
-                        .renderingMode(.template) // for accent color
-                        .foregroundStyle(.accent)
-                }
+        }
+    }
+
+    @ToolbarContentBuilder
+    func toolbarItemsInClassicMode() -> some ToolbarContent {
+        // Sign out button
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                showSignOutAlert.toggle()
+            } label: {
+                Image("icon_exit")
+                    .renderingMode(.template) // for accent color
+                    .foregroundStyle(.accent)
+            }
+        }
+        // Favorites Button
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                candidatesVM.filter.favorites.toggle()
+            } label: {
+                Image(systemName: candidatesVM.filter.favorites ? "star.fill" : "star")
+                    .foregroundStyle(.accent)
+            }
+            .sensoryFeedback(.success, trigger: candidatesVM.filter.favorites)
+        }
+        // Edit button
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                candidatesVM.editModeToggle()
+            } label: {
+                Image(systemName: "highlighter")
+                    .renderingMode(.template) // for accent color
+                    .foregroundStyle(.accent)
             }
         }
     }
