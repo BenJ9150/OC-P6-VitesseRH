@@ -26,6 +26,9 @@ struct CandidatesView: View {
                     ErrorMessageView(error: candidatesVM.errorMessage)
                     if candidatesVM.inProgress {
                         ProgressView()
+                            .controlSize(.large)
+                            .padding(.top)
+                        Spacer()
                     } else {
                         candidatesList
                     }
