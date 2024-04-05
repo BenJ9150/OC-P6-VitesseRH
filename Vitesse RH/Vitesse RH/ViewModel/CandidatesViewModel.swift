@@ -28,6 +28,7 @@ final class CandidatesViewModel: ObservableObject {
     @Published var editMode: EditMode = .inactive
     @Published private(set) var errorMessage = ""
     @Published private(set) var inProgress = false
+    let isAdmin = UserDefaults.standard.bool(forKey: "VitesseUserIsAdmin")
 
     /// Spotlight search result
     @Published var spotlightCandidate: Candidate?

@@ -16,7 +16,6 @@ final class AddCandidateViewModel: ObservableObject {
 
     // MARK: Outputs
 
-    let isAdmin = UserDefaults.standard.bool(forKey: "VitesseUserIsAdmin")
     @Published private(set) var addInProgress = false
     @Published private(set) var dismissView = false
 

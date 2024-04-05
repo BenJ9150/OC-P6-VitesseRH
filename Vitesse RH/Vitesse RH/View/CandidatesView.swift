@@ -29,19 +29,24 @@ struct CandidatesView: View {
                         candidatesList
                     }
                 }
-                addCandidateBtn
+                if candidatesVM.isAdmin {
+                    addCandidateBtn
+                }
             }
+            // Toolbar
             .toolbarTitleDisplayMode(.inline)
             .navigationTitle("")
             .toolbar { toolbarItems() }
             .searchable(text: $candidatesVM.filter.search, placement: .navigationBarDrawer(displayMode: .always))
             .environment(\.editMode, $candidatesVM.editMode)
+            // Alert
             .alert("Sign out?", isPresented: $showSignOutAlert) {
                 Button("Yes") { candidatesVM.signOut() }
                 Button("Cancel", role: .cancel, action: {})
             }
             // Spotlight result
             .onContinueUserActivity(CSSearchableItemActionType, perform: candidatesVM.handleSpotlight)
+            // Navigation
             .navigationDestination(item: $candidatesVM.spotlightCandidate) { candidate in
                 CandidateDetailView(candidate)
             }

@@ -31,9 +31,7 @@ struct AddCandidateView: View {
             } else {
                 ScrollView {
                     ErrorMessageView(error: addCandidateVM.apiError)
-                    if addCandidateVM.isAdmin {
-                        favoriteButton
-                    }
+                    favoriteButton
                     texfields
                 }
             }
