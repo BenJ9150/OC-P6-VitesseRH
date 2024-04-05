@@ -13,6 +13,7 @@ struct CandidatesView: View {
     @ObservedObject var candidatesVM: CandidatesViewModel
 
     @State var showSignOutAlert = false
+    @State var showDeleteAlert = false
     @State var showAddCandidateView = false
 
     // MARK: Body
@@ -40,6 +41,10 @@ struct CandidatesView: View {
             .searchable(text: $candidatesVM.filter.search, placement: .navigationBarDrawer(displayMode: .always))
             .environment(\.editMode, $candidatesVM.editMode)
             // Alert
+            .alert("Delete selection?", isPresented: $showDeleteAlert) {
+                Button("Yes", role: .destructive) { candidatesVM.deleteSelection() }
+                Button("Cancel", role: .cancel, action: {})
+            }
             .alert("Sign out?", isPresented: $showSignOutAlert) {
                 Button("Yes") { candidatesVM.signOut() }
                 Button("Cancel", role: .cancel, action: {})
@@ -132,7 +137,9 @@ private extension CandidatesView {
             // Delete button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    candidatesVM.deleteSelection()
+                    if candidatesVM.selection.count > 0 {
+                        showDeleteAlert.toggle()
+                    }
                 } label: {
                     Text("Delete")
                         .font(.vitesseButton)
