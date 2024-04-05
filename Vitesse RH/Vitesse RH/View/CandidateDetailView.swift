@@ -11,6 +11,7 @@ struct CandidateDetailView: View {
 
     @ObservedObject private var candidateVM: CandidateDetailViewModel
     @FocusState private var fieldToFocus: FieldToFocus?
+    @State private var showDiscardChangesAlert = false
 
     // MARK: Init
 
@@ -41,6 +42,10 @@ struct CandidateDetailView: View {
         .navigationBarBackButtonHidden(candidateVM.isEditing)
         .onTapGesture {
             hideKeyboard()
+        }
+        .alert("Discard changes?", isPresented: $showDiscardChangesAlert) {
+            Button("Yes") { candidateVM.cancel() }
+            Button("No", role: .cancel, action: {})
         }
     }
 }
@@ -91,17 +96,17 @@ private extension CandidateDetailView {
             if candidateVM.isEditing {
                 TextFieldView(
                     header: "Phone",
-                    input: $candidateVM.candidateDetail.phone,
+                    input: $candidateVM.phone,
                     placeHolder: "Candidate phone number",
                     keyboard: .phonePad,
                     error: $candidateVM.phoneError
                 )
                 .focused($fieldToFocus, equals: .phone)
-                .onChange(of: candidateVM.candidateDetail.phone) { _, _ in
-                    candidateVM.candidateDetail.phone.applyFrPhonePattern()
+                .onChange(of: candidateVM.phone) { _, _ in
+                    candidateVM.phone.applyFrPhonePattern()
                 }
             } else {
-                ParagraphView(title: "Phone", text: candidateVM.candidateDetail.phone)
+                ParagraphView(title: "Phone", text: candidateVM.phone)
             }
         }
     }
@@ -116,13 +121,13 @@ private extension CandidateDetailView {
             if candidateVM.isEditing {
                 TextFieldView(
                     header: "Email",
-                    input: $candidateVM.candidateDetail.email,
+                    input: $candidateVM.email,
                     placeHolder: "Candidate email",
                     keyboard: .emailAddress,
                     error: $candidateVM.mailError
                 )
             } else {
-                ParagraphView(title: "Email", text: candidateVM.candidateDetail.email)
+                ParagraphView(title: "Email", text: candidateVM.email)
                     .padding(.bottom, 48)
             }
         }
@@ -138,17 +143,17 @@ private extension CandidateDetailView {
             if candidateVM.isEditing {
                 TextFieldView(
                     header: "LinkedIn",
-                    input: $candidateVM.candidateDetail.linkedinURL,
+                    input: $candidateVM.linkedinURL,
                     placeHolder: "LinkedIn url",
                     keyboard: .URL,
                     error: $candidateVM.linkedInErr
                 )
             } else {
                 ButtonView(
-                    title: candidateVM.candidateDetail.linkedinURL == "" ? "No Linkedin" : "Go on Linkedin",
-                    disabled: candidateVM.candidateDetail.linkedinURL == ""
+                    title: candidateVM.linkedinURL == "" ? "No Linkedin" : "Go on Linkedin",
+                    disabled: candidateVM.linkedinURL == ""
                 ) {
-                    candidateVM.openLinkedIn(withURL: candidateVM.candidateDetail.linkedinURL)
+                    candidateVM.openLinkedIn(withURL: candidateVM.linkedinURL)
                 }
             }
         }
@@ -160,7 +165,7 @@ private extension CandidateDetailView {
 private extension CandidateDetailView {
 
     var candidateNote: some View {
-        TextEditorView(header: "Note", input: $candidateVM.candidateDetail.note, disabled: !candidateVM.isEditing)
+        TextEditorView(header: "Note", input: $candidateVM.note, disabled: !candidateVM.isEditing)
             .focused($fieldToFocus, equals: .note)
             .padding(.top, candidateVM.isEditing ? 0 : 16)
     }
@@ -178,8 +183,11 @@ private extension CandidateDetailView {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     hideKeyboard()
-                    candidateVM.cancel() // TODO: Ajouter alert abandon si modif
-                    candidateVM.isEditing.toggle()
+                    if candidateVM.candidateHasBeenEdited {
+                        showDiscardChangesAlert.toggle()
+                    } else {
+                        candidateVM.cancel()
+                    }
                 } label: {
                     Text("Cancel")
                         .font(.vitesseButton)

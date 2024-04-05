@@ -10,13 +10,6 @@ import SwiftUI
 
 final class CandidateDetailViewModel: ObservableObject {
 
-    struct CandidateDetail { // TODO: Supprimer la struct, pas utile
-        var phone: String = ""
-        var note: String = ""
-        var linkedinURL: String = ""
-        var email: String = ""
-    }
-
     // MARK: Private property
 
     private let candidateService = CandidateService()
@@ -27,16 +20,29 @@ final class CandidateDetailViewModel: ObservableObject {
     let isAdmin = UserDefaults.standard.bool(forKey: "VitesseUserIsAdmin")
     let name: String
 
-    @Published var candidateDetail = CandidateDetail()
-    @Published var isEditing = false {
-        didSet {
-            apiError = ""
-        }
-    }
     @Published private(set) var isFavorite = false
+    @Published var isEditing = false {
+        didSet { apiError = "" }
+    }
+
+    var candidateHasBeenEdited: Bool {
+        return candidateDetailsHaveChanged()
+    }
+
+    // Progress View
 
     @Published private(set) var updateInProgress = false
     @Published private(set) var favoriteInProgress = false
+
+    // TextFields
+
+    @Published var phone: String = ""
+    @Published var note: String = ""
+    @Published var linkedinURL: String = ""
+    @Published var email: String = ""
+
+    // Error messages
+
     @Published var apiError = ""
     @Published var mailError = ""
     @Published var phoneError = ""
@@ -48,8 +54,8 @@ final class CandidateDetailViewModel: ObservableObject {
         self.candidate = candidate
         self.name = candidate.firstName + " " + candidate.lastName
         self.isFavorite = candidate.isFavorite
-        // update detail
-        updateCandidateDetail()
+        // update details
+        updateCandidateDetails()
     }
 }
 
@@ -60,10 +66,18 @@ extension CandidateDetailViewModel {
     func updateCandidate() {
         // check if all texfields are valid and candidate need update
         guard textfieldsAreValid() else { return }
-        guard needCandidateUpdate() else { return }
+        // Remove edition
+        isEditing = false
+        // check if candidate need update
+        guard candidateDetailsHaveChanged() else { return }
 
-        // Remove edition and launch progress view
-        isEditing.toggle()
+        // update candidate property
+        candidate.email = email
+        candidate.linkedinURL = linkedinURL
+        candidate.note = note
+        candidate.phone = phone.replacingOccurrences(of: " ", with: "")
+
+        // Launch progress view and update
         updateInProgress = true
         Task {
             let result = await candidateService.putUpdate(candidate: candidate)
@@ -75,12 +89,14 @@ extension CandidateDetailViewModel {
 
     func cancel() {
         // Use server value to remove modification
-        updateCandidateDetail()
+        updateCandidateDetails()
         // Clean error
         apiError = ""
         mailError = ""
         phoneError = ""
         linkedInErr = ""
+        // remove editing mode
+        isEditing = false
     }
 
     func favoriteToggle() {
@@ -127,7 +143,7 @@ private extension CandidateDetailViewModel {
                 // notify need update
                 NotificationCenter.default.post(name: .needUpdate, object: nil)
                 // use server value to update candidateDetail
-                updateCandidateDetail()
+                updateCandidateDetails()
 
             case .failure(let appError):
                 apiError = appError.title + " " + appError.message
@@ -136,36 +152,29 @@ private extension CandidateDetailViewModel {
         }
     }
 
-    /// Update candidateDetail property from server candidate values.
+    /// Update candidate details property from server candidate values.
     /// ## Attention: Must be call on MainActor, view will be updated.
 
-    func updateCandidateDetail() {
+    func updateCandidateDetails() {
         isFavorite = candidate.isFavorite
-        candidateDetail = CandidateDetail(
-            phone: self.candidate.phone?.getFrPhonePattern() ?? "",
-            note: self.candidate.note ?? "",
-            linkedinURL: self.candidate.linkedinURL ?? "",
-            email: self.candidate.email
-        )
+        phone = candidate.phone?.getFrPhonePattern() ?? ""
+        note = candidate.note ?? ""
+        linkedinURL = candidate.linkedinURL ?? ""
+        email = candidate.email
     }
 
     /// Check if any candidate detail have been changed.
     /// - Returns: True if at least one detail has changed.
 
-    func needCandidateUpdate() -> Bool {
-        let cleanedPhone = candidateDetail.phone.replacingOccurrences(of: " ", with: "")
+    func candidateDetailsHaveChanged() -> Bool {
+        let cleanedPhone = phone.replacingOccurrences(of: " ", with: "")
         // check diff
-        if candidateDetail.email == candidate.email,
-           candidateDetail.linkedinURL == candidate.linkedinURL,
-           cleanedPhone == candidate.note,
-           candidateDetail.phone == candidate.phone {
+        if email == candidate.email,
+           linkedinURL == candidate.linkedinURL ?? "",
+           cleanedPhone == candidate.phone ?? "",
+           note == candidate.note ?? "" {
             return false
         }
-        // update candidate property
-        candidate.email = candidateDetail.email
-        candidate.linkedinURL = candidateDetail.linkedinURL
-        candidate.note = candidateDetail.note
-        candidate.phone = cleanedPhone
         return true
     }
 
@@ -175,25 +184,25 @@ private extension CandidateDetailViewModel {
 
     func textfieldsAreValid() -> Bool {
         // empty value (Only the email must not be empty)
-        guard !candidateDetail.email.isEmpty else {
+        guard !email.isEmpty else {
             mailError = AppError.emptyTextField.message
             return false
         }
         // valid mail
-        guard candidateDetail.email.isValidEmail() else {
+        guard email.isValidEmail() else {
             mailError = AppError.invalidMail.message
             return false
         }
         // valid phone
-        if !candidateDetail.phone.isEmpty {
-            guard candidateDetail.phone.isValidFrPhone() else {
+        if !phone.isEmpty {
+            guard phone.isValidFrPhone() else {
                 phoneError = AppError.invalidFrPhone.message
                 return false
             }
         }
         // valid linkedIn url
-        if !candidateDetail.linkedinURL.isEmpty {
-            guard let url = URL(string: candidateDetail.linkedinURL), UIApplication.shared.canOpenURL(url) else {
+        if !linkedinURL.isEmpty {
+            guard let url = URL(string: linkedinURL), UIApplication.shared.canOpenURL(url) else {
                 linkedInErr = AppError.invalidLinkedInUrl.message
                 return false
             }

@@ -11,7 +11,7 @@ import CoreSpotlight
 
 final class CandidatesViewModel: ObservableObject {
 
-    // MARK: Private property
+    // MARK: Private properties
 
     private let onSignOut: (() -> Void)
     private let candidateService = CandidateService()
@@ -118,6 +118,7 @@ private extension CandidatesViewModel {
 
             case .success(let allCandidates):
                 self.allCandidates = allCandidates
+                if errorMessage != "" { errorMessage = "" }
 
             case .failure(let appError):
                 errorMessage = appError.title + " " + appError.message

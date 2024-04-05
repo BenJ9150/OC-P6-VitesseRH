@@ -8,11 +8,11 @@
 import SwiftUI
 import CoreSpotlight
 
-struct CandidatesView: View { // TODO: Effacer erreur après rechargement (exemple si problème serveur puis refresh)
+struct CandidatesView: View {
 
     @ObservedObject var candidatesVM: CandidatesViewModel
 
-    @State var showAlertSignOut = false
+    @State var showSignOutAlert = false
     @State var showAddCandidateView = false
 
     // MARK: Body
@@ -36,7 +36,7 @@ struct CandidatesView: View { // TODO: Effacer erreur après rechargement (exemp
             .toolbar { toolbarItems() }
             .searchable(text: $candidatesVM.filter.search, placement: .navigationBarDrawer(displayMode: .always))
             .environment(\.editMode, $candidatesVM.editMode)
-            .alert("Sign out?", isPresented: $showAlertSignOut) {
+            .alert("Sign out?", isPresented: $showSignOutAlert) {
                 Button("Yes") { candidatesVM.signOut() }
                 Button("Cancel", role: .cancel, action: {})
             }
@@ -149,7 +149,7 @@ private extension CandidatesView {
             // Sign out button
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    showAlertSignOut.toggle()
+                    showSignOutAlert.toggle()
                 } label: {
                     Image("icon_exit")
                         .renderingMode(.template) // for accent color

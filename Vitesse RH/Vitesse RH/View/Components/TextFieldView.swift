@@ -57,6 +57,8 @@ struct TextFieldView: View {
                     }
                 }
                 .sensoryFeedback(.error, trigger: animation)
+            // TODO: quand on clic sur bouton sign IN, c'est ok
+            // Mais quand on clic sur rejoindre du clavier, retour haptic et anim ne se font pas en même temps
 
             // Error in textfield
             Text(error)

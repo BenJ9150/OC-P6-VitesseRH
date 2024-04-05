@@ -11,15 +11,19 @@ final class RegisterViewModel: ObservableObject {
 
     // MARK: Outputs
 
+    @Published private(set) var isRegistered = false
+    @Published var inProgress = false
+
+    // TextFields
+
     @Published var email: String = ""
     @Published var firstName: String = ""
     @Published var lastName: String = ""
     @Published var password: String = ""
     @Published var confirmPwd: String = ""
 
-    @Published private(set) var isRegistered = false
-
-    @Published var inProgress = false
+    // Error messages
+    
     @Published var apiError = ""
     @Published var mailError = ""
     @Published var firstNameErr = ""

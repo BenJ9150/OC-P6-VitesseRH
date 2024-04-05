@@ -16,12 +16,17 @@ class LoginViewModel: ObservableObject {
 
     // MARK: Outputs
 
+    @Published var inProgress = false
+
+    // TextFields
+
     @Published var email: String = "admin@vitesse.com" // TODO: To remove
     @Published var password: String = "test123"
 //    @Published var email: String = ""
 //    @Published var password: String = ""
 
-    @Published var inProgress = false
+    // Error messages
+
     @Published var apiError = ""
     @Published var mailError = ""
     @Published var pwdError = ""
