@@ -23,7 +23,7 @@ final class RegisterViewModel: ObservableObject {
     @Published var confirmPwd: String = ""
 
     // Error messages
-    
+
     @Published var apiError = ""
     @Published var mailError = ""
     @Published var firstNameErr = ""

@@ -175,6 +175,11 @@ private extension CandidateService {
                 let description = candidate.isFavorite ? "Favorite vitesse candidate" : "Vitesse candidate"
                 attributeSet.contentDescription = description
 
+                if let phone = candidate.phone {
+                    attributeSet.phoneNumbers = [phone]
+                    attributeSet.supportsPhoneCall = 1
+                }
+
                 // Create searchable item
                 let searchableItem = CSSearchableItem(
                     uniqueIdentifier: candidate.id,
