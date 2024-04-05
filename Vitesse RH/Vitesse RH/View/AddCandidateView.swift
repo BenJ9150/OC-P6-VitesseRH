@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-struct AddCandidateView: View { // TODO: quand on quitte puis on revient, les anciennes data sont toujours là
+struct AddCandidateView: View {
+
     @Environment(\.dismiss) var dismiss
 
-    @ObservedObject private var addCandidateVM = AddCandidateViewModel()
+    @StateObject var addCandidateVM = AddCandidateViewModel()
+    @State private var showDiscardChangesAlert = false
 
     @FocusState private var fieldToFocus: FieldToFocus?
     @FocusState private var lastNameFocus: Bool
@@ -41,6 +43,13 @@ struct AddCandidateView: View { // TODO: quand on quitte puis on revient, les an
         .navigationBarBackButtonHidden(true)
         .onTapGesture {
             hideKeyboard()
+        }
+        .alert("Discard changes?", isPresented: $showDiscardChangesAlert) {
+            Button("Yes") { dismiss() }
+            Button("No", role: .cancel, action: {})
+        }
+        .onChange(of: addCandidateVM.dismissView) { _, dismiss in
+            if dismiss { self.dismiss() }
         }
     }
 }
@@ -156,7 +165,11 @@ private extension AddCandidateView {
         ToolbarItem(placement: .topBarLeading) {
             Button {
                 hideKeyboard()
-                dismiss() // TODO: Ajouter alert abandon si modif + effacer les erreurs
+                if addCandidateVM.detailsHaveBeenEdited {
+                    showDiscardChangesAlert.toggle()
+                } else {
+                    dismiss()
+                }
             } label: {
                 Text("Cancel")
                     .font(.vitesseButton)

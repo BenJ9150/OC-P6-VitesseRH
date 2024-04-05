@@ -17,6 +17,14 @@ final class AddCandidateViewModel: ObservableObject {
     // MARK: Outputs
 
     let isAdmin = UserDefaults.standard.bool(forKey: "VitesseUserIsAdmin")
+    @Published private(set) var addInProgress = false
+    @Published private(set) var dismissView = false
+
+    var detailsHaveBeenEdited: Bool {
+        return detailsHaveChanged()
+    }
+
+    // TextFields
 
     @Published var firstName: String = ""
     @Published var lastName: String = ""
@@ -26,13 +34,15 @@ final class AddCandidateViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var isFavorite: Bool = false // only admin
 
-    @Published private(set) var addInProgress = false
+    // Error messages
+
     @Published var apiError = ""
     @Published var firstNameErr = ""
     @Published var lastNameErr = ""
     @Published var mailError = ""
     @Published var phoneError = ""
     @Published var linkedInErr = ""
+
 }
 
 // MARK: Inputs
@@ -78,13 +88,30 @@ private extension AddCandidateViewModel {
             switch result {
 
             case .success:
-                break // TODO: Dismiss view
+                // notify need update
+                NotificationCenter.default.post(name: .needUpdate, object: nil)
+                dismissView = true
 
             case .failure(let appError):
                 apiError = appError.title + " " + appError.message
             }
             completion()
         }
+    }
+
+    /// Check if any details have been changed.
+    /// - Returns: True if at least one detail has changed.
+
+    func detailsHaveChanged() -> Bool {
+        if firstName.isEmpty,
+           lastName.isEmpty,
+           email.isEmpty,
+           linkedinURL.isEmpty,
+           phone.isEmpty,
+           note.isEmpty {
+            return false
+        }
+        return true
     }
 
     /// Check if all textfields are valid, and display error message if not.

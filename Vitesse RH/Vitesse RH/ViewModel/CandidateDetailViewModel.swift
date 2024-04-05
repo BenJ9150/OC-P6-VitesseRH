@@ -90,7 +90,7 @@ extension CandidateDetailViewModel {
     func cancel() {
         // Use server value to remove modification
         updateCandidateDetails()
-        // Clean error
+        // Clean errors
         apiError = ""
         mailError = ""
         phoneError = ""
@@ -163,7 +163,7 @@ private extension CandidateDetailViewModel {
         email = candidate.email
     }
 
-    /// Check if any candidate detail have been changed.
+    /// Check if any candidate details have been changed.
     /// - Returns: True if at least one detail has changed.
 
     func candidateDetailsHaveChanged() -> Bool {

@@ -192,9 +192,6 @@ private extension CandidatesView {
                 .resizable()
                 .scaledToFit()
             Spacer()
-//            Image("image_BottomBackground")
-//                .resizable()
-//                .scaledToFit()
         }
         .ignoresSafeArea()
         .background(Color.colorLightGray)
