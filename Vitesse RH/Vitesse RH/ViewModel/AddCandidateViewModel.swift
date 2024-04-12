@@ -31,7 +31,6 @@ final class AddCandidateViewModel: ObservableObject {
     @Published var note: String = ""
     @Published var linkedinURL: String = ""
     @Published var email: String = ""
-    @Published var isFavorite: Bool = false
 
     // Error messages
 
@@ -60,7 +59,7 @@ extension AddCandidateViewModel {
             note: note == "" ? nil : note,
             firstName: firstName,
             linkedinURL: linkedinURL == "" ? nil : linkedinURL,
-            isFavorite: isFavorite,
+            isFavorite: false,
             email: email,
             lastName: lastName
         )

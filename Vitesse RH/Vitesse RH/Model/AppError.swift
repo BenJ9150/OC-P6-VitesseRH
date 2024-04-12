@@ -23,6 +23,7 @@ enum AppError: Error {
     case invalidMail
     case invalidFrPhone
     case badPwdConfirm
+    case invalidMailOrPwd
     case internalServerError
     case linkedInUrlEmpty
     case invalidLinkedInUrl
@@ -56,6 +57,8 @@ enum AppError: Error {
             return "Phone is invalid! Change phone and try again."
         case .badPwdConfirm:
             return "Oops! Enter an identical password."
+        case .invalidMailOrPwd:
+            return "Invalid email or password."
         case .internalServerError:
             return "Email already exists, log in with this email or use another email to register."
         case .linkedInUrlEmpty:

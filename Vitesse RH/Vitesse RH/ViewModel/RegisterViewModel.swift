@@ -11,7 +11,7 @@ final class RegisterViewModel: ObservableObject {
 
     // MARK: Outputs
 
-    @Published private(set) var isRegistered = false
+    @Published var isRegistered = false
     @Published private(set) var inProgress = false
 
     // TextFields
@@ -72,6 +72,7 @@ private extension RegisterViewModel {
             switch result {
 
             case .success(let success):
+                apiError = ""
                 isRegistered = success
 
             case .failure(let appError):

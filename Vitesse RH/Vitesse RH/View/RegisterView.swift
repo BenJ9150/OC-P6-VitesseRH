@@ -11,6 +11,7 @@ struct RegisterView: View {
 
     @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
+
     @StateObject private var registerVM = RegisterViewModel()
 
     @FocusState private var fieldToFocus: FieldToFocus?
@@ -32,7 +33,6 @@ struct RegisterView: View {
                 texfields
             }
             .background(colorScheme == .dark ? Color.black : Color.white)
-
             // Create button
             VStack {
                 ErrorMessageView(error: registerVM.apiError)
@@ -40,13 +40,20 @@ struct RegisterView: View {
             }
         }
         .background(Color.colorLightGray)
-        .onChange(of: registerVM.isRegistered) { _, isRegistered in
-            if isRegistered {
-                dismiss()
-            }
-        }
+//        .onChange(of: registerVM.isRegistered) { _, isRegistered in
+//            if isRegistered {
+//                showSuccessAlert.toggle()
+//                dismiss()
+//            }
+//        }
         .onTapGesture {
             hideKeyboard()
+        }
+        // Alert success
+        .alert("Welcome " + registerVM.firstName, isPresented: $registerVM.isRegistered) {
+            Button("Got it!", role: .cancel, action: { dismiss() })
+        } message: {
+            Text("Log in with your email and password.")
         }
     }
 }

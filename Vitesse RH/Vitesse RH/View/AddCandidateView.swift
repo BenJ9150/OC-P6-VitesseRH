@@ -31,7 +31,6 @@ struct AddCandidateView: View {
             } else {
                 ScrollView {
                     ErrorMessageView(error: addCandidateVM.apiError)
-                    favoriteButton
                     texfields
                 }
             }
@@ -49,24 +48,6 @@ struct AddCandidateView: View {
         .onChange(of: addCandidateVM.dismissView) { _, dismiss in
             if dismiss { self.dismiss() }
         }
-    }
-}
-
-// MARK: Favorite
-
-private extension AddCandidateView {
-
-    var favoriteButton: some View {
-        Button {
-            withAnimation { addCandidateVM.isFavorite.toggle() } // with anim. for transition
-        } label: {
-            Image(addCandidateVM.isFavorite ? "icon_starFill" : "icon_star")
-                .renderingMode(.template) // for accent color
-                .foregroundStyle(.accent)
-        }
-        .transition(.scale)
-        .frame(width: 44, height: 44)
-        .padding()
     }
 }
 
@@ -135,6 +116,8 @@ private extension AddCandidateView {
             TextEditorView(header: "Note", input: $addCandidateVM.note, disabled: false)
                 .focused($fieldToFocus, equals: .note)
         }
+        .padding(.top)
+        .padding(.bottom)
         .onSubmit {
             switch fieldToFocus {
             case .lastName:

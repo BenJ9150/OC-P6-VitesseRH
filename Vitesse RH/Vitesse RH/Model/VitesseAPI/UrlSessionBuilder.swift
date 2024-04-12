@@ -78,6 +78,9 @@ extension UrlSessionBuilder {
                 return .success(dataResult)
             }
             // Status code error
+            if response.statusCode == 401 {
+                return .failure(AppError.invalidMailOrPwd)
+            }
             if response.statusCode == 500 {
                 return .failure(AppError.internalServerError)
             }
