@@ -54,7 +54,7 @@ final class UrlSessionBuilderTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: Bad request
@@ -84,7 +84,7 @@ final class UrlSessionBuilderTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: Internal Server Error
@@ -114,7 +114,37 @@ final class UrlSessionBuilderTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
+    }
+
+    // MARK: Invalid Mail or Password
+
+    func testUrlSessionDataTaskFailedInvalidMailOrPwd() {
+        // set config for url session
+        let config = UrlSessionBuilder.UrlSessionConfig(
+            httpMethod: .get,
+            sUrl: "https//:www.test.com",
+            params: [:],
+            withAuth: false
+        )
+        // Given
+        MockURLProtocol.requestHandler = {
+            return (urlResponse: MockData.statusInvalidMailOrPwd, data: nil)
+        }
+        // When
+        Task {
+            switch await urlSessionBuilder.createUrlSessionDataTask(config: config) {
+            case .success:
+                XCTFail("error in testUrlSessionDataTaskFailedInvalidMailOrPwd")
+
+            case .failure(let failure):
+                // Then
+                XCTAssertEqual(failure, AppError.invalidMailOrPwd)
+                XCTAssertEqual(failure.message, AppError.invalidMailOrPwd.message)
+            }
+            self.expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: Bad URL Response
@@ -142,6 +172,6 @@ final class UrlSessionBuilderTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 }

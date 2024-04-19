@@ -60,7 +60,7 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: SignIn Invalid Data
@@ -83,7 +83,7 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: SignIn Success
@@ -106,7 +106,7 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: - Register UrlSession Error
@@ -131,7 +131,7 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: Register Success
@@ -156,6 +156,6 @@ final class AuthServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 }

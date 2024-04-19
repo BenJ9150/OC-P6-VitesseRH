@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import Vitesse_RH
 
 final class MockData {
 
@@ -26,6 +27,11 @@ final class MockData {
         statusCode: 400, httpVersion: nil, headerFields: [:]
     )!
 
+    static let statusInvalidMailOrPwd = HTTPURLResponse(
+        url: URL(string: "https://openclassrooms.com")!,
+        statusCode: 401, httpVersion: nil, headerFields: [:]
+    )!
+
     static let statusInternalServerError = HTTPURLResponse(
         url: URL(string: "https://openclassrooms.com")!,
         statusCode: 500, httpVersion: nil, headerFields: [:]
@@ -36,6 +42,7 @@ final class MockData {
     // Create class with Error protocol to have instance of Error
     class URLProtocolError: Error {}
     static let urlProtocolRequestError = URLProtocolError()
+    static let expectationTimeout: Double = 3
 
     // MARK: Empty data
 
@@ -60,6 +67,19 @@ final class MockData {
     static var candidateCorrectData: Data {
         return getData(ofFile: "Candidate")
     }
+
+    static let candidateId = "9F2FDA76-8670-4FF4-A4C7-C42F2EC20EF1"
+
+    static let newCandidate = Candidate(
+        id: "1",
+        phone: "0600000000",
+        note: nil,
+        firstName: "Test",
+        linkedinURL: nil,
+        isFavorite: true,
+        email: "test@gmail.com",
+        lastName: "Test"
+    )
 }
 
 private extension MockData {

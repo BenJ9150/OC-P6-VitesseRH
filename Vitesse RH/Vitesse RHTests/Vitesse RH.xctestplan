@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "E4A81A32-0F2D-46D7-B057-0F00C67898AF",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Vitesse RH.xcodeproj",
+      "identifier" : "43DA7E9C2B87543C00F5305A",
+      "name" : "Vitesse RH"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Vitesse RH.xcodeproj",
+        "identifier" : "4359CD602B928A9600368F17",
+        "name" : "Vitesse RHTests"
+      }
+    }
+  ],
+  "version" : 1
+}

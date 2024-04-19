@@ -12,11 +12,6 @@ final class CandidateServiceTests: XCTestCase {
 
     var candidateService: CandidateService!
     var expectation: XCTestExpectation!
-    let candidateId = "9F2FDA76-8670-4FF4-A4C7-C42F2EC20EF1"
-
-    let newCandidate = Candidate(id: "1", phone: "0600000000", note: nil,
-                                 firstName: "Test", linkedinURL: nil, isFavorite: true,
-                                 email: "test@gmail.com", lastName: "Test")
 
     // MARK: setUp
 
@@ -52,7 +47,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: GetCandidates Invalid Data
@@ -74,7 +69,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: GetCandidates Success
@@ -96,7 +91,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: - GetCandidateWithId UrlSession Error
@@ -108,7 +103,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.getCandidate(WithId: candidateId) {
+            switch await candidateService.getCandidate(WithId: MockData.candidateId) {
             case .success:
                 XCTFail("error in GetCandidateWithId UrlSession Error")
 
@@ -118,7 +113,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: GetCandidateWithId Invalid Data
@@ -130,7 +125,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.getCandidate(WithId: candidateId) {
+            switch await candidateService.getCandidate(WithId: MockData.candidateId) {
             case .success:
                 XCTFail("error in GetCandidateWithId Invalid Data")
 
@@ -140,7 +135,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: GetCandidateWithId Success
@@ -152,7 +147,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.getCandidate(WithId: candidateId) {
+            switch await candidateService.getCandidate(WithId: MockData.candidateId) {
             case .success(let candidate):
                 // then
                 XCTAssertEqual(candidate.firstName, "Rima")
@@ -162,7 +157,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: - Create Success
@@ -174,7 +169,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.postToAdd(candidate: newCandidate) {
+            switch await candidateService.postToAdd(candidate: MockData.newCandidate) {
             case .success(let candidate):
                 // then
                 XCTAssertEqual(candidate.firstName, "Rima")
@@ -184,7 +179,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: Update Success
@@ -196,7 +191,7 @@ final class CandidateServiceTests: XCTestCase {
         }
         // When
         Task {
-            switch await candidateService.putUpdate(candidate: newCandidate) {
+            switch await candidateService.putUpdate(candidate: MockData.newCandidate) {
             case .success(let candidate):
                 // then
                 XCTAssertEqual(candidate.firstName, "Rima")
@@ -206,7 +201,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: Favorite Success
@@ -228,7 +223,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: - Delete UrlSession Error
@@ -250,7 +245,7 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 
     // MARK: Delete Success
@@ -272,6 +267,6 @@ final class CandidateServiceTests: XCTestCase {
             }
             self.expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: MockData.expectationTimeout)
     }
 }

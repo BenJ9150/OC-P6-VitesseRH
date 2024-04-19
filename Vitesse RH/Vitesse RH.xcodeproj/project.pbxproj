@@ -68,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4300FB4C2BD283C3003A553C /* Vitesse RH.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Vitesse RH.xctestplan"; sourceTree = "<group>"; };
 		430C762B2B9313C9001B94A4 /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		430C762C2B9313C9001B94A4 /* VitesseAuth.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = VitesseAuth.json; sourceTree = "<group>"; };
 		430C762D2B9313C9001B94A4 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -163,6 +164,7 @@
 		4359CD622B928A9600368F17 /* Vitesse RHTests */ = {
 			isa = PBXGroup;
 			children = (
+				4300FB4C2BD283C3003A553C /* Vitesse RH.xctestplan */,
 				438894122B9B59B700DBA28E /* ModelTests */,
 				430C76312B9313D6001B94A4 /* MockData */,
 				438894132B9B59FF00DBA28E /* ModelServiceTests */,
