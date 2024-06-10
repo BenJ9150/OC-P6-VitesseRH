@@ -9,11 +9,21 @@
     }
   ],
   "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:Vitesse RH.xcodeproj",
+          "identifier" : "43DA7E9C2B87543C00F5305A",
+          "name" : "Vitesse RH"
+        }
+      ]
+    },
     "targetForVariableExpansion" : {
       "containerPath" : "container:Vitesse RH.xcodeproj",
       "identifier" : "43DA7E9C2B87543C00F5305A",
       "name" : "Vitesse RH"
-    }
+    },
+    "testExecutionOrdering" : "random"
   },
   "testTargets" : [
     {
